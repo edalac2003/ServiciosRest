@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.DefiAccionRegla" table="defi_accion_regla">
+        <id name="idaccionRegla" type="int">
+            <column name="IDACCION_REGLA" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="defiAccion" class="co.weepa.smile.contabilidad.dto.DefiAccion" fetch="join">
+            <column name="IDACCION">
+                <comment>Indica la accion asociada, ej CalcularImpuesto, notificar, etc</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="defiTransaccionAccion" class="co.weepa.smile.contabilidad.dto.DefiTransaccionAccion" fetch="join">
+            <column name="IDTRANSACCION_ACCION">
+                <comment>ID que indica a que transaccion esta asociada</comment>
+            </column>
+        </many-to-one>
+        <property name="nmprioridad" type="java.lang.Integer">
+            <column name="NMPRIORIDAD" precision="5" scale="0">
+                <comment>para dar orden en caso de haber varias acciones para la misma regla</comment>
+            </column>
+        </property>
+        <property name="dsconcidicional" type="string">
+            <column name="DSCONCIDICIONAL" length="50">
+                <comment>si aplica un condicional para su ejecucion</comment>
+            </column>
+        </property>
+        <property name="nmcondicional" type="java.lang.Integer">
+            <column name="NMCONDICIONAL">
+                <comment>si aplica un condicional para su ejecucion</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

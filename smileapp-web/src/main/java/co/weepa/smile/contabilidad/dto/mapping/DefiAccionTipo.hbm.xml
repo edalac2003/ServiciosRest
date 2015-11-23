@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.DefiAccionTipo" table="defi_accion_tipo">
+        <id name="idaccionTipo" type="int">
+            <column name="IDACCION_TIPO" />
+            <generator class="assigned" />
+        </id>
+        <property name="dsnombre" type="string">
+            <column name="DSNOMBRE" length="50" not-null="true">
+                <comment>NOMBRE tipo accion</comment>
+            </column>
+        </property>
+        <property name="dsetiqueta" type="string">
+            <column name="DSETIQUETA" length="50">
+                <comment>Valor a mostrar en frondEnd</comment>
+            </column>
+        </property>
+<!--         <set name="defiAccions" table="defi_accion" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDACCION_TIPO" not-null="true"> -->
+<!--                     <comment>Id tipo accion</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.DefiAccion" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

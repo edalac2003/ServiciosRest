@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.DefiSede" table="defi_sede">
+        <id name="idsede" type="int">
+            <column name="IDSEDE" />
+            <generator class="increment" />
+        </id>
+        <property name="idorganizacionInterna" type="java.lang.Long">
+            <column name="IDORGANIZACION_INTERNA" precision="15" scale="0">
+                <comment>codigo de organizacion interna</comment>
+            </column>
+        </property>
+        <property name="dsnombre" type="string">
+            <column name="DSNOMBRE" length="50">
+                <comment>Nombre de la sede, ej CC Obelisco, Bodega Principal</comment>
+            </column>
+        </property>
+        <property name="dsdireccion" type="string">
+            <column name="DSDIRECCION" length="100">
+                <comment>Ubicacion de la sede</comment>
+            </column>
+        </property>
+        <property name="dstelefono" type="string">
+            <column name="DSTELEFONO" length="50">
+                <comment>Telefono</comment>
+            </column>
+        </property>
+<!--         <set name="prodProductoSedes" table="prod_producto_sede" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDSEDE"> -->
+<!--                     <comment>id de la sede</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ProdProductoSede" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

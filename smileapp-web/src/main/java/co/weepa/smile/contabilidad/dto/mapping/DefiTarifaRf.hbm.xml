@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.DefiTarifaRf" table="defi_tarifa_rf">
+        <id name="idtarifarf" type="int">
+            <column name="IDTARIFARF" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="defiConceptoRf" class="co.weepa.smile.contabilidad.dto.DefiConceptoRf" fetch="join">
+            <column name="IDCONCEPTORF" not-null="true">
+                <comment>concepto retencion fuente, ej.SERVICIOS EN GENERAL</comment>
+            </column>
+        </many-to-one>
+        <property name="nmperiodo" type="java.lang.Integer">
+            <column name="NMPERIODO">
+                <comment>a&#241;o o periodo que aplica ej 2015</comment>
+            </column>
+        </property>
+        <property name="snaplicaUvt" type="string">
+            <column name="SNAPLICA_UVT" length="2">
+                <comment>Indica si aplica UVT, Ej Si</comment>
+            </column>
+        </property>
+        <property name="nmbaseUvtInf" type="java.lang.Integer">
+            <column name="NMBASE_UVT_INF">
+                <comment>En caso de aplicar UVT,indica el valor base, ej 95 UVT</comment>
+            </column>
+        </property>
+        <property name="nmbaseUvtSup" type="java.lang.Integer">
+            <column name="NMBASE_UVT_SUP">
+                <comment>En caso de aplicar UVT,indica el valor base superior</comment>
+            </column>
+        </property>
+        <property name="nmbaseInferior" type="big_decimal">
+            <column name="NMBASE_INFERIOR" precision="15">
+                <comment>Indica la cifra o valor inferior (incluido), ej. 110.000</comment>
+            </column>
+        </property>
+        <property name="nmbaseSuperior" type="big_decimal">
+            <column name="NMBASE_SUPERIOR" precision="15">
+                <comment>Indica la cifra o valor superior (incluido), ej. 910.000</comment>
+            </column>
+        </property>
+        <property name="nmtarifa" type="java.lang.Double">
+            <column name="NMTARIFA" precision="22" scale="0">
+                <comment>valor tarifa, ejmplo 11 para 11%</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

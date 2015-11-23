@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.DefiTarifaIca" table="defi_tarifa_ica">
+        <id name="idtarifa" type="int">
+            <column name="IDTARIFA" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="defiActividadIca" class="co.weepa.smile.contabilidad.dto.DefiActividadIca" fetch="join">
+            <column name="IDCODIGO_ICA">
+                <comment>codigo ICa</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="defiCiudad" class="co.weepa.smile.contabilidad.dto.DefiCiudad" fetch="join">
+            <column name="IDCIUDAD" length="10" not-null="true">
+                <comment>codigo ciudad</comment>
+            </column>
+        </many-to-one>
+        <property name="nmperiodo" type="java.lang.Integer">
+            <column name="NMPERIODO">
+                <comment>a&#241;o o periodo que aplica</comment>
+            </column>
+        </property>
+        <property name="nmbaseUvt" type="java.lang.Double">
+            <column name="NMBASE_UVT" precision="22" scale="0" />
+        </property>
+        <property name="nmbaseMinima" type="big_decimal">
+            <column name="NMBASE_MINIMA" precision="15" />
+        </property>
+        <property name="nmtarifa" type="java.lang.Double">
+            <column name="NMTARIFA" precision="22" scale="0">
+                <comment>valor tarifa</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

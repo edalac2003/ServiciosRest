@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.FactFactura" table="fact_factura">
+        <id name="idconsecutivoFactura" type="java.lang.Integer">
+            <column name="IDCONSECUTIVO_FACTURA" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="contOrganizacionInterna" class="co.weepa.smile.contabilidad.dto.ContOrganizacionInterna" fetch="join">
+            <column name="IDORGANIZACION" precision="15" scale="0">
+                <comment>codigo organizacion asociada a la factura</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="join">
+            <column name="IDTERCERO" precision="15" scale="0">
+                <comment>Identificacion de tercero asociado a la factura</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="factFacturaTipo" class="co.weepa.smile.contabilidad.dto.FactFacturaTipo" fetch="join">
+            <column name="IDFACTURA_TIPO">
+                <comment>codigo tipo factura</comment>
+            </column>
+        </many-to-one>
+        <property name="dsnumeroFactura" type="string">
+            <column name="DSNUMERO_FACTURA" length="50">
+                <comment>numero de documento factura (segun resoluci&#243;n)</comment>
+            </column>
+        </property>
+        <property name="fefactura" type="date">
+            <column name="FEFACTURA" length="10">
+                <comment>fecha factura</comment>
+            </column>
+        </property>
+        <property name="dsdescripcion" type="string">
+            <column name="DSDESCRIPCION" length="50">
+                <comment>detalles de factura</comment>
+            </column>
+        </property>
+        <property name="nmvalorTotal" type="big_decimal">
+            <column name="NMVALOR_TOTAL" precision="15">
+                <comment>valor total factura</comment>
+            </column>
+        </property>
+        <property name="idorganizacionPuntoventa" type="java.lang.Integer">
+            <column name="IDORGANIZACION_PUNTOVENTA">
+                <comment>punto de venta asociada a la factura (una organizacion podria tener varios puntos de venta)</comment>
+            </column>
+        </property>
+        <property name="idorganizacionCaja" type="java.lang.Integer">
+            <column name="IDORGANIZACION_CAJA">
+                <comment>identificacion de la caja (aplica en el caso de haber varios puntos de facturaci&#243;n)</comment>
+            </column>
+        </property>
+        <property name="idorganizacionEmpleado" type="java.lang.Integer">
+            <column name="IDORGANIZACION_EMPLEADO">
+                <comment>Identificaci&#243;n de empleado asociado a elaboracion o recepcion de factura</comment>
+            </column>
+        </property>
+        <property name="dsvendedor" type="string">
+            <column name="DSVENDEDOR" length="50">
+                <comment>NOMBRE DEL VENDEDOR (no es necesariamente quien factura en el sistema)</comment>
+            </column>
+        </property>
+<!--         <set name="cartCarteras" table="cart_cartera" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDCONS_FACTURA"> -->
+<!--                     <comment>Factura asociada (supertype)</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.CartCartera" /> -->
+<!--         </set> -->
+<!--         <set name="factDetalleFacturas" table="fact_detalle_factura" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDFACTURA"> -->
+<!--                     <comment>codigo factura</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.FactDetalleFactura" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

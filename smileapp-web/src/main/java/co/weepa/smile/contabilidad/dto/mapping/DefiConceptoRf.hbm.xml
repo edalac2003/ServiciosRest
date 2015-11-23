@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.DefiConceptoRf" table="defi_concepto_rf">
+        <id name="idconceptorf" type="int">
+            <column name="IDCONCEPTORF" />
+            <generator class="assigned" />
+        </id>
+        <property name="dsconcepto" type="string">
+            <column name="DSCONCEPTO" length="100" />
+        </property>
+        <property name="dsdescripcion" type="string">
+            <column name="DSDESCRIPCION" length="200" />
+        </property>
+<!--         <set name="defiTarifaRfs" table="defi_tarifa_rf" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDCONCEPTORF" not-null="true"> -->
+<!--                     <comment>concepto retencion fuente, ej.SERVICIOS EN GENERAL</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.DefiTarifaRf" /> -->
+<!--         </set> -->
+<!--         <set name="contTerceros" table="cont_tercero" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDCONCEPTORF"> -->
+<!--                     <comment>Para configurar el concepto retencion en la fuente por defecto, ejreg.simplificado, cumun, gran contribuyente,oninguno</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContTercero" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

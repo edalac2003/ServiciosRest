@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.TercTerceroClasificacion" table="terc_tercero_clasificacion">
+        <id name="idclasificacion" type="int">
+            <column name="IDCLASIFICACION" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="join">
+            <column name="IDTERCERO" precision="15" scale="0">
+                <comment>identificacion del tercero</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="tercClasificacionTipo" class="co.weepa.smile.contabilidad.dto.TercClasificacionTipo" fetch="join">
+            <column name="IDCLASIFICACION_TIPO" not-null="true">
+                <comment>tipo de clasificacion que pertenece un usuario</comment>
+            </column>
+        </many-to-one>
+        <property name="dsdescripccion" type="string">
+            <column name="DSDESCRIPCCION" length="100">
+                <comment>detalles de clasificacion particular de tercero</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

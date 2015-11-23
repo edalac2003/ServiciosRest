@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.TercRolTipo" table="terc_rol_tipo">
+        <id name="idrolTipo" type="int">
+            <column name="IDROL_TIPO" />
+            <generator class="assigned" />
+        </id>
+        <property name="dsnombre" type="string">
+            <column name="DSNOMBRE" length="50">
+                <comment>Nomber del rol, ej Cliente, Empleado, Proveedor, etc.</comment>
+            </column>
+        </property>
+        <property name="dsdescripcion" type="string">
+            <column name="DSDESCRIPCION" length="100">
+                <comment>Amplia los detalles del tipo de rol.</comment>
+            </column>
+        </property>
+<!--         <set name="tercTerceroRols" table="terc_tercero_rol" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDROL_TIPO"> -->
+<!--                     <comment>codigo tipo rol</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.TercTerceroRol" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

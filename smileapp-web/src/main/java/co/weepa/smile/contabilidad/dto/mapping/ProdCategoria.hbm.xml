@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.ProdCategoria" table="prod_categoria">
+        <id name="idcategoria" type="int">
+            <column name="IDCATEGORIA" />
+            <generator class="increment" />
+        </id>
+        <property name="dsnombre" type="string">
+            <column name="DSNOMBRE" length="50">
+                <comment>Nombre categoria, ej Tacon Alto</comment>
+            </column>
+        </property>
+        <property name="dsdescripccion" type="string">
+            <column name="DSDESCRIPCCION" length="100">
+                <comment>Detalles o descripccion de la categoria</comment>
+            </column>
+        </property>
+        <property name="dstipoDatoCategoria" type="string">
+            <column name="DSTIPO_DATO_CATEGORIA" length="50">
+                <comment>Tipo de dato asociado a la categoria o un valor asociado a esta.</comment>
+            </column>
+        </property>
+<!--         <set name="prodProductoCategorias" table="prod_producto_categoria" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDCATEGORIA"> -->
+<!--                     <comment>ID de la categoria</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ProdProductoCategoria" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

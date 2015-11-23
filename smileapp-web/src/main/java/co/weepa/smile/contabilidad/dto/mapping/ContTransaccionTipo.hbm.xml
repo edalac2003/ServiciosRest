@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.ContTransaccionTipo" table="cont_transaccion_tipo">
+        <id name="idtransaccionTipo" type="java.lang.Integer">
+            <column name="IDTRANSACCION_TIPO" />
+            <generator class="identity" />
+        </id>
+        <property name="dsdescripcionTransaccionTipo" type="string">
+            <column name="DSDESCRIPCION_TRANSACCION_TIPO" length="50">
+                <comment>nombre del tipo de transacion, ej. Facturaci&#243;n, Ajuste inventarios</comment>
+            </column>
+        </property>
+<!--         <set name="contTransaccionContables" table="cont_transaccion_contable" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDTRANSACCION_TIPO" not-null="true"> -->
+<!--                     <comment>tipo al que pertenece la transacci&#243;n: ej. es del tipo 1000 por ser facturaci&#243;n</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContTransaccionContable" /> -->
+<!--         </set> -->
+<!--         <set name="defiTransaccionAccions" table="defi_transaccion_accion" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDTRANSACCION_TIPO" not-null="true"> -->
+<!--                     <comment>Indica a que tipo de transaccion contable pertenece, ej Facturacion, Compras, etc</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.DefiTransaccionAccion" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

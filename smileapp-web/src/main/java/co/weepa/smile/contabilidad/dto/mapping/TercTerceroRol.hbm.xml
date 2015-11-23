@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.TercTerceroRol" table="terc_tercero_rol">
+        <id name="idterceroRol" type="int">
+            <column name="IDTERCERO_ROL" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="join">
+            <column name="IDTERCERO" precision="15" scale="0" not-null="true">
+                <comment>identificacion del tercero</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="tercRolTipo" class="co.weepa.smile.contabilidad.dto.TercRolTipo" fetch="join">
+            <column name="IDROL_TIPO">
+                <comment>codigo tipo rol</comment>
+            </column>
+        </many-to-one>
+        <property name="dsdescripcion" type="string">
+            <column name="DSDESCRIPCION" length="100">
+                <comment>Descripcion rol tercero</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

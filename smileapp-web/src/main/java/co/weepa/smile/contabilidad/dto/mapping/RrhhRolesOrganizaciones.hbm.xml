@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.RrhhRolesOrganizaciones" table="rrhh_roles_organizaciones">
+        <id name="idrolOrganizacion" type="int">
+            <column name="IDROL_ORGANIZACION" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="contOrganizacionInterna" class="co.weepa.smile.contabilidad.dto.ContOrganizacionInterna" fetch="join">
+            <column name="IDORGANIZACION_INTERNA" precision="15" scale="0">
+                <comment>Clave foranea que hace referencia a la organizacion interna</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="rrhhUsuarioRoles" class="co.weepa.smile.contabilidad.dto.RrhhUsuarioRoles" fetch="join">
+            <column name="IDUSUARIO_ROL">
+                <comment>Clave foranea hacia USUARIO_ROL</comment>
+            </column>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.RrhhUsuario" table="rrhh_usuario">
+        <id name="idusuario" type="int">
+            <column name="IDUSUARIO" />
+            <generator class="assigned" />
+        </id>
+        <property name="idpersona" type="java.lang.Integer">
+            <column name="IDPERSONA">
+                <comment>clave foranea a tabla persona</comment>
+            </column>
+        </property>
+        <property name="dsalias" type="string">
+            <column name="DSALIAS" length="50" unique="true">
+                <comment>nombre de usuario</comment>
+            </column>
+        </property>
+        <property name="dspregunta" type="string">
+            <column name="DSPREGUNTA" length="50">
+                <comment>Pregunta para recuperacion clave</comment>
+            </column>
+        </property>
+        <property name="dsrespuesta" type="string">
+            <column name="DSRESPUESTA" length="50">
+                <comment>Respuesta a pregunta</comment>
+            </column>
+        </property>
+        <property name="fecreacion" type="date">
+            <column name="FECREACION" length="10">
+                <comment>Fecha de creaci&#243;n de usuario</comment>
+            </column>
+        </property>
+        <property name="dsbloqueo" type="string">
+            <column name="DSBLOQUEO" length="2">
+                <comment>Indica si esta bloqueado</comment>
+            </column>
+        </property>
+        <property name="febloqueo" type="date">
+            <column name="FEBLOQUEO" length="10">
+                <comment>Indica desde cuando esta bloqueado</comment>
+            </column>
+        </property>
+        <property name="dspassword" type="string">
+            <column name="DSPASSWORD" length="50">
+                <comment>contrase&#241;a del usuario, por temas de seguridad en mysql se sugiere cifrarla en MD5 o SHA o AES, etc.</comment>
+            </column>
+        </property>
+        <property name="feactualizacion" type="date">
+            <column name="FEACTUALIZACION" length="10">
+                <comment>Ultima fecha actualizaci&#243;n</comment>
+            </column>
+        </property>
+<!--         <set name="rrhhUsuarioRoleses" table="rrhh_usuario_roles" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDUSUARIO"> -->
+<!--                     <comment>Clave primaria a tabla USUARIO</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.RrhhUsuarioRoles" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

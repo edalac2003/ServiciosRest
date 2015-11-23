@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 5/11/2015 01:01:14 PM by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.ContTercero" table="cont_tercero">
+        <id name="idtercero" type="long">
+            <column name="IDTERCERO" precision="15" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="contClasificacionIva" class="co.weepa.smile.contabilidad.dto.ContClasificacionIva" fetch="join">
+            <column name="IDCLASIFICACION_IVA">
+                <comment>gravado, excento(del exterior), excluido (calidad cliente sanAndres) excluido (calidad cliente sanAndres)</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="contMoneda" class="co.weepa.smile.contabilidad.dto.ContMoneda" fetch="join">
+            <column name="IDMONEDA">
+                <comment>indica en que codigo moneda se hacen las transacciones</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="contTipoTercero" class="co.weepa.smile.contabilidad.dto.ContTipoTercero" fetch="join">
+            <column name="ID_TIPO_TERCERO" not-null="true">
+                <comment>Tipo de tercero, ej. 1 para cliente.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="defiActividadIca" class="co.weepa.smile.contabilidad.dto.DefiActividadIca" fetch="join">
+            <column name="IDCODIGO_ICA">
+                <comment>indica a que codigo de ICA usado por definicion tercero</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="defiConceptoRf" class="co.weepa.smile.contabilidad.dto.DefiConceptoRf" fetch="join">
+            <column name="IDCONCEPTORF">
+                <comment>Para configurar el concepto retencion en la fuente por defecto, ejreg.simplificado, cumun, gran contribuyente,oninguno</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="defiTipoContribuyente" class="co.weepa.smile.contabilidad.dto.DefiTipoContribuyente" fetch="join">
+            <column name="IDTIPO_CONTRIBUYENTE">
+                <comment>identifica si es regimen comun, simplificado, gran contribuyente</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="defiTipoIdentificacion" class="co.weepa.smile.contabilidad.dto.DefiTipoIdentificacion" fetch="join">
+            <column name="DSTIPO_IDENTIFICACION" length="50">
+                <comment>Tipo identificacion ej. CC para cedula, NIT, TID ,etc</comment>
+            </column>
+        </many-to-one>
+        <property name="dsidentificacion" type="string">
+            <column name="DSIDENTIFICACION" length="15">
+                <comment>Identificacion del tercero (Tipo+nro), ejemplo NIT811001255, TI1023852963. Es posible numeros iguales en tipos documento diferente.</comment>
+            </column>
+        </property>
+        <property name="nmdescuento" type="java.lang.Integer">
+            <column name="NMDESCUENTO">
+                <comment>indica si tienen algun descuento especial</comment>
+            </column>
+        </property>
+        <property name="dstelefono" type="string">
+            <column name="DSTELEFONO" length="50">
+                <comment>telefono fijo del tercero</comment>
+            </column>
+        </property>
+        <property name="dscelular" type="string">
+            <column name="DSCELULAR" length="50">
+                <comment>indica el numero telefono del tercero</comment>
+            </column>
+        </property>
+        <property name="dscorreoElectronico" type="string">
+            <column name="DSCORREO_ELECTRONICO" length="50">
+                <comment>Correo electronico del tercero</comment>
+            </column>
+        </property>
+<!--         <set name="tercTerceroRols" table="terc_tercero_rol" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDTERCERO" precision="15" scale="0" not-null="true"> -->
+<!--                     <comment>identificacion del tercero</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.TercTerceroRol" /> -->
+<!--         </set> -->
+<!--         <set name="contTransaccionContables" table="cont_transaccion_contable" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDTERCERO" precision="15" scale="0" not-null="true"> -->
+<!--                     <comment>c&#243;digo del tercero involucrado en la transacci&#243;n contable.</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContTransaccionContable" /> -->
+<!--         </set> -->
+<!--         <set name="tercDireccions" table="terc_direccion" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDTERCERO" precision="15" scale="0"> -->
+<!--                     <comment>id del tercero</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.TercDireccion" /> -->
+<!--         </set> -->
+<!--         <set name="factFacturas" table="fact_factura" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDTERCERO" precision="15" scale="0"> -->
+<!--                     <comment>Identificacion de tercero asociado a la factura</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.FactFactura" /> -->
+<!--         </set> -->
+<!--         <set name="tercPersonas" table="terc_persona" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDTERCERO" precision="15" scale="0"> -->
+<!--                     <comment>identificacion del tercero</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.TercPersona" /> -->
+<!--         </set> -->
+<!--         <set name="tercTerceroClasificacions" table="terc_tercero_clasificacion" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDTERCERO" precision="15" scale="0"> -->
+<!--                     <comment>identificacion del tercero</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.TercTerceroClasificacion" /> -->
+<!--         </set> -->
+<!--         <set name="cartCarteras" table="cart_cartera" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDTERCERO" precision="15" scale="0"> -->
+<!--                     <comment>Identificacion del tercero o participante</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.CartCartera" /> -->
+<!--         </set> -->
+<!--         <set name="tercOrganizacions" table="terc_organizacion" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDTERCERO" precision="15" scale="0" not-null="true"> -->
+<!--                     <comment>Codigo unico interno para tercero</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.TercOrganizacion" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.DefiParametro" table="defi_parametro">
+        <id name="idparametro" type="int">
+            <column name="IDPARAMETRO" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="defiAccion" class="co.weepa.smile.contabilidad.dto.DefiAccion" fetch="join">
+            <column name="IDACCION">
+                <comment>ID accion asociada</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="defiTipoDato" class="co.weepa.smile.contabilidad.dto.DefiTipoDato" fetch="join">
+            <column name="IDTIPO_DATO" />
+        </many-to-one>
+        <property name="dsnombre" type="long">
+            <column name="DSNOMBRE" not-null="true" unique="true">
+                <comment>Nombre del parametro</comment>
+            </column>
+        </property>
+        <property name="dsvalor" type="string">
+            <column name="DSVALOR" length="50">
+                <comment>Valor de parametro</comment>
+            </column>
+        </property>
+        <property name="nmvalor" type="java.lang.Double">
+            <column name="NMVALOR" precision="22" scale="0">
+                <comment>VALOR parametro</comment>
+            </column>
+        </property>
+        <property name="fevalor" type="date">
+            <column name="FEVALOR" length="10">
+                <comment>VALOR FECHA parametro</comment>
+            </column>
+        </property>
+        <property name="nmorden" type="java.lang.Integer">
+            <column name="NMORDEN" precision="5" scale="0">
+                <comment>ORDEN parametro</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

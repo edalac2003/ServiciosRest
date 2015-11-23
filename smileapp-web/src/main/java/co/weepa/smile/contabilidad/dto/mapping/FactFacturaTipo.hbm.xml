@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.FactFacturaTipo" table="fact_factura_tipo">
+        <id name="idfacturaTipo" type="java.lang.Integer">
+            <column name="IDFACTURA_TIPO" />
+            <generator class="increment" />
+        </id>
+        <property name="dsnombre" type="string">
+            <column name="DSNOMBRE" length="50">
+                <comment>nombre tipo factura, ej Factura venta contado, Factura venta credito, Factura Compra contado</comment>
+            </column>
+        </property>
+        <property name="dsdescripcion" type="string">
+            <column name="DSDESCRIPCION" length="100">
+                <comment>Descripci&#243;n tipo factura, ej factura venta de contado</comment>
+            </column>
+        </property>
+        <property name="dsprefijo" type="string">
+            <column name="DSPREFIJO" length="5">
+                <comment>Se define un prefijo para el Tipo de Documento</comment>
+            </column>
+        </property>
+<!--         <set name="factFacturas" table="fact_factura" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDFACTURA_TIPO"> -->
+<!--                     <comment>codigo tipo factura</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.FactFactura" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.ContMoneda" table="cont_moneda">
+        <id name="idmoneda" type="int">
+            <column name="IDMONEDA" />
+            <generator class="increment" />
+        </id>
+        <property name="dscodigo" type="string">
+            <column name="DSCODIGO" length="10" not-null="true">
+                <comment>Codigo letras de la moneda: ej COP para moneda colombiana</comment>
+            </column>
+        </property>
+        <property name="dsnombreMoneda" type="string">
+            <column name="DSNOMBRE_MONEDA" length="50">
+                <comment>nombre de la moneda: ej Peso Colombiano</comment>
+            </column>
+        </property>
+        <property name="dssimbolo" type="string">
+            <column name="DSSIMBOLO" length="50">
+                <comment>simbolo usado por la moneda: ej $ para peso colombiano</comment>
+            </column>
+        </property>
+        <property name="dspaises" type="string">
+            <column name="DSPAISES" length="50">
+                <comment>Nombre del pais o paises que usan la moneda: ej Dolar es usado en USA,ECUADOR, etc.</comment>
+            </column>
+        </property>
+<!--         <set name="contTransaccionContables" table="cont_transaccion_contable" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDMONEDA" not-null="true"> -->
+<!--                     <comment>codigo de la moneda en la que se da la transaccion, ejemplo COP para indicar pesos</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContTransaccionContable" /> -->
+<!--         </set> -->
+<!--         <set name="cartPagos" table="cart_pago" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDMONEDA"> -->
+<!--                     <comment>tipo de moneda pago</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.CartPago" /> -->
+<!--         </set> -->
+<!--         <set name="contTerceros" table="cont_tercero" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDMONEDA"> -->
+<!--                     <comment>indica en que codigo moneda se hacen las transacciones</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContTercero" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

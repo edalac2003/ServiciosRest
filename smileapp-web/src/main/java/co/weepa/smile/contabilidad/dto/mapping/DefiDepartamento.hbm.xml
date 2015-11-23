@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.DefiDepartamento" table="defi_departamento">
+        <id name="iddepartamento" type="string">
+            <column name="IDDEPARTAMENTO" length="10" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="defiPais" class="co.weepa.smile.contabilidad.dto.DefiPais" fetch="join">
+            <column name="IDPAIS" length="10" not-null="true">
+                <comment>codigo del pais al que pertenece</comment>
+            </column>
+        </many-to-one>
+        <property name="dsnombre" type="string">
+            <column name="DSNOMBRE" length="50">
+                <comment>nombre del departamento</comment>
+            </column>
+        </property>
+        <property name="dsdetalle" type="string">
+            <column name="DSDETALLE" length="200">
+                <comment>detalles de departamento</comment>
+            </column>
+        </property>
+<!--         <set name="tercDireccions" table="terc_direccion" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDDEPARTAMENTO_ESTADO" length="10"> -->
+<!--                     <comment>codigo del departamento</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.TercDireccion" /> -->
+<!--         </set> -->
+<!--         <set name="defiCiudads" table="defi_ciudad" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDDEPARTAMENTO" length="10" not-null="true"> -->
+<!--                     <comment>codigo del departamento al que pertenece</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.DefiCiudad" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

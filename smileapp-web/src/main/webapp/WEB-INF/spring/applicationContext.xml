@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 	xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:p="http://www.springframework.org/schema/p" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   					   http://www.springframework.org/schema/beans/spring-beans.xsd
+	   					   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	   					   http://www.springframework.org/schema/context/spring-context-2.5.xsd" 
+	   	xmlns:context="http://www.springframework.org/schema/context">
+
+	<!-- =================================================== -->
+	<!-- IMPORTANTE!! PARA SUBIR ARCHIVOS POR SERVICIOS REST -->
+	<!-- =================================================== -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	    <property name="maxUploadSize" value="50000000"/>
+	</bean>
+	
+	<!-- ================== -->
+	<!-- BASE DE DATOS (BD) -->
+	<!-- ================== -->
+
+<!-- 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> -->
+<!-- 		<property name="jndiName" value="java:comp/env/jdbc/solondatabase" /> -->
+<!-- 	</bean> -->
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/weepa" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+		
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="mappingResources">
+			<list>
+				<value>co/weepa/smile/contabilidad/dto/mapping/CartCartera.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/CartEstado.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/CartFormaPago.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/CartPago.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/CartTipoPago.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ContCentroCosto.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ContClasificacionIva.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ContCuentaGrupo.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ContDetalleTransaccion.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ContMoneda.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ContNormaTipo.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ContOrganizacionInterna.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ContPlanCuenta.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ContTercero.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ContTipoTercero.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ContTransaccionContable.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ContTransaccionTipo.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiAccion.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiAccionRegla.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiAccionTipo.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiActividadIca.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiCiudad.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiConceptoRf.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiDepartamento.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiPais.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiParametro.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiSede.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiTarifaIca.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiTarifaRf.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiTipoContribuyente.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiTipoDato.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiTipoIdentificacion.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/DefiTransaccionAccion.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/FactDetalleFactura.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/FactDetalleFacturaTipo.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/FactFactura.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/FactFacturaTipo.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ProdCategoria.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ProdColor.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ProdProducto.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ProdProductoCategoria.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ProdProductoSede.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ProdProductoTipo.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/ProdTalla.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/RrhhAplicativo.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/RrhhRoles.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/RrhhRolesAplicativo.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/RrhhRolesOrganizaciones.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/RrhhRolTipo.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/RrhhUsuario.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/RrhhUsuarioRoles.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/TercClasificacionTipo.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/TercDireccion.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/TercOrganizacion.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/TercPersona.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/TercRolTipo.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/TercTerceroClasificacion.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/TercTerceroCuenta.hbm.xml</value>
+				<value>co/weepa/smile/contabilidad/dto/mapping/TercTerceroRol.hbm.xml</value>			
+			</list>
+		</property>
+		
+<!-- 		<property name="hibernateProperties"> -->
+<!-- 			<props> -->
+<!-- 			     <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop> -->
+<!-- 			     <prop key="hibernate.show_sql">false</prop> -->
+<!-- 			     <prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</prop> -->
+<!-- 			</props> -->
+<!--          </property>              -->
+	</bean>
+	
+	<!-- SE CREAN LOS BEANS CORRESPONDIENTES A LOS DAO's -->
+        <bean id="normaTipoDao" class="co.weepa.smile.contabilidad.dao.hibernate.NormaTipoDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+        
+        <bean id="planCuentaDao" class="co.weepa.smile.contabilidad.dao.hibernate.PlanCuentaDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+        
+        <bean id="terceroDao" class="co.weepa.smile.contabilidad.dao.hibernate.TerceroDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+        
+        <bean id="terceroCuentaDao" class="co.weepa.smile.contabilidad.dao.hibernate.TerceroCuentaDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+
+        <bean id="transaccionAccionDao" class="co.weepa.smile.contabilidad.dao.hibernate.TransaccionAccionDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+
+        <bean id="CiudadDao" class="co.weepa.smile.contabilidad.dao.hibernate.CiudadDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+
+        <bean id="facturaVentaDao" class="co.weepa.smile.contabilidad.dao.hibernate.FacturaVentaDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+
+        <bean id="productoDao" class="co.weepa.smile.contabilidad.dao.hibernate.ProdProductoDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+
+        <bean id="productoSedeDao" class="co.weepa.smile.contabilidad.dao.hibernate.ProductoSedeDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+
+        <bean id="organizacionInternaDao" class="co.weepa.smile.contabilidad.dao.hibernate.OrganizacionInternaDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+
+        <bean id="transaccionTipoDao" class="co.weepa.smile.contabilidad.dao.hibernate.TransaccionTipoDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+
+        <bean id="facturaTipoDao" class="co.weepa.smile.contabilidad.dao.hibernate.FacturaTipoDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+
+        <bean id="monedaDao" class="co.weepa.smile.contabilidad.dao.hibernate.MonedaDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+
+        <bean id="centroCostoDao" class="co.weepa.smile.contabilidad.dao.hibernate.CentroCostoDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+
+        <bean id="carteraDao" class="co.weepa.smile.contabilidad.dao.hibernate.CarteraDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+
+        <bean id="facturaDao" class="co.weepa.smile.contabilidad.dao.hibernate.FacturaDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+        
+        
+		<!-- SE CREAN LOS BEANS CORRESPONDIENTES A LOS NGC's -->        
+        <bean id="facturaVentaNgc" class="co.weepa.smile.contabilidad.ngc.impl.FacturaVentaNGCImpl">
+        	<property name="terceroNgc" ref="terceroNgc" />
+        	<property name="organizacionNgc" ref="organizacionInternaNgc" />
+        	<property name="facturaVentaDao" ref="facturaVentaDao" />
+        	<property name="transaccionAccionNgc" ref="transaccionAccionNgc" />
+        	<property name="planCuentaNgc" ref="planCuentaNgc" />
+        	<property name="monedaNgc" ref="monedaNgc" />
+        	<property name="centroCostoNgc" ref="centroCostoNgc" />
+        	<property name="carteraNgc" ref="carteraNgc" />
+        	<property name="transaccionTipoNgc" ref="transaccionTipoNgc" />
+        </bean>
+        
+        <bean id="normaTipoNgc" class="co.weepa.smile.contabilidad.ngc.impl.NormaTipoNGCImpl">
+        	<property name="normaTipoDao" ref="normaTipoDao" />
+        </bean>
+        
+        <bean id="organizacionInternaNgc" class="co.weepa.smile.contabilidad.ngc.impl.OrganizacionInternaNGCImpl">
+        	<property name="organizacionInternaDao" ref="organizacionInternaDao" />
+        </bean>
+
+        <bean id="planCuentaNgc" class="co.weepa.smile.contabilidad.ngc.impl.PlanCuentaNGCImpl">
+        	<property name="planCuentaDao" ref="planCuentaDao" />
+        </bean>
+        
+        <bean id="productoNgc" class="co.weepa.smile.contabilidad.ngc.impl.ProductoNGCImpl">
+        	<property name="productoDao" ref="productoDao" />
+        </bean>
+        
+		<bean id="productoSedeNgc" class="co.weepa.smile.contabilidad.ngc.impl.ProductoSedeNGCImpl">
+        	<property name="productoSedeDao" ref="productoSedeDao" />
+        </bean>
+        
+        <bean id="terceroCuentaNgc" class="co.weepa.smile.contabilidad.ngc.impl.TerceroCuentaNGCImpl">
+        	<property name="terceroCuentaDao" ref="terceroCuentaDao" />
+        </bean>
+        
+        <bean id="terceroNgc" class="co.weepa.smile.contabilidad.ngc.impl.TerceroNGCImpl">
+        	<property name="terceroDao" ref="terceroDao" />
+        </bean>    
+
+        <bean id="transaccionAccionNgc" class="co.weepa.smile.contabilidad.ngc.impl.TransaccionAccionNGCImpl">
+        	<property name="transaccionAccionDao" ref="transaccionAccionDao" />
+        </bean>
+
+        <bean id="transaccionTipoNgc" class="co.weepa.smile.contabilidad.ngc.impl.TransaccionTipoNgcImpl">
+        	<property name="transaccionTipoDao" ref="transaccionTipoDao" />
+        </bean>
+
+        <bean id="facturaTipoNgc" class="co.weepa.smile.contabilidad.ngc.impl.FacturaTipoNGCImpl">
+        	<property name="facturaTipoDao" ref="facturaTipoDao" />
+        </bean>
+
+        <bean id="monedaNgc" class="co.weepa.smile.contabilidad.ngc.impl.MonedaNGCImpl">
+        	<property name="monedaDao" ref="monedaDao" />
+        </bean>
+
+        <bean id="centroCostoNgc" class="co.weepa.smile.contabilidad.ngc.impl.CentroCostoNGCImpl">
+        	<property name="centroCostoDao" ref="centroCostoDao" />
+        </bean>
+
+        <bean id="carteraNgc" class="co.weepa.smile.contabilidad.ngc.impl.CarteraNGCImpl">
+        	<property name="carteraDao" ref="carteraDao" />
+        </bean>
+
+        <bean id="facturaNgc" class="co.weepa.smile.contabilidad.ngc.impl.FacturaNGCImpl" scope="singleton">
+        	<property name="facturaDao" ref="facturaDao" />
+        </bean>
+
+</beans>

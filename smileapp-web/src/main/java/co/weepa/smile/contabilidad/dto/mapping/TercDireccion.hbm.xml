@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.TercDireccion" table="terc_direccion">
+        <id name="iddireccion" type="int">
+            <column name="IDDIRECCION" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="join">
+            <column name="IDTERCERO" precision="15" scale="0">
+                <comment>id del tercero</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="defiCiudad" class="co.weepa.smile.contabilidad.dto.DefiCiudad" fetch="join">
+            <column name="IDCIUDAD" length="10">
+                <comment>codigo de la ciudad</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="defiDepartamento" class="co.weepa.smile.contabilidad.dto.DefiDepartamento" fetch="join">
+            <column name="IDDEPARTAMENTO_ESTADO" length="10">
+                <comment>codigo del departamento</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="defiPais" class="co.weepa.smile.contabilidad.dto.DefiPais" fetch="join">
+            <column name="IDPAIS" length="10">
+                <comment>codigo del pais</comment>
+            </column>
+        </many-to-one>
+        <property name="idtipoDireccion" type="java.lang.Integer">
+            <column name="IDTIPO_DIRECCION">
+                <comment>indica los tipos de direccion, ej oficina, casa, etc.</comment>
+            </column>
+        </property>
+        <property name="dsdireccion" type="string">
+            <column name="DSDIRECCION" length="200">
+                <comment>texto con la direccion.</comment>
+            </column>
+        </property>
+        <property name="dsbarrio" type="string">
+            <column name="DSBARRIO" length="50">
+                <comment>Barrio dicreccion</comment>
+            </column>
+        </property>
+        <property name="dstelefonoFijo" type="string">
+            <column name="DSTELEFONO_FIJO" length="50">
+                <comment>telefono asociado a la direccion</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

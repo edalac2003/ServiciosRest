@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.TercTerceroCuenta" table="terc_tercero_cuenta">
+        <id name="idterceroCuenta" type="int">
+            <column name="IDTERCERO_CUENTA" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="join">
+            <column name="IDTERCERO" precision="15" scale="0">
+                <comment>codigo del tercero</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="defiTransaccionAccion" class="co.weepa.smile.contabilidad.dto.DefiTransaccionAccion" fetch="join">
+            <column name="IDTRANSACCION_ACCION">
+                <comment>codigo de la transaccion asociada eje ID1 = (facturacion credito/COLGAAP/ORG1 CTA=450505)</comment>
+            </column>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

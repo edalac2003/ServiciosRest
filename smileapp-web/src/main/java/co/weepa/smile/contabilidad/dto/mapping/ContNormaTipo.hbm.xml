@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.ContNormaTipo" table="cont_norma_tipo">
+        <id name="idnormaTipo" type="string">
+            <column name="IDNORMA_TIPO" length="10" />
+            <generator class="assigned" />
+        </id>
+        <property name="dsnombre" type="string">
+            <column name="DSNOMBRE" length="50" not-null="true">
+                <comment>Nombre de la norma: ej Las Normas Internacionales de Informaci&#243;n Financiera</comment>
+            </column>
+        </property>
+        <property name="dsdescripcion" type="string">
+            <column name="DSDESCRIPCION" length="200">
+                <comment>Descripcion: ej Las Normas Internacionales de Informaci&#243;n Financiera, tambi&#233;n conocidas por sus siglas en ingl&#233;s como IFRS</comment>
+            </column>
+        </property>
+<!--         <set name="defiTransaccionAccions" table="defi_transaccion_accion" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDNORMA_TIPO" length="10"> -->
+<!--                     <comment>indica que tipo norma es, ej colgaap o Niff</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.DefiTransaccionAccion" /> -->
+<!--         </set> -->
+<!--         <set name="contDetalleTransaccions" table="cont_detalle_transaccion" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDNORMA_TIPO" length="10" not-null="true"> -->
+<!--                     <comment>indica a que norma pertenece el detalle, ej NIIF</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContDetalleTransaccion" /> -->
+<!--         </set> -->
+<!--         <set name="contCuentaGrupos" table="cont_cuenta_grupo" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDNORMA_TIPO" length="10" not-null="true"> -->
+<!--                     <comment>Indica a que norma contable pertenece, ej COLGAAP, NIIF, USGAAP</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContCuentaGrupo" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

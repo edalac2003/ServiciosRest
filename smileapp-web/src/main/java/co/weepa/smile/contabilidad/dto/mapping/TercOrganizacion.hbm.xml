@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.TercOrganizacion" table="terc_organizacion">
+        <id name="idorganizacion" type="int">
+            <column name="IDORGANIZACION" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="join">
+            <column name="IDTERCERO" precision="15" scale="0" not-null="true">
+                <comment>Codigo unico interno para tercero</comment>
+            </column>
+        </many-to-one>
+        <property name="idtipoOrganizacion" type="java.lang.Integer">
+            <column name="IDTIPO_ORGANIZACION">
+                <comment>Tipo de entidad</comment>
+            </column>
+        </property>
+        <property name="nmdigitoChequeo" type="java.lang.Boolean">
+            <column name="NMDIGITO_CHEQUEO" precision="1" scale="0">
+                <comment>Digito de verificacion de la identificacion de la entidad</comment>
+            </column>
+        </property>
+        <property name="dsrazonSocial" type="string">
+            <column name="DSRAZON_SOCIAL" length="100">
+                <comment>Razon social de la entidad</comment>
+            </column>
+        </property>
+        <property name="dssigla" type="string">
+            <column name="DSSIGLA" length="50">
+                <comment>Sigla de la empresa</comment>
+            </column>
+        </property>
+        <property name="dsdescripcion" type="string">
+            <column name="DSDESCRIPCION" length="200">
+                <comment>Descripccion de la entidad</comment>
+            </column>
+        </property>
+        <property name="dscontacto" type="string">
+            <column name="DSCONTACTO" length="100" />
+        </property>
+        <property name="dsrepresentante" type="string">
+            <column name="DSREPRESENTANTE" length="70">
+                <comment>Nombre del representante legal de la entidad</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

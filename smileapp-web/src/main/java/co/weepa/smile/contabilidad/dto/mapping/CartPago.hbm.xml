@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.CartPago" table="cart_pago">
+        <id name="idpago" type="int">
+            <column name="IDPAGO" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="cartCartera" class="co.weepa.smile.contabilidad.dto.CartCartera" fetch="join">
+            <column name="IDCARTERA">
+                <comment>Clave foranea a documento cartera asociado</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="cartFormaPago" class="co.weepa.smile.contabilidad.dto.CartFormaPago" fetch="join">
+            <column name="IDFORMA_PAGO">
+                <comment>Indica la forma de pago, ej efectivo, transferencia, tarjeta, etc</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="cartTipoPago" class="co.weepa.smile.contabilidad.dto.CartTipoPago" fetch="join">
+            <column name="IDTIPO_PAGO">
+                <comment>Indica el tipo de pago, ej Abono, cuota inicial, etc.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="contMoneda" class="co.weepa.smile.contabilidad.dto.ContMoneda" fetch="join">
+            <column name="IDMONEDA">
+                <comment>tipo de moneda pago</comment>
+            </column>
+        </many-to-one>
+        <property name="fepago" type="date">
+            <column name="FEPAGO" length="10">
+                <comment>Fecha en que se realiza el pago</comment>
+            </column>
+        </property>
+        <property name="nmvalor" type="big_decimal">
+            <column name="NMVALOR" precision="15">
+                <comment>Valor del pago</comment>
+            </column>
+        </property>
+        <property name="dsdetalle" type="string">
+            <column name="DSDETALLE" length="100">
+                <comment>Detalles del pago.</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

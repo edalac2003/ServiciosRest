@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.RrhhRoles" table="rrhh_roles">
+        <id name="idrol" type="int">
+            <column name="IDROL" />
+            <generator class="assigned" />
+        </id>
+        <property name="dsnombre" type="string">
+            <column name="DSNOMBRE" length="50">
+                <comment>Nombre del rol</comment>
+            </column>
+        </property>
+        <property name="dsdescripcion" type="string">
+            <column name="DSDESCRIPCION" length="100">
+                <comment>Descripcion del rol</comment>
+            </column>
+        </property>
+<!--         <set name="rrhhUsuarioRoleses" table="rrhh_usuario_roles" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDROL"> -->
+<!--                     <comment>Clave foranea a tabla roles</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.RrhhUsuarioRoles" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

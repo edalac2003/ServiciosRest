@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.ContDetalleTransaccion" table="cont_detalle_transaccion">
+        <id name="iddetalle" type="java.lang.Integer">
+            <column name="IDDETALLE" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="contCentroCosto" class="co.weepa.smile.contabilidad.dto.ContCentroCosto" fetch="join">
+            <column name="IDCENTRO_COSTO" not-null="true">
+                <comment>centro de costo asociado, usar valor por defecto 10000</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="contNormaTipo" class="co.weepa.smile.contabilidad.dto.ContNormaTipo" fetch="join">
+            <column name="IDNORMA_TIPO" length="10" not-null="true">
+                <comment>indica a que norma pertenece el detalle, ej NIIF</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="contTransaccionContable" class="co.weepa.smile.contabilidad.dto.ContTransaccionContable" fetch="join">
+            <column name="IDTRANSACCION" not-null="true">
+                <comment>codigo de transaccion a la que pertenece</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="contPlanCuenta" class="co.weepa.smile.contabilidad.dto.ContPlanCuenta" fetch="join">
+            <column name="IDCUENTA" not-null="true">
+                <comment>codigo de la cuenta afectada, ej 11550000</comment>
+            </column>
+        </many-to-one>
+        <property name="nmvalor" type="big_decimal">
+            <column name="NMVALOR" precision="15">
+                <comment>valor en moneda local (pesos) por la que se afecta la cuenta</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

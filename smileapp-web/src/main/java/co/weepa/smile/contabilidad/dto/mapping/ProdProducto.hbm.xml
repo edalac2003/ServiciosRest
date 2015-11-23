@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.ProdProducto" table="prod_producto">
+        <id name="idproducto" type="string">
+            <column name="IDPRODUCTO" length="50" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="prodColor" class="co.weepa.smile.contabilidad.dto.ProdColor" fetch="join">
+            <column name="IDCOLOR">
+                <comment>id color</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="prodProductoTipo" class="co.weepa.smile.contabilidad.dto.ProdProductoTipo" fetch="join">
+            <column name="IDPRODUCTO_TIPO">
+                <comment>codigo tipo producto, ej camisa, zapatos, hardware, insumo</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="prodTalla" class="co.weepa.smile.contabilidad.dto.ProdTalla" fetch="join">
+            <column name="IDTALLA">
+                <comment>id talla</comment>
+            </column>
+        </many-to-one>
+        <property name="dscodigo" type="string">
+            <column name="DSCODIGO" length="20">
+                <comment>CODIGO INTERNO empresa, EJ PLU o SKU</comment>
+            </column>
+        </property>
+        <property name="nmcodigoEan13" type="java.lang.Long">
+            <column name="NMCODIGO_EAN13" precision="13" scale="0" unique="true">
+                <comment>codigo EAN13 (codigo de barras) si aplica</comment>
+            </column>
+        </property>
+        <property name="dsnombre" type="string">
+            <column name="DSNOMBRE" length="100">
+                <comment>nombre del articulo</comment>
+            </column>
+        </property>
+        <property name="dsnombreCorto" type="string">
+            <column name="DSNOMBRE_CORTO" length="100">
+                <comment>En ocasiones es util tener un nombre abreviado, ej almacenes que impriman en tirillas</comment>
+            </column>
+        </property>
+        <property name="dsdescripcion" type="string">
+            <column name="DSDESCRIPCION" length="150">
+                <comment>descripcion articulo</comment>
+            </column>
+        </property>
+        <property name="nmprecioVenta" type="java.lang.Integer">
+            <column name="NMPRECIO_VENTA">
+                <comment>precio venta</comment>
+            </column>
+        </property>
+        <property name="nmprecioCompra" type="java.lang.Integer">
+            <column name="NMPRECIO_COMPRA">
+                <comment>precio compra</comment>
+            </column>
+        </property>
+        <property name="nmsaldo" type="java.lang.Integer">
+            <column name="NMSALDO">
+                <comment>saldo producto</comment>
+            </column>
+        </property>
+        <property name="dsimagenProducto" type="string">
+            <column name="DSIMAGEN_PRODUCTO" length="50">
+                <comment>ubicacion de archivo imagen del producto</comment>
+            </column>
+        </property>
+        <property name="dsimagenFichatec" type="string">
+            <column name="DSIMAGEN_FICHATEC" length="50">
+                <comment>ubicacion de archivo ficha tecnica del producto, puede ser un pdf o una imagen.</comment>
+            </column>
+        </property>
+        <property name="nmimpuesto" type="java.lang.Integer">
+            <column name="NMIMPUESTO">
+                <comment>Valor porcentaje impuesto si aplica.</comment>
+            </column>
+        </property>
+        <property name="mncantidadMin" type="java.lang.Integer">
+            <column name="MNCANTIDAD_MIN">
+                <comment>cantidad minima inventario, util para generar alertas</comment>
+            </column>
+        </property>
+        <property name="mncantidadMax" type="string">
+            <column name="MNCANTIDAD_MAX" length="50">
+                <comment>cantidad maxima inventario, util para generar alertas</comment>
+            </column>
+        </property>
+<!--         <set name="prodProductoCategorias" table="prod_producto_categoria" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDPRODUCTO" length="50"> -->
+<!--                     <comment>ID del producto</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ProdProductoCategoria" /> -->
+<!--         </set> -->
+<!--         <set name="prodProductoSedes" table="prod_producto_sede" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDPRODUCTO" length="50"> -->
+<!--                     <comment>id del producto</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ProdProductoSede" /> -->
+<!--         </set> -->
+<!--         <set name="factDetalleFacturas" table="fact_detalle_factura" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDPRODUCTO" length="50"> -->
+<!--                     <comment>codigo producto</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.FactDetalleFactura" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

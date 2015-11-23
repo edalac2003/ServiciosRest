@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.DefiTipoContribuyente" table="defi_tipo_contribuyente">
+        <id name="idtipoContribuyente" type="int">
+            <column name="IDTIPO_CONTRIBUYENTE" />
+            <generator class="assigned" />
+        </id>
+        <property name="dsnombre" type="string">
+            <column name="DSNOMBRE" length="50">
+                <comment>nombre tipo contribuyente eje. regimen comun</comment>
+            </column>
+        </property>
+        <property name="dsdescripcion" type="string">
+            <column name="DSDESCRIPCION" length="200">
+                <comment>descripcion o detalles del tipo contribuyente</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

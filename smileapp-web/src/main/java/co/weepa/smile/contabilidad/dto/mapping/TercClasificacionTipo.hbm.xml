@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.TercClasificacionTipo" table="terc_clasificacion_tipo">
+        <id name="idclasificacionTipo" type="int">
+            <column name="IDCLASIFICACION_TIPO" />
+            <generator class="assigned" />
+        </id>
+        <property name="dsnombre" type="string">
+            <column name="DSNOMBRE" length="50">
+                <comment>Nombre tipo clasificacion tercero, ej. indigena</comment>
+            </column>
+        </property>
+        <property name="dsdescripcion" type="string">
+            <column name="DSDESCRIPCION" length="200">
+                <comment>descripcion de la clasificacion</comment>
+            </column>
+        </property>
+<!--         <set name="tercTerceroClasificacions" table="terc_tercero_clasificacion" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDCLASIFICACION_TIPO" not-null="true"> -->
+<!--                     <comment>tipo de clasificacion que pertenece un usuario</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.TercTerceroClasificacion" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

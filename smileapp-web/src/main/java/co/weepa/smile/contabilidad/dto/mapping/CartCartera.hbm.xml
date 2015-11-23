@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.CartCartera" table="cart_cartera">
+        <id name="idcartera" type="int">
+            <column name="IDCARTERA" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="cartEstado" class="co.weepa.smile.contabilidad.dto.CartEstado" fetch="join">
+            <column name="IDESTADO">
+                <comment>Indica el estado de la cartera, activa, cancelada, cobro juridico, etc</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="contPlanCuenta" class="co.weepa.smile.contabilidad.dto.ContPlanCuenta" fetch="join">
+            <column name="IDCUENTA">
+                <comment>Cuenta contable que se afecha al realizar abonos o pagos</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="join">
+            <column name="IDTERCERO" precision="15" scale="0">
+                <comment>Identificacion del tercero o participante</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="factFactura" class="co.weepa.smile.contabilidad.dto.FactFactura" fetch="join">
+            <column name="IDCONS_FACTURA">
+                <comment>Factura asociada (supertype)</comment>
+            </column>
+        </many-to-one>
+        <property name="fevencimiento" type="date">
+            <column name="FEVENCIMIENTO" length="10">
+                <comment>fecha en la que se vence la factura</comment>
+            </column>
+        </property>
+        <property name="nmsaldo" type="big_decimal">
+            <column name="NMSALDO" precision="15">
+                <comment>Saldo del documento</comment>
+            </column>
+        </property>
+        <property name="nmcuotas" type="java.lang.Integer">
+            <column name="NMCUOTAS">
+                <comment>indica numero cuotas pactadas si aplica</comment>
+            </column>
+        </property>
+<!--         <set name="cartPagos" table="cart_pago" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDCARTERA"> -->
+<!--                     <comment>Clave foranea a documento cartera asociado</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.CartPago" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

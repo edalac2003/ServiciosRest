@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.TercPersona" table="terc_persona">
+        <id name="idpersona" type="int">
+            <column name="IDPERSONA" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="select">
+            <column name="IDTERCERO" precision="15" scale="0">
+                <comment>identificacion del tercero</comment>
+            </column>
+        </many-to-one>
+        <property name="dsprimerNombre" type="string">
+            <column name="DSPRIMER_NOMBRE" length="50" not-null="true">
+                <comment>Primer nombre de la persona</comment>
+            </column>
+        </property>
+        <property name="dssegundoNombre" type="string">
+            <column name="DSSEGUNDO_NOMBRE" length="50">
+                <comment>segundo nombre de la persona si aplica</comment>
+            </column>
+        </property>
+        <property name="dsprimerApellido" type="string">
+            <column name="DSPRIMER_APELLIDO" length="50" not-null="true">
+                <comment>Primer apellido de la persona</comment>
+            </column>
+        </property>
+        <property name="dssegundoApellido" type="string">
+            <column name="DSSEGUNDO_APELLIDO" length="50">
+                <comment>Segundo apellido de la persona (si aplica)</comment>
+            </column>
+        </property>
+        <property name="fenacimiento" type="date">
+            <column name="FENACIMIENTO" length="10">
+                <comment>Fecha de nacimiento</comment>
+            </column>
+        </property>
+        <property name="idgenero" type="string">
+            <column name="IDGENERO" length="2">
+                <comment>CODIGO QUE IDENTIFICA EL GENERO DE PERSONA(SEXO)</comment>
+            </column>
+        </property>
+        <property name="dsestadoCivil" type="string">
+            <column name="DSESTADO_CIVIL" length="10">
+                <comment>Estado civil, permite filtrar o categorizar las personas</comment>
+            </column>
+        </property>
+        <property name="dscomentario" type="string">
+            <column name="DSCOMENTARIO" length="200">
+                <comment>Detalles adicionales a la persona.</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.ContOrganizacionInterna" table="cont_organizacion_interna">
+        <id name="idorganizacionInterna" type="integer">
+            <column name="IDORGANIZACION_INTERNA" precision="15" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="dsnombreOrganizacion" type="string">
+            <column name="DSNOMBRE_ORGANIZACION" length="50">
+                <comment>nombre de la organizaci&#243;n</comment>
+            </column>
+        </property>
+<!--         <set name="factFacturas" table="fact_factura" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDORGANIZACION" precision="15" scale="0"> -->
+<!--                     <comment>codigo organizacion asociada a la factura</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.FactFactura" /> -->
+<!--         </set> -->
+<!--         <set name="rrhhRolesOrganizacioneses" table="rrhh_roles_organizaciones" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDORGANIZACION_INTERNA" precision="15" scale="0"> -->
+<!--                     <comment>Clave foranea que hace referencia a la organizacion interna</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.RrhhRolesOrganizaciones" /> -->
+<!--         </set> -->
+<!--         <set name="contTransaccionContables" table="cont_transaccion_contable" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDORGANIZACION_INTERNA" precision="15" scale="0" not-null="true"> -->
+<!--                     <comment>codigo de la organizacion interna que gener&#243; la transacci&#243;n.</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContTransaccionContable" /> -->
+<!--         </set> -->
+<!--         <set name="defiTransaccionAccions" table="defi_transaccion_accion" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDORGANIZACION_INTERNA" precision="15" scale="0"> -->
+<!--                     <comment>ID que indica cual organizacion asociada a la configuracion</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.DefiTransaccionAccion" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.FactDetalleFactura" table="fact_detalle_factura">
+        <id name="iddetalleFactura" type="java.lang.Integer">
+            <column name="IDDETALLE_FACTURA" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="factDetalleFacturaTipo" class="co.weepa.smile.contabilidad.dto.FactDetalleFacturaTipo" fetch="join">
+            <column name="IDDETALLE_FACTURA_TIPO">
+                <comment>tipo detalle de factura</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="factFactura" class="co.weepa.smile.contabilidad.dto.FactFactura" fetch="join">
+            <column name="IDFACTURA">
+                <comment>codigo factura</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="prodProducto" class="co.weepa.smile.contabilidad.dto.ProdProducto" fetch="join">
+            <column name="IDPRODUCTO" length="50">
+                <comment>codigo producto</comment>
+            </column>
+        </many-to-one>
+        <property name="nmcantidad" type="java.lang.Integer">
+            <column name="NMCANTIDAD">
+                <comment>cantidad, unidades</comment>
+            </column>
+        </property>
+        <property name="nmprecio" type="java.lang.Integer">
+            <column name="NMPRECIO">
+                <comment>precio unidad</comment>
+            </column>
+        </property>
+        <property name="nmimpuesto" type="java.lang.Integer">
+            <column name="NMIMPUESTO">
+                <comment>tasa impuesto producto</comment>
+            </column>
+        </property>
+        <property name="nmdescuento" type="java.lang.Integer">
+            <column name="NMDESCUENTO">
+                <comment>descuento articulo</comment>
+            </column>
+        </property>
+        <property name="sngravado" type="string">
+            <column name="SNGRAVADO" length="2">
+                <comment>Indica si articulo se aplica o no el impuesto</comment>
+            </column>
+        </property>
+        <property name="nmsubtotal" type="java.lang.Integer">
+            <column name="NMSUBTOTAL">
+                <comment>valor parcial por item</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

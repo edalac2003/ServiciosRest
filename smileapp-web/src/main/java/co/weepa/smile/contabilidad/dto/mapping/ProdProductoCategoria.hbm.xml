@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.ProdProductoCategoria" table="prod_producto_categoria">
+        <id name="idproductoCategoria" type="int">
+            <column name="IDPRODUCTO_CATEGORIA" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="prodCategoria" class="co.weepa.smile.contabilidad.dto.ProdCategoria" fetch="join">
+            <column name="IDCATEGORIA">
+                <comment>ID de la categoria</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="prodProducto" class="co.weepa.smile.contabilidad.dto.ProdProducto" fetch="join">
+            <column name="IDPRODUCTO" length="50">
+                <comment>ID del producto</comment>
+            </column>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

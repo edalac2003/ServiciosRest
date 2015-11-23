@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.ProdProductoTipo" table="prod_producto_tipo">
+        <id name="idproductoTipo" type="java.lang.Integer">
+            <column name="IDPRODUCTO_TIPO" />
+            <generator class="increment" />
+        </id>
+        <property name="dsnombre" type="string">
+            <column name="DSNOMBRE" length="50">
+                <comment>nombre tipo producto, ropa, zapatos, insumos</comment>
+            </column>
+        </property>
+        <property name="dsdescripcion" type="string">
+            <column name="DSDESCRIPCION" length="100">
+                <comment>descripcion tipo producto</comment>
+            </column>
+        </property>
+<!--         <set name="prodProductos" table="prod_producto" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDPRODUCTO_TIPO"> -->
+<!--                     <comment>codigo tipo producto, ej camisa, zapatos, hardware, insumo</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ProdProducto" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

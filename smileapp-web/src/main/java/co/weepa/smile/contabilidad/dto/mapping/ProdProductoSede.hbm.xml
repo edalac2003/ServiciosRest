@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.ProdProductoSede" table="co.weepa.smile.contabilidad.dto.prod_producto_sede">
+        <id name="idprodSede" type="int">
+            <column name="IDPROD_SEDE" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="defiSede" class="co.weepa.smile.contabilidad.dto.DefiSede" fetch="join">
+            <column name="IDSEDE">
+                <comment>id de la sede</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="prodProducto" class="co.weepa.smile.contabilidad.dto.ProdProducto" fetch="join">
+            <column name="IDPRODUCTO" length="50">
+                <comment>id del producto</comment>
+            </column>
+        </many-to-one>
+        <property name="idtransaccionAccion" type="java.lang.Integer">
+            <column name="IDTRANSACCION_ACCION">
+                <comment>id de la transaccion contable asociada</comment>
+            </column>
+        </property>
+        <property name="nmprecioVenta" type="java.lang.Integer">
+            <column name="NMPRECIO_VENTA">
+                <comment>Precio de la venta</comment>
+            </column>
+        </property>
+        <property name="nmprecioCompra" type="java.lang.Integer">
+            <column name="NMPRECIO_COMPRA">
+                <comment>Precio de la compra</comment>
+            </column>
+        </property>
+        <property name="nmsaldo" type="java.lang.Integer">
+            <column name="NMSALDO">
+                <comment>saldo en la sede</comment>
+            </column>
+        </property>
+        <property name="nmimpuesto" type="java.lang.Integer">
+            <column name="NMIMPUESTO">
+                <comment>Impuesto del articulo en la sede particular</comment>
+            </column>
+        </property>
+        <property name="nmcantidadMin" type="java.lang.Integer">
+            <column name="NMCANTIDAD_MIN">
+                <comment>cantidad minima para la sede</comment>
+            </column>
+        </property>
+        <property name="nmcantidadMax" type="java.lang.Integer">
+            <column name="NMCANTIDAD_MAX">
+                <comment>cantidad maxima para la sede</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

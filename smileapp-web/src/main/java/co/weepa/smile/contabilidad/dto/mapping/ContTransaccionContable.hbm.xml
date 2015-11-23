@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.ContTransaccionContable" table="cont_transaccion_contable">
+        <id name="idtransaccion" type="java.lang.Integer">
+            <column name="IDTRANSACCION" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="contMoneda" class="co.weepa.smile.contabilidad.dto.ContMoneda" fetch="join">
+            <column name="IDMONEDA" not-null="true">
+                <comment>codigo de la moneda en la que se da la transaccion, ejemplo COP para indicar pesos</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="contOrganizacionInterna" class="co.weepa.smile.contabilidad.dto.ContOrganizacionInterna" fetch="join">
+            <column name="IDORGANIZACION_INTERNA" precision="15" scale="0" not-null="true">
+                <comment>codigo de la organizacion interna que gener&#243; la transacci&#243;n.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="join">
+            <column name="IDTERCERO" precision="15" scale="0" not-null="true">
+                <comment>c&#243;digo del tercero involucrado en la transacci&#243;n contable.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="contTransaccionTipo" class="co.weepa.smile.contabilidad.dto.ContTransaccionTipo" fetch="join">
+            <column name="IDTRANSACCION_TIPO" not-null="true">
+                <comment>tipo al que pertenece la transacci&#243;n: ej. es del tipo 1000 por ser facturaci&#243;n</comment>
+            </column>
+        </many-to-one>
+        <property name="fetransaccion" type="timestamp">
+            <column name="FETRANSACCION" length="19">
+                <comment>fecha de la transacci&#243;n</comment>
+            </column>
+        </property>
+        <property name="nmvalorTransaccion" type="big_decimal">
+            <column name="NMVALOR_TRANSACCION" precision="17">
+                <comment>Valor en moneda local (pesos) de la transacci&#243;n.</comment>
+            </column>
+        </property>
+        <property name="nmvalorMoneda" type="big_decimal">
+            <column name="NMVALOR_MONEDA" precision="10">
+                <comment>valor en la moneda que se dio la transaccion, ej. USD si fue en dolares</comment>
+            </column>
+        </property>
+        <property name="dsdescripcionTransaccion" type="string">
+            <column name="DSDESCRIPCION_TRANSACCION" length="200">
+                <comment>resumen o descripccion de la transacci&#243;n, util para informes y revisiones contables o de auditoria.</comment>
+            </column>
+        </property>
+        <property name="dsnumeroDocumento" type="string">
+            <column name="DSNUMERO_DOCUMENTO" length="50">
+                <comment>numero de documento asociado con la transacci&#243;n, generalmente el numero de factura de venta o compra, etc.</comment>
+            </column>
+        </property>
+<!--         <set name="contDetalleTransaccions" table="cont_detalle_transaccion" inverse="true" lazy="true" fetch="select"> -->
+<!--             <key> -->
+<!--                 <column name="IDTRANSACCION" not-null="true"> -->
+<!--                     <comment>codigo de transaccion a la que pertenece</comment> -->
+<!--                 </column> -->
+<!--             </key> -->
+<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContDetalleTransaccion" /> -->
+<!--         </set> -->
+    </class>
+</hibernate-mapping>

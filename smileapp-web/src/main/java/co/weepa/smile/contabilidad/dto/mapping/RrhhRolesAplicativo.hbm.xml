@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="co.weepa.smile.contabilidad.dto.RrhhRolesAplicativo" table="rrhh_roles_aplicativo">
+        <id name="idrolAplicativo" type="int">
+            <column name="IDROL_APLICATIVO" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="rrhhAplicativo" class="co.weepa.smile.contabilidad.dto.RrhhAplicativo" fetch="join">
+            <column name="IDAPLICATIVO">
+                <comment>Clave foranea al id aplicativo</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="rrhhUsuarioRoles" class="co.weepa.smile.contabilidad.dto.RrhhUsuarioRoles" fetch="join">
+            <column name="IDUSUARIO_ROL">
+                <comment>clave foranea a tabla usuario_rol</comment>
+            </column>
+        </many-to-one>
+        <property name="feactivacion" type="date">
+            <column name="FEACTIVACION" length="10">
+                <comment>Indica fecha en la que comienza vigencia</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>
