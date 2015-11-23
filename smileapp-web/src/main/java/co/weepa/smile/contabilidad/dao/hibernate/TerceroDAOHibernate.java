@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -218,4 +219,31 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 		
 		return lista;
 	}
+
+
+	@Override
+	public List<TercPersona> listarVendedores() throws ExcepcionesDAO {
+		List<TercPersona> lista = null;
+		Session session = null;
+		String sql = "SELECT * FROM terc_persona INNER JOIN cont_tercero ON (terc_persona.IDPERSONA = cont_tercero.IDTERCERO) "+
+					"INNER JOIN terc_tercero_rol ON (terc_tercero_rol.IDTERCERO = cont_tercero.IDTERCERO) WHERE terc_tercero_rol.IDROL_TIPO = 4;";
+		
+		try{
+			session = getSession();
+			Query query = session.createSQLQuery(sql);
+			lista = query.list();
+			
+		}catch(HibernateException e){
+			ExcepcionesDAO expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico("Errores al Listar Empleados. DAO : "+e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron problemas al obtener listado de Vendedores.");
+			expDao.setOrigen(e);
+			throw expDao;
+		}finally{
+			session.close();
+		}
+		
+		return lista;
+	}
+	
 }

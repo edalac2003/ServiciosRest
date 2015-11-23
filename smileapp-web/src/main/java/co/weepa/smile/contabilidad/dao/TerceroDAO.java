@@ -33,4 +33,6 @@ public interface TerceroDAO {
 	public List<TercPersona> listarPersonasNaturales() throws ExcepcionesDAO;
 	
 	public List<TercOrganizacion> listarOrganizaciones() throws ExcepcionesDAO;
+	
+	public List<TercPersona> listarVendedores() throws ExcepcionesDAO;
 }

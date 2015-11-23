@@ -27,11 +27,13 @@ public interface TerceroNGC {
 	 * Metodos para los detalles de los Terceros tanto Natural como Juridico.
 	 */
 	
-	public TercPersona obtenerPersonaNatural(int idPersona) throws ExcepcionesDAO;
+	public TercPersona obtenerPersonaNatural(int idPersona) throws ExcepcionesNGC;
 	
-	public TercOrganizacion obtenerPersonaJuridica(int idOrganizacion) throws ExcepcionesDAO;
+	public TercOrganizacion obtenerPersonaJuridica(int idOrganizacion) throws ExcepcionesNGC;
 	
-	public List<TercPersona> listarPersonasNaturales() throws ExcepcionesDAO;
+	public List<TercPersona> listarPersonasNaturales() throws ExcepcionesNGC;
 	
-	public List<TercOrganizacion> listarOrganizaciones() throws ExcepcionesDAO;
+	public List<TercOrganizacion> listarOrganizaciones() throws ExcepcionesNGC;
+	
+	public List<TercPersona> listarVendedores() throws ExcepcionesNGC;
 }

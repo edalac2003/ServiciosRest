@@ -4,7 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	 <!-- SE CREAN LOS BEANS CORRESPONDIENTES A LOS DAO's -->
+	
+	<!-- SE CREAN LOS BEANS CORRESPONDIENTES A LOS DAO's -->
 		<bean id="normaTipoDao" class="co.weepa.smile.contabilidad.dao.hibernate.NormaTipoDAOHibernate" scope="singleton">
         	<property name="sessionFactory" ref="sessionFactory" />
         </bean>

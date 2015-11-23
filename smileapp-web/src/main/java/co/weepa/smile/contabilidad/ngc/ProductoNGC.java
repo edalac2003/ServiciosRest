@@ -7,6 +7,8 @@ import co.weepa.smile.contabilidad.dto.ProdColor;
 import co.weepa.smile.contabilidad.dto.ProdProducto;
 import co.weepa.smile.contabilidad.dto.ProdProductoTipo;
 import co.weepa.smile.contabilidad.dto.ProdTalla;
+import co.weepa.smile.contabilidad.dto.TercPersona;
+import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
 
 public interface ProductoNGC {
@@ -26,4 +28,6 @@ public interface ProductoNGC {
 	public List<ProdProducto> listarProductosxTipoxColor(ProdProductoTipo tipoProducto, ProdColor colorProducto) throws ExcepcionesNGC;
 	
 	public List<ProdProducto> listarProductosxTipoxTalla(ProdProductoTipo tipoProducto, ProdTalla tallaProducto) throws ExcepcionesNGC;
+	
+	
 }

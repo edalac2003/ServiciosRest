@@ -115,38 +115,49 @@ public class TerceroNGCImpl implements TerceroNGC {
 	 * Metodos para los detalles de los Terceros tanto Natural como Juridico.
 	 */
 	
-	public TercPersona obtenerPersonaNatural(int idPersona) throws ExcepcionesDAO {
-		TercPersona persona = null;
+	@Override
+	public TercPersona obtenerPersonaNatural(int idPersona) throws ExcepcionesNGC {
 		
-		if(idPersona > 0){
-			persona = terceroDao.obtenerPersonaNatural(idPersona);
-			
-		}
-		
-		return persona;
+		return null;
 	}
 
-	public TercOrganizacion obtenerPersonaJuridica(int idOrganizacion) throws ExcepcionesDAO {
-		TercOrganizacion organizacion = null;
+	@Override
+	public TercOrganizacion obtenerPersonaJuridica(int idOrganizacion) throws ExcepcionesNGC {
 		
-		if(idOrganizacion > 0){
-			organizacion = terceroDao.obtenerPersonaJuridica(idOrganizacion);
-		}
-		
-		return organizacion;
+		return null;
 	}
 
-	public List<TercPersona> listarPersonasNaturales() throws ExcepcionesDAO {
+	
+
+	@Override
+	public List<TercPersona> listarPersonasNaturales() throws ExcepcionesNGC {
+		
+		return null;
+	}
+
+	@Override
+	public List<TercOrganizacion> listarOrganizaciones() throws ExcepcionesNGC {
+		
+		return null;
+	}
+
+	@Override
+	public List<TercPersona> listarVendedores() throws ExcepcionesNGC {
 		List<TercPersona> listaPersona = null;
-		listaPersona = terceroDao.listarPersonasNaturales();
+		
+		try {
+			listaPersona = terceroDao.listarVendedores();
+		} catch (ExcepcionesDAO e) {
+			ExcepcionesNGC expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario(e.getMensajeUsuario());
+			expNgc.setMensajeTecnico(e.getMensajeUsuario());
+			expNgc.setOrigen(e.getOrigen());			
+			throw expNgc;
+		}
 		
 		return listaPersona;
 	}
 
-	public List<TercOrganizacion> listarOrganizaciones() throws ExcepcionesDAO {
-		List<TercOrganizacion> listaOrganizacion = null;
-		listaOrganizacion = terceroDao.listarOrganizaciones();
-		
-		return listaOrganizacion;
-	}	
+
+	
 }
