@@ -14,12 +14,8 @@ public interface PlanCuentaNGC {
 	
 	public ContPlanCuenta obtenerCuentaPUC(int idCuenta) throws ExcepcionesNGC;
 	
-	public ContCuentaGrupo obtenerGrupoCuenta(int idGrupo) throws ExcepcionesNGC;
-	
-	public List<ContCuentaGrupo> listarTodosGruposCuenta() throws ExcepcionesNGC;
-	
 	public List<ContPlanCuenta> listarTodoPUC() throws ExcepcionesNGC;
 	
-	public List<ContPlanCuenta> listarCuentasxGrupo(ContCuentaGrupo grupoCuenta) throws ExcepcionesNGC;
+	public List<ContPlanCuenta> listarCuentasxGrupo(int idGrupo) throws ExcepcionesNGC;
 
 }

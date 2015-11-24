@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+
+	<table-filter match-name="cart_cartera" match-catalog="weepa"></table-filter>
+	<table-filter match-name="cart_estado" match-catalog="weepa"></table-filter>
+	<table-filter match-name="cart_forma_pago" match-catalog="weepa"></table-filter>
+	<table-filter match-name="cart_pago" match-catalog="weepa"></table-filter>
+	<table-filter match-name="cart_tipo_pago" match-catalog="weepa"></table-filter>
+	<table-filter match-name="cont_centro_costo"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="cont_clasificacion_iva"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="cont_cuenta_grupo"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="cont_detalle_transaccion"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="cont_moneda" match-catalog="weepa"></table-filter>
+	<table-filter match-name="cont_norma_tipo" match-catalog="weepa"></table-filter>
+	<table-filter match-name="cont_organizacion_interna"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="cont_plan_cuenta" match-catalog="weepa"></table-filter>
+	<table-filter match-name="cont_tercero" match-catalog="weepa"></table-filter>
+	<table-filter match-name="cont_tipo_tercero"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="cont_transaccion_contable"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="cont_transaccion_tipo"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="defi_accion" match-catalog="weepa"></table-filter>
+	<table-filter match-name="defi_accion_regla"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="defi_accion_tipo" match-catalog="weepa"></table-filter>
+	<table-filter match-name="defi_actividad_ica"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="defi_ciudad" match-catalog="weepa"></table-filter>
+	<table-filter match-name="defi_concepto_rf" match-catalog="weepa"></table-filter>
+	<table-filter match-name="defi_departamento"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="defi_pais" match-catalog="weepa"></table-filter>
+	<table-filter match-name="defi_parametro" match-catalog="weepa"></table-filter>
+	<table-filter match-name="defi_sede" match-catalog="weepa"></table-filter>
+	<table-filter match-name="defi_tarifa_ica" match-catalog="weepa"></table-filter>
+	<table-filter match-name="defi_tarifa_rf" match-catalog="weepa"></table-filter>
+	<table-filter match-name="defi_tipo_contribuyente"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="defi_tipo_dato" match-catalog="weepa"></table-filter>
+	<table-filter match-name="defi_tipo_identificacion"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="defi_transaccion_accion"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="fact_detalle_factura"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="fact_detalle_factura_tipo"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="fact_factura" match-catalog="weepa"></table-filter>
+	<table-filter match-name="fact_factura_tipo"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="prod_categoria" match-catalog="weepa"></table-filter>
+	<table-filter match-name="prod_color" match-catalog="weepa"></table-filter>
+	<table-filter match-name="prod_producto" match-catalog="weepa"></table-filter>
+	<table-filter match-name="prod_producto_categoria"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="prod_producto_sede"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="prod_producto_tipo"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="prod_talla" match-catalog="weepa"></table-filter>
+	<table-filter match-name="rrhh_aplicativo" match-catalog="weepa"></table-filter>
+	<table-filter match-name="rrhh_rol_tipo" match-catalog="weepa"></table-filter>
+	<table-filter match-name="rrhh_roles" match-catalog="weepa"></table-filter>
+	<table-filter match-name="rrhh_roles_aplicativo"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="rrhh_roles_organizaciones"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="rrhh_usuario" match-catalog="weepa"></table-filter>
+	<table-filter match-name="rrhh_usuario_roles"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="terc_clasificacion_tipo"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="terc_direccion" match-catalog="weepa"></table-filter>
+	<table-filter match-name="terc_organizacion"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="terc_persona" match-catalog="weepa"></table-filter>
+	<table-filter match-name="terc_rol_tipo" match-catalog="weepa"></table-filter>
+	<table-filter match-name="terc_tercero_clasificacion"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="terc_tercero_cuenta"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="terc_tercero_rol" match-catalog="weepa"></table-filter>
+</hibernate-reverse-engineering>

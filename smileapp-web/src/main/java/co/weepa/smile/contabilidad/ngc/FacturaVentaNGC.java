@@ -15,4 +15,7 @@ public interface FacturaVentaNGC {
 			List<FactDetalleFactura> listaDetalles, Retenciones retenciones, CartCartera maestroCartera, CartPago pagoCartera) throws ExcepcionesNGC;	
 	
 	public void guardarCotizacion(String idTercero, int idOrganizacion, FactFactura maestroFactura, List<FactDetalleFactura> listaDetalles) throws ExcepcionesNGC;
+	
+	public void guardarFacturaCompra(String idTercero, int idOrganizacion, int idTipoTransaccion, FactFactura maestroFactura, int formaPago, int medioPago,
+			List<FactDetalleFactura> listaDetalles, Retenciones retenciones, CartCartera maestroCartera, CartPago pagoCartera) throws ExcepcionesNGC;
 }

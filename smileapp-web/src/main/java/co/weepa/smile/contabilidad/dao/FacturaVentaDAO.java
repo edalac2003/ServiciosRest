@@ -15,5 +15,8 @@ public interface FacturaVentaDAO {
 	public void guardarFactura(FactFactura maestroFactura, List<FactDetalleFactura> listaDetalleFactura, ContTransaccionContable maestroTransaccion, 
 			List<ContDetalleTransaccion> listaDetalleTransaccion, CartCartera maestroCartera, CartPago pagoCartera) throws ExcepcionesDAO;
 	
+	public void guardarFacturaCompra(FactFactura maestroFactura, List<FactDetalleFactura> listaDetalleFactura, ContTransaccionContable maestroTransaccion, 
+			List<ContDetalleTransaccion> listaDetalleTransaccion, CartCartera maestroCartera, CartPago pagoCartera) throws ExcepcionesDAO;
+	
 	public void guardarCotizacion(FactFactura maestroFactura, List<FactDetalleFactura> listaDetalleFactura) throws ExcepcionesDAO;
 }

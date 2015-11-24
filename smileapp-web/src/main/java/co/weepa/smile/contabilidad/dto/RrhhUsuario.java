@@ -14,7 +14,7 @@ public class RrhhUsuario implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private int idusuario;
-	private Integer idpersona;
+	private TercPersona tercPersona;
 	private String dsalias;
 	private String dspregunta;
 	private String dsrespuesta;
@@ -32,10 +32,11 @@ public class RrhhUsuario implements java.io.Serializable {
 		this.idusuario = idusuario;
 	}
 
-	public RrhhUsuario(int idusuario, Integer idpersona, String dsalias, String dspregunta, String dsrespuesta,
+	public RrhhUsuario(int idusuario, TercPersona tercPersona, String dsalias, String dspregunta, String dsrespuesta,
 			Date fecreacion, String dsbloqueo, Date febloqueo, String dspassword, Date feactualizacion) {
+		super();
 		this.idusuario = idusuario;
-		this.idpersona = idpersona;
+		this.tercPersona = tercPersona;
 		this.dsalias = dsalias;
 		this.dspregunta = dspregunta;
 		this.dsrespuesta = dsrespuesta;
@@ -54,12 +55,12 @@ public class RrhhUsuario implements java.io.Serializable {
 		this.idusuario = idusuario;
 	}
 
-	public Integer getIdpersona() {
-		return this.idpersona;
+	public TercPersona getTercPersona() {
+		return tercPersona;
 	}
 
-	public void setIdpersona(Integer idpersona) {
-		this.idpersona = idpersona;
+	public void setTercPersona(TercPersona tercPersona) {
+		this.tercPersona = tercPersona;
 	}
 
 	public String getDsalias() {

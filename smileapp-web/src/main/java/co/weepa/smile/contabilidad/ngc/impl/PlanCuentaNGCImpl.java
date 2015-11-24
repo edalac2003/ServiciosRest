@@ -58,31 +58,6 @@ public class PlanCuentaNGCImpl implements PlanCuentaNGC {
 		return cuenta;
 	}
 
-	public ContCuentaGrupo obtenerGrupoCuenta(int idGrupo) throws ExcepcionesNGC {
-		ContCuentaGrupo grupo = null;		
-		if(idGrupo > 0){
-			try {
-				grupo = planCuentaDao.obtenerGrupoCuenta(idGrupo);
-			} catch (ExcepcionesDAO e) {
-				throw new ExcepcionesNGC(e);
-			}
-		} else {
-			throw new ExcepcionesNGC("No es posible realizar la consulta. Ingrese un ID válido.");
-		}
-		return grupo;
-	}
-
-	public List<ContCuentaGrupo> listarTodosGruposCuenta() throws ExcepcionesNGC {
-		List<ContCuentaGrupo> listaGrupos = null;
-		
-		try {
-			listaGrupos = planCuentaDao.listarTodosGruposCuenta();
-		} catch (ExcepcionesDAO e) {
-			throw new ExcepcionesNGC(e);
-		}
-		
-		return listaGrupos;
-	}
 
 	public List<ContPlanCuenta> listarTodoPUC() throws ExcepcionesNGC {
 		List<ContPlanCuenta> listaCuentas = null;
@@ -96,17 +71,18 @@ public class PlanCuentaNGCImpl implements PlanCuentaNGC {
 		return listaCuentas;
 	}
 
-	public List<ContPlanCuenta> listarCuentasxGrupo(ContCuentaGrupo grupoCuenta) throws ExcepcionesNGC {
+	
+	public List<ContPlanCuenta> listarCuentasxGrupo(int idGrupoCuenta) throws ExcepcionesNGC {
 		List<ContPlanCuenta> listaCuentas = null;
 		
-		if(grupoCuenta != null){
+		if(idGrupoCuenta > 0){
 			try {
-				listaCuentas = planCuentaDao.listarCuentasxGrupo(grupoCuenta);
+				listaCuentas = planCuentaDao.listarCuentasxGrupo(idGrupoCuenta);
 			} catch (ExcepcionesDAO e) {
 				throw new ExcepcionesNGC(e);
 			}
 		}else{
-			throw new ExcepcionesNGC("No es posible realizar la consulta. Ingrese un Grupo válido.");
+			throw new ExcepcionesNGC("No es posible realizar la consulta. Ingrese un Grupo valido.");
 		}
 		
 		return listaCuentas;

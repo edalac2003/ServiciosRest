@@ -14,12 +14,8 @@ public interface PlanCuentaDAO {
 	
 	public ContPlanCuenta obtenerCuentaPUC(int idCuenta) throws ExcepcionesDAO;
 	
-	public ContCuentaGrupo obtenerGrupoCuenta(int idGrupo) throws ExcepcionesDAO;
-	
-	public List<ContCuentaGrupo> listarTodosGruposCuenta() throws ExcepcionesDAO;
-	
 	public List<ContPlanCuenta> listarTodoPUC() throws ExcepcionesDAO;
 	
-	public List<ContPlanCuenta> listarCuentasxGrupo(ContCuentaGrupo grupoCuenta) throws ExcepcionesDAO;
+	public List<ContPlanCuenta> listarCuentasxGrupo(int grupo) throws ExcepcionesDAO;
 
 }

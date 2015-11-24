@@ -8,7 +8,7 @@
             <column name="IDDETALLE_FACTURA" />
             <generator class="increment" />
         </id>
-        <many-to-one name="factDetalleFacturaTipo" class="co.weepa.smile.contabilidad.dto.FactDetalleFacturaTipo" fetch="join">
+        <many-to-one name="factDetalleFacturaTipo" class="co.weepa.smile.contabilidad.dto.FactDetalleFacturaTipo" fetch="select">
             <column name="IDDETALLE_FACTURA_TIPO">
                 <comment>tipo detalle de factura</comment>
             </column>

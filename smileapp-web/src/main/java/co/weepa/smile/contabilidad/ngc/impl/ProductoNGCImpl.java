@@ -58,18 +58,6 @@ public class ProductoNGCImpl implements ProductoNGC {
 			throw new ExcepcionesNGC(e);
 		}
 		
-//		List<ProdProducto> listaProductos = new ArrayList<ProdProducto>();
-//		ProdProducto prod1 = new ProdProducto("Producto 001");
-//		ProdProducto prod2 = new ProdProducto("Producto 002");
-//		ProdProducto prod3 = new ProdProducto("Producto 003");
-//		ProdProducto prod4 = new ProdProducto("Producto 004");
-//		ProdProducto prod5 = new ProdProducto("Producto 005");
-//		listaProductos.add(prod1);
-//		listaProductos.add(prod2);
-//		listaProductos.add(prod3);
-//		listaProductos.add(prod4);
-//		listaProductos.add(prod5);
-		
 		return listaProductos;
 	}
 	

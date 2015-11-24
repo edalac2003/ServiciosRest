@@ -2,9 +2,12 @@ package co.weepa.smile.contabilidad.dao.hibernate;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import co.weepa.smile.contabilidad.dao.PlanCuentaDAO;
@@ -71,71 +74,42 @@ public class PlanCuentaDAOHibernate extends HibernateDaoSupport implements PlanC
 		return cuenta;
 	}
 
-	public ContCuentaGrupo obtenerGrupoCuenta(int idGrupo) throws ExcepcionesDAO {
-		ContCuentaGrupo grupoCuenta = null;
-//		Session session = null;
-		
-//		try{
-//			session = getSession();
-//			Criteria criteria = session.createCriteria(ContCuentaGrupo.class).add(Restrictions.eq("idcuentaGrupo", idGrupo));
-//			grupoCuenta = (ContCuentaGrupo)criteria.uniqueResult();
-//		}catch(HibernateException e){
-//			throw new ExcepcionesDAO("Se presentaron errores al intentar obtener registro de Cuenta. Error : "+e.toString());
-//		}finally{
-//			session.close();
-//		}
-		
-		
-		return grupoCuenta;
-	}
-
-	public List<ContCuentaGrupo> listarTodosGruposCuenta() throws ExcepcionesDAO {
-		List<ContCuentaGrupo> listaGruposCuenta = null;
-//		Session session = null;
-//		
-//		try{
-//			session = getSession();
-//			Criteria criteria = session.createCriteria(ContCuentaGrupo.class);
-//			listaGruposCuenta = criteria.list();
-//		}catch(HibernateException e){
-//			throw new ExcepcionesDAO(e);
-//		}finally{
-//			session.close();
-//		}
-		
-		return listaGruposCuenta;
-	}
-
 	public List<ContPlanCuenta> listarTodoPUC() throws ExcepcionesDAO {
 		List<ContPlanCuenta> listaPUC = null;
-//		Session session = null;
-//		
-//		try{
-//			session = getSession();
-//			Criteria criteria = session.createCriteria(ContPlanCuenta.class);
-//			listaPUC = criteria.list();
-//		}catch(HibernateException e){
-//			throw new ExcepcionesDAO(e);
-//		}finally{
-//			session.close();
-//		}
+		Session session = null;
+		
+		try{
+			session = getSession();
+			Criteria criteria = session.createCriteria(ContPlanCuenta.class);
+			listaPUC = criteria.list();
+		}catch(HibernateException e){
+			throw new ExcepcionesDAO(e);
+		}finally{
+			session.close();
+		}
 		
 		return listaPUC;
 	}
 
-	public List<ContPlanCuenta> listarCuentasxGrupo(ContCuentaGrupo grupoCuenta) throws ExcepcionesDAO {
+	public List<ContPlanCuenta> listarCuentasxGrupo(int idGrupo) throws ExcepcionesDAO {
 		List<ContPlanCuenta> listaCuentas = null;
-//		Session session = null;
-//		
-//		try{
-//			session = getSession();
-//			Criteria criteria = session.createCriteria(ContPlanCuenta.class).add(Restrictions.like("contCuentaGrupo", grupoCuenta));
-//			listaCuentas = criteria.list();
-//		}catch(HibernateException e){
-//			throw new ExcepcionesDAO(e);
-//		}finally{
-//			session.close();
-//		}
+		Session session = null;
+//		String sql = "select * from cont_plan_cuenta where IDCUENTA_GRUPO like '%"+String.valueOf(idGrupo)+"%';";
+		String sql = "select * from cont_plan_cuenta where IDCUENTA like '51%';";
+				
+		try{
+			session = getSession();
+			Criteria criteria = session.createCriteria(ContPlanCuenta.class);			
+			listaCuentas = criteria.list();
+		}catch(HibernateException e){
+			ExcepcionesDAO expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron Errores al intentar listar las Cuentas pertenecientes al grupo "+String.valueOf(idGrupo));
+			expDao.setOrigen(e);
+			throw expDao;
+		}finally{
+			session.close();
+		}
 		
 		return listaCuentas;
 	}

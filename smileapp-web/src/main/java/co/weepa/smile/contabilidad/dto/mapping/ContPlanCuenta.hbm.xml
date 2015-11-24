@@ -8,7 +8,7 @@
             <column name="IDCUENTA" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="contCuentaGrupo" class="co.weepa.smile.contabilidad.dto.ContCuentaGrupo" fetch="join" lazy="false">
+        <many-to-one name="contCuentaGrupo" class="co.weepa.smile.contabilidad.dto.ContCuentaGrupo" fetch="select" lazy="false">
             <column name="IDCUENTA_GRUPO" not-null="true">
                 <comment>indica el codigo del grupo al que pertenece, ej 10000000 (activo de colgaap)</comment>
             </column>
@@ -23,29 +23,5 @@
                 <comment>Descripccion: ej en CAJA MENOR se Registra la existencia en dinero efectivo o en cheques con que cuenta</comment>
             </column>
         </property>
-<!--         <set name="cartCarteras" table="cart_cartera" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDCUENTA"> -->
-<!--                     <comment>Cuenta contable que se afecha al realizar abonos o pagos</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.CartCartera" /> -->
-<!--         </set> -->
-<!--         <set name="defiTransaccionAccions" table="defi_transaccion_accion" inverse="true" lazy="false" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDCUENTA" not-null="true"> -->
-<!--                     <comment>Indica a que cuenta contable afecta</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.DefiTransaccionAccion" /> -->
-<!--         </set> -->
-<!--         <set name="contDetalleTransaccions" table="cont_detalle_transaccion" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDCUENTA" not-null="true"> -->
-<!--                     <comment>codigo de la cuenta afectada, ej 11550000</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContDetalleTransaccion" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

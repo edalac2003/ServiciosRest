@@ -12,9 +12,6 @@ public class ContPlanCuenta implements java.io.Serializable {
 	private ContCuentaGrupo contCuentaGrupo;
 	private String dsnombre;
 	private String dsdescripccion;
-//	private Set cartCarteras = new HashSet(0);
-//	private Set defiTransaccionAccions = new HashSet(0);
-//	private Set contDetalleTransaccions = new HashSet(0);
 	
 	public ContPlanCuenta() {
 	}

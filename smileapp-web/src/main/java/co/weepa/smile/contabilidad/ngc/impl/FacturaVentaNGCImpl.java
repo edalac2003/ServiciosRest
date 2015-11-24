@@ -443,8 +443,25 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 			expNgc.setMensajeUsuario(e.getMensajeUsuario());
 			expNgc.setOrigen(e.getOrigen());
 			throw expNgc;
+		}		
+	}
+
+	@Override
+	public void guardarFacturaCompra(String idTercero, int idOrganizacion, int idTipoTransaccion,
+			FactFactura maestroFactura, int formaPago, int medioPago, List<FactDetalleFactura> listaDetalles,
+			Retenciones retenciones, CartCartera maestroCartera, CartPago pagoCartera) throws ExcepcionesNGC {
+		
+		try {
+			facturaVentaDao.guardarFacturaCompra(null, listaDetalles, null, null, maestroCartera, pagoCartera);
+		} catch (ExcepcionesDAO e) {
+			ExcepcionesNGC expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeTecnico(e.getMessage());
+			expNgc.setMensajeUsuario("Se presentaron problemas al intentar guardar el Registro de la Factura de Compra.");
+			expNgc.setOrigen(e);
+			throw expNgc;
 		}
 		
 	}
+	
 	
 }

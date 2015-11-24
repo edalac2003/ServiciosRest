@@ -8,11 +8,11 @@
             <column name="IDUSUARIO" />
             <generator class="assigned" />
         </id>
-        <property name="idpersona" type="java.lang.Integer">
+        <many-to-one name="tercPersona" class="co.weepa.smile.contabilidad.dto.TercPersona" fetch="select">
             <column name="IDPERSONA">
                 <comment>clave foranea a tabla persona</comment>
             </column>
-        </property>
+        </many-to-one>
         <property name="dsalias" type="string">
             <column name="DSALIAS" length="50" unique="true">
                 <comment>nombre de usuario</comment>
@@ -53,13 +53,5 @@
                 <comment>Ultima fecha actualizaci&#243;n</comment>
             </column>
         </property>
-<!--         <set name="rrhhUsuarioRoleses" table="rrhh_usuario_roles" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDUSUARIO"> -->
-<!--                     <comment>Clave primaria a tabla USUARIO</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.RrhhUsuarioRoles" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

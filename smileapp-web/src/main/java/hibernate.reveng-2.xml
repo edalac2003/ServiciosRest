@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<table-filter match-name="cont_detalle_transaccion"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="cont_plan_cuenta" match-catalog="weepa"></table-filter>
+	<table-filter match-name="cont_norma_tipo" match-catalog="weepa"></table-filter>
+	<table-filter match-name="cont_transaccion_contable"
+		match-catalog="weepa">
+	</table-filter>
+	<table-filter match-name="cont_centro_costo"
+		match-catalog="weepa">
+	</table-filter>
+</hibernate-reverse-engineering>

@@ -1,0 +1,365 @@
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page title="Factura de Venta" contentType="text/html; charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/_css/estilos-tabla.css" ?>
+
+<zk>
+	<borderlayout height="1100px" apply="${facturaVentaCtrl}">  <!--   -->
+		<center border="none" autoscroll="true">
+			<div>
+				<hbox>
+					<vbox width="700px">
+						<groupbox mold="3d" closable="false" width="800px" height="520px">
+							<caption label="Factura de Venta" />				
+							<div>
+								<grid>
+									<columns>
+										<column width="17%" />
+										<column width="17%" />
+										<column width="17%" />
+										<column width="17%" />
+										<column width="16%" />
+										<column width="16%" />
+									</columns>
+									<rows>
+										<row>								
+											<cell colspan="3">
+												Organizacion Interna
+												<combobox id="cmbOrganizacion" placeholder="Organizacion Interna"/>
+											</cell>
+											<cell colspan="3">
+												Tipo de Documento
+												<combobox id="cmbTipoDocumento" placeholder="Tipo Documento"/>
+											</cell>
+										</row>
+										<row>
+											<cell align="right" colspan="2">
+												<label value="Fecha" />
+												<datebox id="dtFechaFactura"></datebox>
+											</cell>
+											<cell align="right">
+												<label id="lblTipoFactura" value="Factura No."></label>
+											</cell>
+											<cell align="center">
+												<textbox id="txtNumeroFactura" width="90%"/>
+											</cell>
+										</row>
+										<row id="rwNumeroProveedor" visible="false">
+											<cell colspan="4"></cell>
+											
+											<cell>
+												<label value="Numero Factura Proveedor" />
+											</cell>
+											<cell>
+												<textbox id="txtNumeroFacturaProveedor" />
+											</cell>
+										</row>
+									</rows>
+								</grid>
+							</div>
+							<div>
+								<grid>
+									<columns>
+										<column width="35%" />
+										<column width="30%" />
+										<column width="35%" />
+									</columns>
+									<rows>
+										<row>
+											<cell>
+												<combobox id="cmbIdCliente" placeholder="Id Cliente" width="95%"/>
+											</cell>
+											<cell colspan="2">
+												<combobox id="cmbNombres" placeholder="Nombres y/o razon Social" width="47%" />
+											</cell>
+										</row>
+										<row>
+											<cell>
+												<combobox id="cmbDepartamento" placeholder="Departamento" width="95%"/>
+											</cell>
+											<cell>
+												<combobox id="cmbCiudad" placeholder="Ciudad" width="95%"/>
+											</cell>
+											<cell rowspan="2">
+												<textbox id="txtDireccion" placeholder="Direccion" multiline="true" width="100%" height="110%"/>
+											</cell>
+										</row>
+										<row>
+											<cell>
+												<combobox id="cmbTelefono" placeholder="Telefono" width="95%"/>
+											</cell>
+											<cell>
+												<combobox id="cmbEmail" placeholder="E-Mail" width="95%"/>
+											</cell>
+											<cell>
+											</cell>
+										</row>
+									</rows>
+								</grid>
+								<grid>
+									<columns>
+										<column width="15%" />
+										<column width="35%" />
+										<column width="10%" />
+										<column width="10%" />
+										<column width="10%" />
+										<column width="10%" />
+										<column width="10%" />
+									</columns>
+									<rows>
+										<row>
+											<cell align="center">
+												<combobox id="cmbIdArticulo" placeholder="ID Articulo" width="95%" />
+											</cell>
+											<cell align="center">
+												<textbox id="txtDescripcion" placeholder="Descripción" disabled="true" width="100%"  />
+											</cell>
+											<cell align="right">
+												<textbox id="txtCantidad" placeholder="Cant." width="95%" sclass="format-number"/>
+											</cell>
+											<cell align="right">
+												<textbox id="txtValorUnitario" placeholder="Vr. Unit" width="95%" sclass="format-number"/>
+											</cell>
+											<cell align="right">
+												<textbox id="txtValorIva" placeholder="IVA%" width="95%" sclass="format-number"/>
+											</cell>
+											<cell align="right">
+												<textbox id="txtValorDescuento" placeholder="Descuento%" width="95%" sclass="format-number"/>
+											</cell>
+											<cell align="center">
+												<textbox id="txtValorTotal" placeholder="Vr. Total" disabled="true" width="95%" sclass="format-number"/>
+											</cell>
+										</row>
+										<row>
+											<cell colspan="7">
+												<listbox id="listaDetalles">
+													<listhead>
+														<listheader width="15%" />
+														<listheader width="40%" />
+														<listheader width="10%" />
+														<listheader width="10%" />
+														<listheader width="10%" />
+														<listheader width="10%" />
+														<listheader width="15%" />
+													</listhead>
+												</listbox>
+											</cell>
+										</row>
+									</rows>
+								</grid>					
+				
+								<grid>
+									<columns>
+										<column width="20%" />
+										<column width="50%" />
+										<column width="10%" />
+										<column width="15%" />
+										<column width="10%" />
+									</columns>
+									<rows>
+										<row>
+											<cell colspan="3" rowspan="4" align="center">
+												<hbox width="200px">
+														
+													<vbox width="300px">
+														<label value="Forma Pago" />
+														<combobox id="cmbFormaPago" placeholder="Forma de Pago" />
+														<label value="Tipo Transaccion" />
+														<combobox id="cmbTipoTransaccion" placeholder="Tipo Transaccion"/>
+													</vbox>
+													<vbox width="150px" align="center"> 
+														<button id="btnGuardar" label="Guardar" width="100px" height="35px"/>
+														<button id="btnLimpiar" label="Limpiar" width="100px" height="35px"/>
+														<button id="btnCerrar" label="Cerrar" width="100px" height="35px"/>
+													</vbox>
+												</hbox>					
+												
+											</cell>
+											<cell>
+												<label value="SUBTOTAL"></label>
+											</cell>
+											<cell align="right">
+												<textbox id="txtSubtotal"  placeholder="Subtotal" disabled="true" width="95%" sclass="format-number"/>
+											</cell>
+										</row>
+										<row>
+											<cell>
+												<label value="IVA"></label>
+											</cell>
+											<cell align="right">
+												<textbox id="txtIVA" placeholder="IVA" width="95%" sclass="format-number"/>
+											</cell>
+										</row>
+										<row>
+											<cell>
+												<label value="DESCUENTO"></label>
+											</cell>
+											<cell align="right">
+												<textbox id="txtDescuento" placeholder="Descuento" width="95%" sclass="format-number"/>
+											</cell>
+										</row>
+										<row>
+											<cell>
+												<label value="GRAN TOTAL"></label>
+											</cell>
+											<cell align="right">
+												<textbox id="txtGranTotal" placeholder="Gran Total" disabled="true" width="95%" sclass="format-number"/>
+											</cell>
+										</row>
+									</rows>
+								</grid>
+							</div>
+						</groupbox>
+					</vbox>
+					<vbox width="20px" />
+						<groupbox id="cajaCredito" mold="3d" closable="false" width="700px" height="400px" visible="false">
+							<caption label="Condiciones de Crédito" />
+							<div>
+								<grid>
+									<columns>
+										<column width="20%" />
+										<column width="35%" />
+										<column width="20%" />
+										<column width="25%" />
+									</columns>
+									<rows>										
+										<row>
+											<cell>
+												<label value="Tipo de Pago" />
+											</cell>
+											<cell>
+												<combobox id="cmbTipoPago" />
+											</cell>
+											<cell>
+												<label value="Medio de Pago" />
+											</cell>
+											<cell>
+												<combobox id="cmbMedioPago">
+													<comboitem value="EFECTIVO" />
+													<comboitem value="CONSIGNACION" />
+													<comboitem value="CHEQUE" />
+													<comboitem value="TARJETA DEBITO" />
+													<comboitem value="TARJETA CREDITO" />
+												</combobox>
+											</cell>
+										</row>
+										<row>
+											<cell>
+												<label value="Estado Cartera"></label>
+											</cell>
+											<cell>
+												<combobox id="cmbEstadoCartera" />
+											</cell>
+											<cell>
+												<label value="Cuota Inicial" />
+											</cell>
+											<cell>
+												<textbox id="txtAbono"></textbox>
+											</cell>
+										</row>
+										<row>
+											<cell colspan="2"/>
+											<cell>
+												<label value="Numero Cuotas" />
+											</cell>
+											<cell>
+												<textbox id="txtNumeroCuotas" />
+											</cell>
+										</row>
+										<row>
+											<cell>
+												<label value="Fecha Vencimiento" />
+											</cell>
+											<cell>
+												<datebox id="dtFechaVencimiento" />
+											</cell>
+											<cell>
+												<label value="Saldo Deuda" />
+											</cell>
+											<cell>
+												<textbox id="txtSaldoDeuda" />
+											</cell>
+										</row>
+										<row>
+											<cell />
+										</row>
+										<row>
+											<cell colspan="4">
+												<hbox>
+													<hbox width="220px">
+														<checkbox id="chkReteFuente" label="ReteFuente" />
+														<textbox id="txtValorReteFuente" width="50%"/>
+													</hbox>
+													<hbox width="220px">
+														<checkbox id="chkReteIva" label="ReteIVA" width="50%"/>
+														<textbox id="txtValorReteIva" width="50%" />
+													</hbox>
+													<hbox width="220px">
+														<checkbox id="chkReteIca" label="ReteICA"/>
+														<textbox id="txtValorReteICA" width="50%" />
+													</hbox>
+												</hbox>
+											</cell>
+										</row>	
+									</rows>
+								</grid>
+							</div>
+						</groupbox>
+						
+						<groupbox id="cajaNaturaleza" mold="3d" closable="false" height="250px" visible="false">
+							<caption label="Naturaleza de la Factura"></caption>
+							<div>
+								<radiogroup id="rgCategoria" />
+								<radiogroup id="rgInventario" />
+								<grid>
+									<columns>
+										<column width="25%" />
+										<column width="15%" />
+										<column width="15%" />
+										<column width="15%" />
+										<column width="40%" />
+<!-- 										<column width="16%" /> -->
+								</columns>
+								<rows>
+									<row>
+										<cell>
+											<label value="Filtro Factura PUC"></label>
+											
+										</cell>
+										<cell colspan="3">
+											<combobox id="cmbFiltroFactura" />
+										</cell>
+									</row>
+									<row>
+										<cell>
+											<label value="¿Agregar al Inventario?"></label>
+										</cell>
+										<cell>
+											<radio id="op1AgregarInventario" label="SI" radiogroup="rgInventario"/>												
+										</cell>
+										<cell>
+											<radio  id="op2AgregarInventario" label="NO" radiogroup="rgInventario"/>
+										</cell>
+									</row>
+									<row>
+										<cell>
+											<label>Seleccione una Categoria</label>
+										</cell>
+										<cell>
+											<radio id="op1Categoria" label="Gasto" radiogroup="rgCategoria" />
+										</cell>
+										<cell>
+											<radio id="op2Categoria" label="Ingreso" radiogroup="rgCategoria" />
+										</cell>
+										<cell>
+											<radio id="op3Categoria" label="Activo" radiogroup="rgCategoria" />
+										</cell>
+									</row>				
+								</rows>
+							</grid>
+						</div>
+					</groupbox>
+				</hbox>
+			</div>		
+		</center>					
+	</borderlayout>
+</zk>

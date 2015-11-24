@@ -17,14 +17,6 @@
             <column name="DSDESCRIPCION" length="100">
                 <comment>descripcion detalle factura</comment>
             </column>
-        </property>        
-<!--         <set name="factDetalleFacturas" table="fact_detalle_factura" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDDETALLE_FACTURA_TIPO"> -->
-<!--                     <comment>tipo detalle de factura</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.FactDetalleFactura" /> -->
-<!--         </set> -->
+        </property>   
     </class>
 </hibernate-mapping>

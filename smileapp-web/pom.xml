@@ -7,6 +7,7 @@
 	<name>smileapp-web</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
+	
 	<properties>
 		<java-version>1.8</java-version>
 		<org.springframework-version>4.2.0.RELEASE</org.springframework-version>
@@ -14,6 +15,7 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 		<org.hibernate.version>4.2.15.Final</org.hibernate.version>
 	</properties>
+	
 	<dependencies>
 		<!-- MySQL -->
 		<dependency>
@@ -250,46 +252,46 @@
 		</dependency>
 		
 		<!-- ZK -->
-<!-- 	 	<dependency> -->
-<!-- 			<groupId>org.zkoss.common</groupId> -->
-<!-- 			<artifactId>zcommon</artifactId> -->
-<!-- 			<version>7.0.3</version> -->
-<!-- 		</dependency>     -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.zkoss.zk</groupId> -->
-<!-- 			<artifactId>zul</artifactId> -->
-<!-- 			<version>7.0.3</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.zkoss.zk</groupId> -->
-<!-- 			<artifactId>zk</artifactId> -->
-<!-- 			<version>7.0.3</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.zkoss.zk</groupId> -->
-<!-- 			<artifactId>zkplus</artifactId> -->
-<!-- 			<version>7.0.3</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.zkoss.zk</groupId> -->
-<!-- 			<artifactId>zhtml</artifactId> -->
-<!-- 			<version>7.0.3</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.zkoss.zk</groupId> -->
-<!-- 			<artifactId>zkbind</artifactId> -->
-<!-- 			<version>7.0.3</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.zkoss.common</groupId> -->
-<!-- 			<artifactId>zel</artifactId> -->
-<!-- 			<version>7.0.3</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.zkoss.common</groupId> -->
-<!-- 			<artifactId>zweb</artifactId> -->
-<!-- 			<version>7.0.3</version> -->
-<!-- 		</dependency> -->
+	 	<dependency>
+			<groupId>org.zkoss.common</groupId>
+			<artifactId>zcommon</artifactId>
+			<version>7.0.3</version>
+		</dependency>    
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zul</artifactId>
+			<version>7.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zk</artifactId>
+			<version>7.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zkplus</artifactId>
+			<version>7.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zhtml</artifactId>
+			<version>7.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zkbind</artifactId>
+			<version>7.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.common</groupId>
+			<artifactId>zel</artifactId>
+			<version>7.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.common</groupId>
+			<artifactId>zweb</artifactId>
+			<version>7.0.3</version>
+		</dependency>
 		
 		<!-- Test -->
 		<dependency>
