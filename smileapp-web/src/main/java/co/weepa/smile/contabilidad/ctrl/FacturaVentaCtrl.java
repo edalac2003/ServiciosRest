@@ -175,7 +175,7 @@ public class FacturaVentaCtrl extends GenericForwardComposer{
 	Listbox listaDetalles;
 	
 	Groupbox cajaCredito;
-	Groupbox cajaNaturaleza;
+//	Groupbox cajaNaturaleza;
 	
 	ProdProducto producto = null;
 	ContTercero tercero = null;
@@ -195,7 +195,7 @@ public class FacturaVentaCtrl extends GenericForwardComposer{
 	List<ContOrganizacionInterna> listaOrganizacion = null;
 	List<FactDetalleFactura> listaDetalleFactura =  new ArrayList<FactDetalleFactura>();
 	List<CartTipoPago> listaTipoPago = null;
-	List<CartFormaPago> listaFormaPago = null;
+//	List<CartFormaPago> listaFormaPago = null;
 	List<CartFormaPago> listaMedioPago = null;
 	List<CartEstado> listaEstadoCartera = null;
 	List<FactFacturaTipo> listaTipoFactura = null;
@@ -342,7 +342,6 @@ public class FacturaVentaCtrl extends GenericForwardComposer{
 		}
 		
 		try {
-			listaFormaPago = carteraNgc.listarFormaPago();
 			listaMedioPago = carteraNgc.listarFormaPago();
 		} catch (ExcepcionesNGC e) {
 			Messagebox.show(e.getMessage());
@@ -361,10 +360,10 @@ public class FacturaVentaCtrl extends GenericForwardComposer{
 			}
 		}
 		
-		if(!listaFormaPago.isEmpty()){
-			for(CartFormaPago formaPago : listaFormaPago){
+		if(!listaMedioPago.isEmpty()){
+			for(CartFormaPago formaPago : listaMedioPago){
 				Comboitem item = new Comboitem(formaPago.getDsnombre());
-				cmbFormaPago.appendChild(item);
+				cmbMedioPago.appendChild(item);
 			}
 		}
 		if (listaTipoPago != null){
@@ -556,7 +555,7 @@ public class FacturaVentaCtrl extends GenericForwardComposer{
 	}
 	
 	public void onSelect$cmbFormaPago(){
-		if(cmbFormaPago.getSelectedIndex() > 0){
+		if(cmbFormaPago.getSelectedIndex() >= 0){
 			if (cmbFormaPago.getText().contains("CREDITO")){
 				cajaCredito.setVisible(true);
 			}else{
@@ -570,16 +569,16 @@ public class FacturaVentaCtrl extends GenericForwardComposer{
 			String mensaje = "";
 			asignarConsecutivo(listaTipoFactura.get(cmbTipoDocumento.getSelectedIndex()));
 			if(cmbTipoDocumento.getText().contains("COMPRA")){
-				cajaNaturaleza.setVisible(true);
+//				cajaNaturaleza.setVisible(true);
 				rwNumeroProveedor.setVisible(true);
 				mensaje="Factura de Compra No.";
 			}else if(cmbTipoDocumento.getText().contains("VENTA")){
-				cajaNaturaleza.setVisible(false);
+//				cajaNaturaleza.setVisible(false);
 				rwNumeroProveedor.setVisible(false);
 				mensaje="Factura de Venta No.";
 			}if(cmbTipoDocumento.getText().contains("COTIZACION")){
 				cajaCredito.setVisible(false);
-				cajaNaturaleza.setVisible(false);
+//				cajaNaturaleza.setVisible(false);
 				rwNumeroProveedor.setVisible(false);
 				mensaje="Cotización No.";
 			}
@@ -609,6 +608,10 @@ public class FacturaVentaCtrl extends GenericForwardComposer{
 			}			
 			
 			if((cmbTipoDocumento.getText().contains("FACTURA") && (cmbTipoDocumento.getText().contains("VENTA")))){
+				CartFormaPago medioPago = null;
+				if(cmbMedioPago.getSelectedIndex() >= 0){
+					medioPago = listaMedioPago.get(cmbMedioPago.getSelectedIndex());
+				}
 				if(cajaCredito.isVisible()){
 //					if((Integer.parseInt(txtValorReteFuente.getValue())>= 0) || (Integer.parseInt(txtValorReteIva.getValue())>= 0) || 
 //							(Integer.parseInt(txtValorReteICA.getValue())>= 0)){
@@ -622,17 +625,17 @@ public class FacturaVentaCtrl extends GenericForwardComposer{
 				/*
 				 * Informacion Adicional en caso que la factura sea a Credito y se genere un movimiento de Cartera.
 				 */
+					
+				
 				if (cmbFormaPago.getText().contains("CREDITO")){
 					ContMoneda moneda = null;
 					CartEstado estadoCartera = null;
-					CartFormaPago formaPago = null;
+					
 					
 					if(cmbEstadoCartera.getSelectedIndex() >=0){
 						estadoCartera = listaEstadoCartera.get(cmbEstadoCartera.getSelectedIndex());
 					}
-					if(cmbMedioPago.getSelectedIndex() >= 0){
-						formaPago = listaMedioPago.get(cmbMedioPago.getSelectedIndex());
-					}				
+								
 					
 					try {
 						moneda = monedaNgc.obtenerMoneda(1);
@@ -655,7 +658,7 @@ public class FacturaVentaCtrl extends GenericForwardComposer{
 						pagoCartera.setFepago(fechaActual);
 						pagoCartera.setNmvalor(BigDecimal.valueOf(Double.parseDouble(txtAbono.getText())));
 						pagoCartera.setDsdetalle("DETALLE DEL PAGO");
-						pagoCartera.setCartFormaPago(formaPago);
+						pagoCartera.setCartFormaPago(medioPago);
 					}
 				}
 				
@@ -667,11 +670,11 @@ public class FacturaVentaCtrl extends GenericForwardComposer{
 				 */
 				try {
 					facturaVentaNgc.guardarFactura(cmbIdCliente.getText(), organizacion.getIdorganizacionInterna(), tipoTransaccion.getIdtransaccionTipo(), 
-							maestroFactura, cmbFormaPago.getSelectedIndex(), cmbMedioPago.getSelectedIndex(), listaDetalleFactura, retenciones, maestroCartera, pagoCartera);
+							maestroFactura, cmbFormaPago.getText(), cmbMedioPago.getSelectedIndex(), listaDetalleFactura, retenciones, maestroCartera, pagoCartera);
 					Messagebox.show("Factura de Venta Guardada Satisfactoriamente");
 				} catch (ExcepcionesNGC e) {
 					Messagebox.show(e.getMensajeUsuario());
-					logger.error("Error : "+e.getMensajeTecnico());
+					logger.error("Error : "+e.getMensajeUsuario());
 				}
 			}else if (cmbTipoDocumento.getText().contains("COTIZACION")){
 				

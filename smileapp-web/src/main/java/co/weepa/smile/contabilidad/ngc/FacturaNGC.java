@@ -18,7 +18,7 @@ public interface FacturaNGC {
 	
 	public List<FactFactura> listarFacturasxFecha(Date fechaInicio, Date fechaFin) throws ExcepcionesNGC;
 	
-	public List<FactFactura> listarFacturasxTipo(FactFacturaTipo tipo) throws ExcepcionesNGC;
+	public List<FactFactura> listarFacturasxTipo(int tipo) throws ExcepcionesNGC;
 	
 	public List<FactFactura> listarFacturasxTercero(ContTercero tercero) throws ExcepcionesNGC;
 }

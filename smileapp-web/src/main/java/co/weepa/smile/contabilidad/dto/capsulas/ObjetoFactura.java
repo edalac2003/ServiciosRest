@@ -2,38 +2,106 @@ package co.weepa.smile.contabilidad.dto.capsulas;
 
 import java.util.List;
 
+import co.weepa.smile.contabilidad.dto.CartCartera;
+import co.weepa.smile.contabilidad.dto.CartPago;
 import co.weepa.smile.contabilidad.dto.FactDetalleFactura;
 import co.weepa.smile.contabilidad.dto.FactFactura;
 
 public class ObjetoFactura {
 
-	FactFactura maestroFactura;
+	int idOrganizacion;
+	int idTipoTransaccion;
+	int idMedioPago;
+	String  idTercero;
+	String formaPago;
+	FactFactura maestroFactura;	
 	List<FactDetalleFactura> listaDetalles;
-
+	Retenciones retenciones;
+	CartCartera maestroCartera;
+	CartPago pagoCartera;
 	
 	public ObjetoFactura() {
 		super();
 	}
 
-	public ObjetoFactura(FactFactura maestroFactura, List<FactDetalleFactura> listaDetalles) {
-		super();
-		this.maestroFactura = maestroFactura;
-		this.listaDetalles = listaDetalles;
+	public int getIdOrganizacion() {
+		return idOrganizacion;
+	}
+
+	public void setIdOrganizacion(int idOrganizacion) {
+		this.idOrganizacion = idOrganizacion;
+	}
+
+	public int getIdTipoTransaccion() {
+		return idTipoTransaccion;
+	}
+
+	public void setIdTipoTransaccion(int idTipoTransaccion) {
+		this.idTipoTransaccion = idTipoTransaccion;
+	}
+
+	public int getIdMedioPago() {
+		return idMedioPago;
+	}
+
+	public void setIdMedioPago(int idMedioPago) {
+		this.idMedioPago = idMedioPago;
+	}
+
+	public String getIdTercero() {
+		return idTercero;
+	}
+
+	public void setIdTercero(String idTercero) {
+		this.idTercero = idTercero;
+	}
+
+	public String getFormaPago() {
+		return formaPago;
+	}
+
+	public void setFormaPago(String formaPago) {
+		this.formaPago = formaPago;
 	}
 
 	public FactFactura getMaestroFactura() {
 		return maestroFactura;
 	}
-	
+
 	public void setMaestroFactura(FactFactura maestroFactura) {
 		this.maestroFactura = maestroFactura;
 	}
-	
+
 	public List<FactDetalleFactura> getListaDetalles() {
 		return listaDetalles;
 	}
-	
+
 	public void setListaDetalles(List<FactDetalleFactura> listaDetalles) {
 		this.listaDetalles = listaDetalles;
 	}
+
+	public Retenciones getRetenciones() {
+		return retenciones;
+	}
+
+	public void setRetenciones(Retenciones retenciones) {
+		this.retenciones = retenciones;
+	}
+
+	public CartCartera getMaestroCartera() {
+		return maestroCartera;
+	}
+
+	public void setMaestroCartera(CartCartera maestroCartera) {
+		this.maestroCartera = maestroCartera;
+	}
+
+	public CartPago getPagoCartera() {
+		return pagoCartera;
+	}
+
+	public void setPagoCartera(CartPago pagoCartera) {
+		this.pagoCartera = pagoCartera;
+	}
+
 }

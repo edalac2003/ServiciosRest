@@ -8,7 +8,7 @@
             <column name="IDTARIFARF" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="defiConceptoRf" class="co.weepa.smile.contabilidad.dto.DefiConceptoRf" fetch="join">
+        <many-to-one name="defiConceptoRf" class="co.weepa.smile.contabilidad.dto.DefiConceptoRf" fetch="select">
             <column name="IDCONCEPTORF" not-null="true">
                 <comment>concepto retencion fuente, ej.SERVICIOS EN GENERAL</comment>
             </column>

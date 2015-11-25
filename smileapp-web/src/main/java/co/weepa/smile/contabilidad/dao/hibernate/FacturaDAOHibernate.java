@@ -41,6 +41,7 @@ public class FacturaDAOHibernate extends HibernateDaoSupport implements FacturaD
 		return registros;
 	}
 
+	
 	@SuppressWarnings("unchecked")
 	public ObjetoFactura obtenerFactura(String numeroFactura) throws ExcepcionesDAO {
 		Session session = null;
@@ -55,7 +56,7 @@ public class FacturaDAOHibernate extends HibernateDaoSupport implements FacturaD
 			if (maestroFactura != null){
 				Criteria criteria2 = session.createCriteria(FactDetalleFactura.class).add(Restrictions.eq("factFactura", maestroFactura));
 				listaDetalles = criteria2.list();
-				factura = new ObjetoFactura(maestroFactura, listaDetalles);
+//				factura = new ObjetoFactura(maestroFactura, listaDetalles);
 			}
 		}catch(HibernateException e){
 			throw new ExcepcionesDAO(e);
@@ -66,6 +67,7 @@ public class FacturaDAOHibernate extends HibernateDaoSupport implements FacturaD
 		return factura;
 	}
 
+	
 	public List<FactFactura> listarTodasFacturas() throws ExcepcionesDAO {
 		
 		return null;
@@ -78,45 +80,28 @@ public class FacturaDAOHibernate extends HibernateDaoSupport implements FacturaD
 	}
 
 	
-	public List<ObjetoFactura> listarFacturasxTipo(FactFacturaTipo tipo) throws ExcepcionesDAO {
+	public List<FactFactura> listarFacturasxTipo(FactFacturaTipo tipo) throws ExcepcionesDAO {
 		/**
 		 * Se hace este metodo de forma "coquito" para no perder el enfoque; lo mas optimo sería hacer una consultas con subconsultas anidadas o en su
 		 * defecto proceder a realizar una consulta usando INNER JOIN.
 		 */
 		Session session = null;
-		List<ObjetoFactura> listaFacturas = null;
-		ObjetoFactura factura = null;
-//		ObjetoFactura factura = null;
+		List<FactFactura> listaFacturas = null;
 		
 		try{
 			session = getSession();
-			Criteria criteria1 = session.createCriteria(FactFactura.class).add(Restrictions.eq("factFacturaTipo", tipo));
-			/*
-			 * Inicialmente se identifican los Maestros de Factura que coinciden con el criterio de busqueda.
-			 */
-			@SuppressWarnings("unchecked")
-			List<FactFactura> listaMaestroFacturas = criteria1.list();
-			listaFacturas = new ArrayList<ObjetoFactura>();
-			if (listaMaestroFacturas != null){
-				/*
-				 * Si se encuentran registros, se procede a recorrer el Listado con los maestros hallados.
-				 */
-				for(FactFactura maestroFactura : listaMaestroFacturas){
-					Criteria criteria2 = session.createCriteria(FactDetalleFactura.class).add(Restrictions.eq("factFactura", maestroFactura));
-					/*
-					 * Se buscan los detalles de factura por cada maestroFactura hallado.
-					 */
-					@SuppressWarnings("unchecked")
-					List<FactDetalleFactura> listaDetallesMaestro = criteria2.list();
-					factura = new ObjetoFactura(maestroFactura, listaDetallesMaestro);
-				}
-				listaFacturas.add(factura);
-			}			
+			Criteria criteria = session.createCriteria(FactFactura.class).add(Restrictions.eq("factFacturaTipo", tipo));
+			listaFacturas = criteria.list();
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO(e);
-		}finally {
+			ExcepcionesDAO expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron errores al Momento de intentar Obtener el Listado de Factura por Tipo");
+			expDao.setOrigen(e);
+			throw expDao;
+		}finally{
 			session.close();
-		}		
+		}
+		
 		
 		return listaFacturas;
 	}

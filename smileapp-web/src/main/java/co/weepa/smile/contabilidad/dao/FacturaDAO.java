@@ -19,7 +19,7 @@ public interface FacturaDAO {
 	
 	public List<FactFactura> listarFacturasxFecha(Date fechaInicio, Date fechaFin) throws ExcepcionesDAO;
 	
-	public List<ObjetoFactura> listarFacturasxTipo(FactFacturaTipo tipo) throws ExcepcionesDAO;
+	public List<FactFactura> listarFacturasxTipo(FactFacturaTipo tipo) throws ExcepcionesDAO;
 	
 	public List<FactFactura> listarFacturasxTercero(ContTercero tercero) throws ExcepcionesDAO;
 	

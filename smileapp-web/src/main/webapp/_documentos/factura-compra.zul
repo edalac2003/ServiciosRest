@@ -169,7 +169,10 @@
 														
 													<vbox width="300px">
 														<label value="Forma Pago" />
-														<combobox id="cmbFormaPago" placeholder="Forma de Pago" />
+														<combobox id="cmbFormaPago" placeholder="Forma de Pago">
+															<comboitem label="CONTADO" />
+															<comboitem label="CREDITO" />
+														</combobox>
 														<label value="Tipo Transaccion" />
 														<combobox id="cmbTipoTransaccion" placeholder="Tipo Transaccion"/>
 													</vbox>
@@ -218,7 +221,8 @@
 						</groupbox>
 					</vbox>
 					<vbox width="20px" />
-						<groupbox id="cajaCredito" mold="3d" closable="false" width="500px" height="600px" visible="false">
+					<vbox>
+						<groupbox id="cajaCredito" mold="3d" closable="false" width="700px" height="280px">
 							<caption label="Condiciones de Crédito" />
 							<div>
 								<grid>
@@ -240,13 +244,7 @@
 												<label value="Medio de Pago" />
 											</cell>
 											<cell>
-												<combobox id="cmbMedioPago">
-													<comboitem value="EFECTIVO" />
-													<comboitem value="CONSIGNACION" />
-													<comboitem value="CHEQUE" />
-													<comboitem value="TARJETA DEBITO" />
-													<comboitem value="TARJETA CREDITO" />
-												</combobox>
+												<combobox id="cmbMedioPago" />
 											</cell>
 										</row>
 										<row>
@@ -311,8 +309,8 @@
 								</grid>
 							</div>
 						</groupbox>
-						
-						<groupbox id="cajaNaturaleza" mold="3d" closable="false" height="250px" visible="false">
+						 
+						<groupbox id="cajaNaturaleza" mold="3d" closable="false" height="250px" width="700px">
 							<caption label="Naturaleza de la Factura"></caption>
 							<div>
 								<radiogroup id="rgCategoria" />
@@ -327,15 +325,15 @@
 <!-- 										<column width="16%" /> -->
 								</columns>
 								<rows>
-									<row>
-										<cell>
-											<label value="Filtro Factura PUC"></label>
+<!-- 									<row> -->
+<!-- 										<cell> -->
+<!-- 											<label value="Filtro Factura PUC"></label> -->
 											
-										</cell>
-										<cell colspan="3">
-											<combobox id="cmbFiltroFactura" />
-										</cell>
-									</row>
+<!-- 										</cell> -->
+<!-- 										<cell colspan="3"> -->
+<!-- 											<combobox id="cmbFiltroFactura" /> -->
+<!-- 										</cell> -->
+<!-- 									</row> -->
 									<row>
 										<cell>
 											<label value="¿Agregar al Inventario?"></label>
@@ -365,6 +363,7 @@
 							</grid>
 						</div>
 					</groupbox>
+				</vbox>
 				</hbox>
 			</div>		
 		</center>					

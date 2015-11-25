@@ -209,7 +209,7 @@ public class FacturaCompraCtrl extends GenericForwardComposer{
 	List<ContOrganizacionInterna> listaOrganizacion = null;
 	List<FactDetalleFactura> listaDetalleFactura =  new ArrayList<FactDetalleFactura>();
 	List<CartTipoPago> listaTipoPago = null;
-	List<CartFormaPago> listaFormaPago = null;
+//	List<CartFormaPago> listaFormaPago = null;
 	List<CartFormaPago> listaMedioPago = null;
 	List<CartEstado> listaEstadoCartera = null;
 	List<FactFacturaTipo> listaTipoFactura = null;
@@ -357,12 +357,11 @@ public class FacturaCompraCtrl extends GenericForwardComposer{
 		}
 		
 		try {
-			listaFormaPago = carteraNgc.listarFormaPago();
 			listaMedioPago = carteraNgc.listarFormaPago();
 		} catch (ExcepcionesNGC e) {
 			Messagebox.show(e.getMessage());
 		}
-		
+				
 		try {
 			listaTipoPago = carteraNgc.listarTipoPago();			
 		} catch (ExcepcionesNGC e) {
@@ -376,12 +375,13 @@ public class FacturaCompraCtrl extends GenericForwardComposer{
 			}
 		}
 		
-		if(!listaFormaPago.isEmpty()){
-			for(CartFormaPago formaPago : listaFormaPago){
+		if(!listaMedioPago.isEmpty()){
+			for(CartFormaPago formaPago : listaMedioPago){
 				Comboitem item = new Comboitem(formaPago.getDsnombre());
-				cmbFormaPago.appendChild(item);
+				cmbMedioPago.appendChild(item);
 			}
 		}
+		
 		if (listaTipoPago != null){
 			for(CartTipoPago tipoPago : listaTipoPago){
 				Comboitem item = new Comboitem(tipoPago.getDsnombre());
@@ -424,7 +424,7 @@ public class FacturaCompraCtrl extends GenericForwardComposer{
 		Listcell celdaValorIVA = new Listcell(txtValorIva.getText());
 		Listcell celdaValorDescuento = new Listcell(txtValorDescuento.getText());
 		Listcell celdaRetencion = new Listcell(txtValorRetencion.getText());
-		Listcell celdaCuentaPUC = new Listcell(cmbFiltroPUC.getText());
+		Listcell celdaCuentaPUC = new Listcell(((!cmbFiltroPUC.getText().isEmpty())?cmbFiltroPUC.getText():""));
 		Listcell celdaValorTotal = new Listcell(txtValorTotal.getText());
 		
 		double descuento = 0.0;
@@ -560,9 +560,7 @@ public class FacturaCompraCtrl extends GenericForwardComposer{
 	}
 	
 	public void onOK$cmbFiltroPUC() {
-		if (!cmbFiltroPUC.getText().isEmpty()){
-			ingresarArticuloFactura();
-		}
+		ingresarArticuloFactura();
 	}
 	
 	
@@ -640,7 +638,12 @@ public class FacturaCompraCtrl extends GenericForwardComposer{
 				listaDetalleFactura.get(i).setFactFactura(maestroFactura);
 			}			
 			
-			if((cmbTipoDocumento.getText().contains("FACTURA") && (cmbTipoDocumento.getText().contains("VENTA")))){
+			
+			if((cmbTipoDocumento.getText().contains("FACTURA") && (cmbTipoDocumento.getText().contains("COMPRA")))){
+				CartFormaPago medioPago = null;
+				if(cmbMedioPago.getSelectedIndex() >= 0){
+					medioPago = listaMedioPago.get(cmbMedioPago.getSelectedIndex());
+				}
 				if(cajaCredito.isVisible()){
 //					if((Integer.parseInt(txtValorReteFuente.getValue())>= 0) || (Integer.parseInt(txtValorReteIva.getValue())>= 0) || 
 //							(Integer.parseInt(txtValorReteICA.getValue())>= 0)){
@@ -657,15 +660,13 @@ public class FacturaCompraCtrl extends GenericForwardComposer{
 				if (cmbFormaPago.getText().contains("CREDITO")){
 					ContMoneda moneda = null;
 					CartEstado estadoCartera = null;
-					CartFormaPago formaPago = null;
+					
 					
 					if(cmbEstadoCartera.getSelectedIndex() >=0){
 						estadoCartera = listaEstadoCartera.get(cmbEstadoCartera.getSelectedIndex());
 					}
-					if(cmbMedioPago.getSelectedIndex() >= 0){
-						formaPago = listaMedioPago.get(cmbMedioPago.getSelectedIndex());
-					}				
-					
+//								
+//					
 					try {
 						moneda = monedaNgc.obtenerMoneda(1);
 					} catch (ExcepcionesNGC e) {
@@ -687,7 +688,7 @@ public class FacturaCompraCtrl extends GenericForwardComposer{
 						pagoCartera.setFepago(fechaActual);
 						pagoCartera.setNmvalor(BigDecimal.valueOf(Double.parseDouble(txtAbono.getText())));
 						pagoCartera.setDsdetalle("DETALLE DEL PAGO");
-						pagoCartera.setCartFormaPago(formaPago);
+						pagoCartera.setCartFormaPago(medioPago);
 					}
 				}
 				
@@ -695,30 +696,6 @@ public class FacturaCompraCtrl extends GenericForwardComposer{
 			
 			}
 			
-//			if(cmbTipoDocumento.getText().contains("FACTURA DE VENTA")){
-//				/*
-//				 * Una vez comprobados los datos requeridos, se procede a guardar la factura.
-//				 */
-//				try {
-//					facturaVentaNgc.guardarFactura(cmbIdCliente.getText(), organizacion.getIdorganizacionInterna(), tipoTransaccion.getIdtransaccionTipo(), 
-//							maestroFactura, cmbFormaPago.getSelectedIndex(), cmbMedioPago.getSelectedIndex(), listaDetalleFactura, retenciones, maestroCartera, pagoCartera);
-//					Messagebox.show("Factura de Venta Guardada Satisfactoriamente");
-//				} catch (ExcepcionesNGC e) {
-//					Messagebox.show(e.getMensajeUsuario());
-//					logger.error("Error : "+e.getMensajeTecnico());
-//				}
-//			}else if (cmbTipoDocumento.getText().contains("COTIZACION")){
-//				
-//				try {
-//					facturaVentaNgc.guardarCotizacion(cmbIdArticulo.getText(), 1, maestroFactura, listaDetalleFactura);
-//					Messagebox.show("Cotizacion Guardada Satisfactoriamente");
-//				} catch (ExcepcionesNGC e) {
-//					Messagebox.show(e.getMensajeUsuario());
-//				}
-//			}else if (cmbTipoDocumento.getText().contains("COMPRA")){
-//				
-//			}
-				
 			try {
 				facturaVentaNgc.guardarFacturaCompra(cmbIdCliente.getText(), organizacion.getIdorganizacionInterna(), tipoTransaccion.getIdtransaccionTipo(), 
 						maestroFactura, cmbFormaPago.getSelectedIndex(), cmbMedioPago.getSelectedIndex(), listaDetalleFactura, retenciones, maestroCartera, pagoCartera);

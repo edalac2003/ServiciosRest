@@ -162,7 +162,10 @@
 														
 													<vbox width="300px">
 														<label value="Forma Pago" />
-														<combobox id="cmbFormaPago" placeholder="Forma de Pago" />
+														<combobox id="cmbFormaPago" placeholder="Forma de Pago" >
+															<comboitem label="CONTADO" />
+															<comboitem label="CREDITO" />
+														</combobox>
 														<label value="Tipo Transaccion" />
 														<combobox id="cmbTipoTransaccion" placeholder="Tipo Transaccion"/>
 													</vbox>
@@ -211,7 +214,7 @@
 						</groupbox>
 					</vbox>
 					<vbox width="20px" />
-						<groupbox id="cajaCredito" mold="3d" closable="false" width="700px" height="400px" visible="false">
+						<groupbox id="cajaCredito" mold="3d" closable="false" width="700px" height="400px">
 							<caption label="Condiciones de Crédito" />
 							<div>
 								<grid>
@@ -233,13 +236,7 @@
 												<label value="Medio de Pago" />
 											</cell>
 											<cell>
-												<combobox id="cmbMedioPago">
-													<comboitem value="EFECTIVO" />
-													<comboitem value="CONSIGNACION" />
-													<comboitem value="CHEQUE" />
-													<comboitem value="TARJETA DEBITO" />
-													<comboitem value="TARJETA CREDITO" />
-												</combobox>
+												<combobox id="cmbMedioPago" />
 											</cell>
 										</row>
 										<row>
@@ -305,59 +302,59 @@
 							</div>
 						</groupbox>
 						
-						<groupbox id="cajaNaturaleza" mold="3d" closable="false" height="250px" visible="false">
-							<caption label="Naturaleza de la Factura"></caption>
-							<div>
-								<radiogroup id="rgCategoria" />
-								<radiogroup id="rgInventario" />
-								<grid>
-									<columns>
-										<column width="25%" />
-										<column width="15%" />
-										<column width="15%" />
-										<column width="15%" />
-										<column width="40%" />
+<!-- 						<groupbox id="cajaNaturaleza" mold="3d" closable="false" height="250px" visible="false"> -->
+<!-- 							<caption label="Naturaleza de la Factura"></caption> -->
+<!-- 							<div> -->
+<!-- 								<radiogroup id="rgCategoria" /> -->
+<!-- 								<radiogroup id="rgInventario" /> -->
+<!-- 								<grid> -->
+<!-- 									<columns> -->
+<!-- 										<column width="25%" /> -->
+<!-- 										<column width="15%" /> -->
+<!-- 										<column width="15%" /> -->
+<!-- 										<column width="15%" /> -->
+<!-- 										<column width="40%" /> -->
 <!-- 										<column width="16%" /> -->
-								</columns>
-								<rows>
-									<row>
-										<cell>
-											<label value="Filtro Factura PUC"></label>
+<!-- 								</columns> -->
+<!-- 								<rows> -->
+<!-- 									<row> -->
+<!-- 										<cell> -->
+<!-- 											<label value="Filtro Factura PUC"></label> -->
 											
-										</cell>
-										<cell colspan="3">
-											<combobox id="cmbFiltroFactura" />
-										</cell>
-									</row>
-									<row>
-										<cell>
-											<label value="¿Agregar al Inventario?"></label>
-										</cell>
-										<cell>
-											<radio id="op1AgregarInventario" label="SI" radiogroup="rgInventario"/>												
-										</cell>
-										<cell>
-											<radio  id="op2AgregarInventario" label="NO" radiogroup="rgInventario"/>
-										</cell>
-									</row>
-									<row>
-										<cell>
-											<label>Seleccione una Categoria</label>
-										</cell>
-										<cell>
-											<radio id="op1Categoria" label="Gasto" radiogroup="rgCategoria" />
-										</cell>
-										<cell>
-											<radio id="op2Categoria" label="Ingreso" radiogroup="rgCategoria" />
-										</cell>
-										<cell>
-											<radio id="op3Categoria" label="Activo" radiogroup="rgCategoria" />
-										</cell>
-									</row>				
-								</rows>
-							</grid>
-						</div>
-					</groupbox>
+<!-- 										</cell> -->
+<!-- 										<cell colspan="3"> -->
+<!-- 											<combobox id="cmbFiltroFactura" /> -->
+<!-- 										</cell> -->
+<!-- 									</row> -->
+<!-- 									<row> -->
+<!-- 										<cell> -->
+<!-- 											<label value="¿Agregar al Inventario?"></label> -->
+<!-- 										</cell> -->
+<!-- 										<cell> -->
+<!-- 											<radio id="op1AgregarInventario" label="SI" radiogroup="rgInventario"/>												 -->
+<!-- 										</cell> -->
+<!-- 										<cell> -->
+<!-- 											<radio  id="op2AgregarInventario" label="NO" radiogroup="rgInventario"/> -->
+<!-- 										</cell> -->
+<!-- 									</row> -->
+<!-- 									<row> -->
+<!-- 										<cell> -->
+<!-- 											<label>Seleccione una Categoria</label> -->
+<!-- 										</cell> -->
+<!-- 										<cell> -->
+<!-- 											<radio id="op1Categoria" label="Gasto" radiogroup="rgCategoria" /> -->
+<!-- 										</cell> -->
+<!-- 										<cell> -->
+<!-- 											<radio id="op2Categoria" label="Ingreso" radiogroup="rgCategoria" /> -->
+<!-- 										</cell> -->
+<!-- 										<cell> -->
+<!-- 											<radio id="op3Categoria" label="Activo" radiogroup="rgCategoria" /> -->
+<!-- 										</cell> -->
+<!-- 									</row>				 -->
+<!-- 								</rows> -->
+<!-- 							</grid> -->
+<!-- 						</div> -->
+<!-- 					</groupbox> -->
 				</hbox>
 			</div>		
 		</center>					

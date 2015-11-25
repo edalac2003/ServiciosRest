@@ -8,15 +8,21 @@ import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.FactFactura;
 import co.weepa.smile.contabilidad.dto.FactFacturaTipo;
 import co.weepa.smile.contabilidad.ngc.FacturaNGC;
+import co.weepa.smile.contabilidad.ngc.FacturaTipoNGC;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
 
 public class FacturaNGCImpl implements FacturaNGC {
 
 	FacturaDAO facturaDao;
+	FacturaTipoNGC facturaTipoNgc;
 		
 	public void setFacturaDao(FacturaDAO facturaDao) {
 		this.facturaDao = facturaDao;
+	}
+
+	public void setFacturaTipoNgc(FacturaTipoNGC facturaTipoNgc) {
+		this.facturaTipoNgc = facturaTipoNgc;
 	}
 
 
@@ -68,9 +74,22 @@ public class FacturaNGCImpl implements FacturaNGC {
 	}
 
 	
-	public List<FactFactura> listarFacturasxTipo(FactFacturaTipo tipo) throws ExcepcionesNGC {
+	public List<FactFactura> listarFacturasxTipo(int tipo) throws ExcepcionesNGC {
+		List<FactFactura> listaFacturas = null;
+		FactFacturaTipo tipoFactura = null;		
+				
+		try {
+			tipoFactura = facturaTipoNgc.obtenerTipoFactura(tipo);
+			listaFacturas = facturaDao.listarFacturasxTipo(tipoFactura);
+		} catch (ExcepcionesDAO e) {
+			ExcepcionesNGC expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeTecnico(e.getMensajeTecnico());
+			expNgc.setMensajeUsuario(e.getMensajeUsuario());
+			expNgc.setOrigen(e.getOrigen());
+			throw expNgc;
+		}
 		
-		return null;
+		return listaFacturas;
 	}
 
 	

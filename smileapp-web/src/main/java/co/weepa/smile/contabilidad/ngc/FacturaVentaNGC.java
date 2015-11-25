@@ -11,7 +11,7 @@ import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
 
 public interface FacturaVentaNGC {
 
-	public void guardarFactura(String idTercero, int idOrganizacion, int idTipoTransaccion, FactFactura maestroFactura, int formaPago, int medioPago,
+	public void guardarFactura(String idTercero, int idOrganizacion, int idTipoTransaccion, FactFactura maestroFactura, String formaPago, int medioPago,
 			List<FactDetalleFactura> listaDetalles, Retenciones retenciones, CartCartera maestroCartera, CartPago pagoCartera) throws ExcepcionesNGC;	
 	
 	public void guardarCotizacion(String idTercero, int idOrganizacion, FactFactura maestroFactura, List<FactDetalleFactura> listaDetalles) throws ExcepcionesNGC;

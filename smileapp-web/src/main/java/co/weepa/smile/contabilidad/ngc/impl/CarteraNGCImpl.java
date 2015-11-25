@@ -45,10 +45,16 @@ public class CarteraNGCImpl implements CarteraNGC {
 			try {
 				formaPago = carteraDao.obtenerFormaPago(idFormaPago);
 			} catch (ExcepcionesDAO e) {
-				throw new ExcepcionesNGC(e);
+				ExcepcionesNGC expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeTecnico(e.getMensajeTecnico());
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());
+				throw expNgc;
 			}
 		}else{
-			throw new ExcepcionesNGC("No es posible realizar la Busqueda. Digite un ID de Forma de Pago válido.");
+			ExcepcionesNGC expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario("No es posible realizar la Busqueda. Digite un ID de Forma de Pago valido.");
+			throw expNgc;
 		}
 		return formaPago;
 	}

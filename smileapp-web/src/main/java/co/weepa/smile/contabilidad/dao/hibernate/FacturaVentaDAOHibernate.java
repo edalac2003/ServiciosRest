@@ -99,9 +99,9 @@ public class FacturaVentaDAOHibernate extends HibernateDaoSupport implements Fac
 			if (pagoCartera != null)
 				session.save(pagoCartera);
 			
-			ExcepcionesDAO expDao = new ExcepcionesDAO();
-			expDao.setMensajeUsuario("Llego hasta El Dao para Guardar, pero aun no guardar..... JEJEJEJEJEJJE");
-//			tx.commit();
+//			ExcepcionesDAO expDao = new ExcepcionesDAO();
+//			expDao.setMensajeUsuario("Llego hasta El Dao para Guardar, pero aun no guardar..... JEJEJEJEJEJJE");
+			tx.commit();
 		}catch(HibernateException e){
 			tx.rollback();
 			expDao.setMensajeTecnico(e.getMessage());

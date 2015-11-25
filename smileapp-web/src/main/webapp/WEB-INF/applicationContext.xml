@@ -226,6 +226,7 @@
 
         <bean id="facturaNgc" class="co.weepa.smile.contabilidad.ngc.impl.FacturaNGCImpl" scope="singleton">
         	<property name="facturaDao" ref="facturaDao" />
+        	<property name="facturaTipoNgc" ref="facturaTipoNgc" />
         </bean>
         
         <!-- SE CREAN LOS BEANS PARA LOS SERVICIOS Y/O CONTROLADORES-->
