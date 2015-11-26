@@ -134,10 +134,6 @@
         	<property name="sessionFactory" ref="sessionFactory" />
         </bean>
 
-        <bean id="transaccionTipoDao" class="co.weepa.smile.contabilidad.dao.hibernate.TransaccionTipoDAOHibernate" scope="singleton">
-        	<property name="sessionFactory" ref="sessionFactory" />
-        </bean>
-
         <bean id="facturaTipoDao" class="co.weepa.smile.contabilidad.dao.hibernate.FacturaTipoDAOHibernate" scope="singleton">
         	<property name="sessionFactory" ref="sessionFactory" />
         </bean>
@@ -158,6 +154,10 @@
         	<property name="sessionFactory" ref="sessionFactory" />
         </bean>
         
+        <bean id="transaccionDao" class="co.weepa.smile.contabilidad.dao.hibernate.TransaccionDAOHibernate">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+        
         <!-- SE CREAN LOS BEANS CORRESPONDIENTES A LOS NGC's -->
         
         <bean id="facturaVentaNgc" class="co.weepa.smile.contabilidad.ngc.impl.FacturaVentaNGCImpl">
@@ -169,7 +169,7 @@
         	<property name="monedaNgc" ref="monedaNgc" />
         	<property name="centroCostoNgc" ref="centroCostoNgc" />
         	<property name="carteraNgc" ref="carteraNgc" />
-        	<property name="transaccionTipoNgc" ref="transaccionTipoNgc" />
+        	<property name="transaccionNgc" ref="transaccionNgc" />
         </bean>
         
         <bean id="normaTipoNgc" class="co.weepa.smile.contabilidad.ngc.impl.NormaTipoNGCImpl">
@@ -204,8 +204,8 @@
         	<property name="transaccionAccionDao" ref="transaccionAccionDao" />
         </bean>
 
-        <bean id="transaccionTipoNgc" class="co.weepa.smile.contabilidad.ngc.impl.TransaccionTipoNgcImpl">
-        	<property name="transaccionTipoDao" ref="transaccionTipoDao" />
+        <bean id="transaccionTipoNgc" class="co.weepa.smile.contabilidad.ngc.impl.TransaccionNGCImpl">
+        	<property name="transaccionDao" ref="transaccionDao" />
         </bean>
 
         <bean id="facturaTipoNgc" class="co.weepa.smile.contabilidad.ngc.impl.FacturaTipoNGCImpl">
@@ -229,12 +229,19 @@
         	<property name="facturaTipoNgc" ref="facturaTipoNgc" />
         </bean>
         
+        <bean id="transaccionNgc" class="co.weepa.smile.contabilidad.ngc.impl.TransaccionNGCImpl">
+        	<property name="transaccionDao" ref="transaccionDao" />
+        </bean>
+        
+        
+        
         <!-- SE CREAN LOS BEANS PARA LOS SERVICIOS Y/O CONTROLADORES-->
+        
         <bean id="facturaVentaCtrl" class="co.weepa.smile.contabilidad.ctrl.FacturaVentaCtrl" scope="singleton">
         	<property name="facturaVentaNgc" ref="facturaVentaNgc" />
         	<property name="terceroNgc" ref="terceroNgc" />
         	<property name="productoNgc" ref="productoNgc" />
-        	<property name="transaccionTipoNgc" ref="transaccionTipoNgc" />
+        	<property name="transaccionNgc" ref="transaccionNgc" />
         	<property name="organizacionInternaNgc" ref="organizacionInternaNgc" />
         	<property name="facturaTipoNgc" ref="facturaTipoNgc" />
         	<property name="facturaNgc" ref="facturaNgc" />
@@ -246,7 +253,7 @@
         	<property name="facturaVentaNgc" ref="facturaVentaNgc" />
         	<property name="terceroNgc" ref="terceroNgc" />
         	<property name="productoNgc" ref="productoNgc" />
-        	<property name="transaccionTipoNgc" ref="transaccionTipoNgc" />
+        	<property name="transaccionNgc" ref="transaccionNgc" />
         	<property name="organizacionInternaNgc" ref="organizacionInternaNgc" />
         	<property name="facturaTipoNgc" ref="facturaTipoNgc" />
         	<property name="facturaNgc" ref="facturaNgc" />
@@ -254,5 +261,9 @@
         	<property name="carteraNgc" ref="carteraNgc" />
         	<property name="planCuentaNgc" ref="planCuentaNgc"></property>
         </bean>
-               
+        
+        <bean id="transaccionCtrl" class="co.weepa.smile.contabilidad.ctrl.TransaccionCtrl">
+        	<property name="transaccionNgc" ref="transaccionNgc" />
+        	<property name="terceroNgc" ref="terceroNgc" />        
+        </bean>
 </beans>

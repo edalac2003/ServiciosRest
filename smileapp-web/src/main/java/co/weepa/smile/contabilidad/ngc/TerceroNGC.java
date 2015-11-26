@@ -6,6 +6,7 @@ import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.ContTipoTercero;
 import co.weepa.smile.contabilidad.dto.TercOrganizacion;
 import co.weepa.smile.contabilidad.dto.TercPersona;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudores;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
 
@@ -36,4 +37,6 @@ public interface TerceroNGC {
 	public List<TercOrganizacion> listarOrganizaciones() throws ExcepcionesNGC;
 	
 	public List<TercPersona> listarVendedores() throws ExcepcionesNGC;
+	
+	public List<ObjetoDeudores> listarDeudores() throws ExcepcionesNGC;
 }

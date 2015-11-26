@@ -8,7 +8,7 @@
             <column name="IDTERCERO_ROL" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="join">
+        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="select">
             <column name="IDTERCERO" precision="15" scale="0" not-null="true">
                 <comment>identificacion del tercero</comment>
             </column>

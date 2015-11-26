@@ -15,11 +15,14 @@ import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.ContTipoTercero;
 import co.weepa.smile.contabilidad.dto.TercOrganizacion;
 import co.weepa.smile.contabilidad.dto.TercPersona;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudores;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 
 public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroDAO {
 
 	final static Logger logger = Logger.getLogger(TerceroDAOHibernate.class);
+	ExcepcionesDAO expDao = null;
+	
 	
 	public void guardarTercero(ContTercero tercero) throws ExcepcionesDAO {
 		Session session = null;
@@ -94,7 +97,11 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 					.add(Restrictions.eq("contTipoTercero", tipoTercero));
 			tercero = (ContTercero) criteria.uniqueResult();
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO("Se presentaron errores al intentar consultar registro de Tercero. Error : "+e.toString());
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico("Errores al intentar consultar registro de Terceros. DAO : "+e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron errores al intentar consultar registro de Tercero.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}
@@ -113,7 +120,11 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 			Criteria criteria = session.createCriteria(ContTercero.class);
 			listaTercero = criteria.list();
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO();
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico("Errores al Listar Todos los Terceros. DAO : "+e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron problemas al intentar Listar Todos los Terceros.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}
@@ -132,7 +143,11 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 			Criteria criteria = session.createCriteria(ContTercero.class).add(Restrictions.eq("contTipoTercero", tipoTercero));
 			listaTercero = criteria.list();
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO();
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico("Errores al obtener listado de Terceros por Tipo. DAO : "+e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron problemas al obtener listado de Terceros por Tipo.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}
@@ -156,7 +171,11 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 			Criteria criteria = session.createCriteria(TercPersona.class).add(Restrictions.eq("idpersona", idPersona));
 			persona = (TercPersona)criteria.uniqueResult();
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO(e);
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico("Errores al obtener Persona Natural. DAO : "+e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron problemas al obtener Registro de Persona Natural.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}
@@ -174,7 +193,11 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 			Criteria criteria = session.createCriteria(TercOrganizacion.class).add(Restrictions.eq("idorganizacion", idOrganizacion));
 			organizacion = (TercOrganizacion)criteria.uniqueResult();
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO(e);
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico("Errores al obtener Persona Juridica. DAO : "+e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron problemas al obtener Registro de Persona Juridica.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}
@@ -193,7 +216,11 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 			Criteria criteria = session.createCriteria(TercPersona.class);
 			lista = criteria.list();
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO(e);
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico("Errores al Listar Personas Naturales. DAO : "+e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron problemas al obtener listado de Personas Naturales.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}
@@ -212,7 +239,11 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 			Criteria criteria = session.createCriteria(TercOrganizacion.class);
 			lista = criteria.list();
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO(e);
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico("Errores al Listar Organizaciones. DAO : "+e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron problemas al obtener listado de Organizaciones.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}
@@ -234,8 +265,8 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 			lista = query.list();
 			
 		}catch(HibernateException e){
-			ExcepcionesDAO expDao = new ExcepcionesDAO();
-			expDao.setMensajeTecnico("Errores al Listar Empleados. DAO : "+e.getMessage());
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico("Errores al Listar Vendedores. DAO : "+e.getMessage());
 			expDao.setMensajeUsuario("Se presentaron problemas al obtener listado de Vendedores.");
 			expDao.setOrigen(e);
 			throw expDao;
@@ -245,5 +276,32 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 		
 		return lista;
 	}
+
+
+	@Override
+	public List<ObjetoDeudores> listarDeudores() throws ExcepcionesDAO {
+		List<ObjetoDeudores> listaDeudores = null;
+		Session session = null;
+		String sql = "SELECT cont_tercero FROM cont_tercero INNER JOIN cart_cartera ON (cont_tercero.IDTERCERO = cart_cartera.IDTERCERO);";
+		
+		try{
+			session = getSession();
+			Query query = session.createSQLQuery(sql);
+			listaDeudores = query.list();
+			
+		}catch(HibernateException e){
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico("Errores al Listar Deudores. DAO : "+e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron problemas al obtener listado de Deudores.");
+			expDao.setOrigen(e);
+			throw expDao;
+		}finally{
+			session.close();
+		}
+		
+		return listaDeudores;
+	}
+	
+	
 	
 }

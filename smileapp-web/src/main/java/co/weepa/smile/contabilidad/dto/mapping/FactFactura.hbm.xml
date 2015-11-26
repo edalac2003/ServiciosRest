@@ -13,7 +13,7 @@
                 <comment>codigo organizacion asociada a la factura</comment>
             </column>
         </many-to-one>
-        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="join">
+        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="select">
             <column name="IDTERCERO" precision="15" scale="0">
                 <comment>Identificacion de tercero asociado a la factura</comment>
             </column>

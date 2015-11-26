@@ -1,0 +1,98 @@
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page title="Comprobantes" contentType="text/html;charset=UTF-8"?>
+
+<zk>
+<window title="new page title" border="normal" width="1550px" apply="${transaccionCtrl}">
+	<borderlayout height="500px">
+		<center border="none">
+			<div>
+				<hbox>
+					<label value="Tipo de Comprobante" />
+					<combobox id="cmbTipoComprobante" width="130px"/>
+				</hbox>
+				<hbox height="70px" width="400px" align="center" >
+					<div>
+						<label value="Fecha" />
+						<datebox id="dtFechaActual" width="150px"/>
+					</div>
+					<div align="right">
+						<label value="Comprobante No." />
+						<textbox id="txtNumeroComprobante" width="100px"/>
+					</div>
+				</hbox>
+				
+				<hbox>				
+					<groupbox mold="3d" width="500px" height="400px">						
+						<hbox height="30px">
+							<label value="Proveedor/Cliente"></label>
+							<combobox id="cmbIdTercero" />
+						</hbox>
+						<hbox>
+							<listbox id="listaDeudores" autopaging="true">
+								<listhead>
+									<listheader label="Nit/CC" align="center" valign="middle" width="25%"/>
+									<listheader label="Nombre" align="center" valign="middle" width="50%"/>
+									<listheader label="Saldo" align="center" valign="middle" width="25%"/>
+								</listhead>
+							</listbox>
+						</hbox>
+					</groupbox>
+			
+					<groupbox mold="3d" width="500px" height="400px">
+						<div align="center">
+							<vbox width="300px">
+								<hbox height="40px">
+									<div>
+										<label value="SALDO A PAGAR"></label>
+									</div>
+									<div width="150px" align="right">
+										<label id="lblSaldoTotal" value="00.000.000"></label>
+									</div>									
+								</hbox>
+																
+								<hbox height="40px">
+									<label value="Medio de Pago" />
+									<combobox id="cmbMedioPago" width="150px" />
+								</hbox>
+								<hbox height="40px">
+									<label value="Monto a Pagar" />
+									<textbox id="txtValorPago" width="80px" />
+								</hbox>
+								<hbox height="40px">
+									<textbox id="txtDetalles" placeholder="Detalles" multiline="true" height="120px" width="300px"/>
+								</hbox>
+															
+							</vbox>
+							<hbox align="center" height="120px">
+								<div align="center" width="100%">
+									<button id="btnGuardar" height="40px" width="100px" label="Guardar"/>
+								</div>									
+							</hbox>	
+						</div>						
+					</groupbox>
+		
+					<groupbox mold="3d" width="500px" height="400px">
+						<div>
+							<hbox height="40px">
+								<label value="Buscar" />
+								<combobox id="cmbBuscarFactura"></combobox>
+							</hbox>
+							<hbox>							
+								<listbox id="listaFacturas" autopaging="true">
+									<listhead>
+										<listheader label="Tercero" align="center" valign="middle" />
+										<listheader label="Factura" align="center" valign="middle" />
+										<listheader label="Fecha" align="center" valign="middle" />
+										<listheader label="Saldo" align="center" valign="middle" />
+										<listheader label="Canc/Abono" align="center" valign="middle" />
+									</listhead>
+								</listbox>
+							</hbox>
+						</div>
+					</groupbox>					
+				</hbox>
+			</div>		
+		</center>
+	</borderlayout>
+</window>
+</zk>

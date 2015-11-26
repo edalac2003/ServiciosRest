@@ -7,27 +7,37 @@ import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.ContTipoTercero;
 import co.weepa.smile.contabilidad.dto.TercOrganizacion;
 import co.weepa.smile.contabilidad.dto.TercPersona;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudores;
 import co.weepa.smile.contabilidad.ngc.TerceroNGC;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
 
 public class TerceroNGCImpl implements TerceroNGC {
 
+	ExcepcionesNGC expNgc = null;
+	
 	TerceroDAO terceroDao;
 
 	public void setTerceroDao(TerceroDAO terceroDao) {
 		this.terceroDao = terceroDao;
 	}
 
+	
 	public void guardarTercero(ContTercero tercero) throws ExcepcionesNGC {
 		if(tercero != null){
 			try {
 				terceroDao.guardarTercero(tercero);
 			} catch (ExcepcionesDAO e) {
-				throw new ExcepcionesNGC(e);
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setMensajeTecnico(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());			
+				throw expNgc;
 			}
 		}else{
-			throw new ExcepcionesNGC("No se realizaron cambios debido a que no existen registros para Guardar.");
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario("No se realizaron cambios debido a que no existen registros para Guardar.");	
+			throw expNgc;
 		}
 	}
 
@@ -36,10 +46,16 @@ public class TerceroNGCImpl implements TerceroNGC {
 			try {
 				terceroDao.modificarTercero(tercero);
 			} catch (ExcepcionesDAO e) {
-				throw new ExcepcionesNGC(e);
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setMensajeTecnico(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());			
+				throw expNgc;
 			}
 		}else{
-			throw new ExcepcionesNGC("No se realizaron cambios debido a que no existen registros para Actualizar.");
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario("No se realizaron cambios debido a que no existen registros para Actualizar.");		
+			throw expNgc;
 		}
 	}
 
@@ -50,11 +66,11 @@ public class TerceroNGCImpl implements TerceroNGC {
 			try {
 				tercero = terceroDao.obtenerTercero(Long.valueOf(idTercero));
 			} catch (ExcepcionesDAO e) {
-				ExcepcionesNGC expNgc = new ExcepcionesNGC();
-				expNgc.setMensajeTecnico(e.getMensajeTecnico());
+				expNgc = new ExcepcionesNGC();
 				expNgc.setMensajeUsuario(e.getMensajeUsuario());
-				expNgc.setOrigen(e.getOrigen());
-				throw new ExcepcionesNGC(e);
+				expNgc.setMensajeTecnico(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());			
+				throw expNgc;
 			}
 		}else {
 			ExcepcionesNGC expNgc = new ExcepcionesNGC();
@@ -76,7 +92,9 @@ public class TerceroNGCImpl implements TerceroNGC {
 //				throw new ExcepcionesNGC(e);
 //			}
 		}else {
-			throw new ExcepcionesNGC("No es posible realizar la consulta. Ingrese un criterio de busqueda válido.");
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario("No es posible realizar la consulta. Ingrese un criterio de busqueda valido.");		
+			throw expNgc;
 		}
 
 		return tercero;
@@ -88,7 +106,11 @@ public class TerceroNGCImpl implements TerceroNGC {
 		try {
 			listaTerceros = terceroDao.listarTodos();
 		} catch (ExcepcionesDAO e) {
-			throw new ExcepcionesNGC(e);
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario(e.getMensajeUsuario());
+			expNgc.setMensajeTecnico(e.getMensajeUsuario());
+			expNgc.setOrigen(e.getOrigen());			
+			throw expNgc;
 		}
 		
 		return listaTerceros;
@@ -101,7 +123,11 @@ public class TerceroNGCImpl implements TerceroNGC {
 			try {
 				listaTerceros = terceroDao.listarTodos();
 			} catch (ExcepcionesDAO e) {
-				throw new ExcepcionesNGC(e);
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setMensajeTecnico(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());			
+				throw expNgc;
 			}
 		}else{
 			throw new ExcepcionesNGC("No es posible realizar la consulta. Ingrese un criterio de busqueda válido.");
@@ -148,7 +174,7 @@ public class TerceroNGCImpl implements TerceroNGC {
 		try {
 			listaPersona = terceroDao.listarVendedores();
 		} catch (ExcepcionesDAO e) {
-			ExcepcionesNGC expNgc = new ExcepcionesNGC();
+			expNgc = new ExcepcionesNGC();
 			expNgc.setMensajeUsuario(e.getMensajeUsuario());
 			expNgc.setMensajeTecnico(e.getMensajeUsuario());
 			expNgc.setOrigen(e.getOrigen());			
@@ -158,6 +184,22 @@ public class TerceroNGCImpl implements TerceroNGC {
 		return listaPersona;
 	}
 
+	@Override
+	public List<ObjetoDeudores> listarDeudores() throws ExcepcionesNGC {
+		List<ObjetoDeudores> listaDeudores = null;
+		
+		try {
+			listaDeudores = terceroDao.listarDeudores();
+		} catch (ExcepcionesDAO e) {
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario(e.getMensajeUsuario());
+			expNgc.setMensajeTecnico(e.getMensajeUsuario());
+			expNgc.setOrigen(e.getOrigen());			
+			throw expNgc;
+		}		
+		return listaDeudores;
+	}
 
+	
 	
 }

@@ -32,7 +32,7 @@ import co.weepa.smile.contabilidad.ngc.OrganizacionInternaNGC;
 import co.weepa.smile.contabilidad.ngc.PlanCuentaNGC;
 import co.weepa.smile.contabilidad.ngc.TerceroNGC;
 import co.weepa.smile.contabilidad.ngc.TransaccionAccionNGC;
-import co.weepa.smile.contabilidad.ngc.TransaccionTipoNGC;
+import co.weepa.smile.contabilidad.ngc.TransaccionNGC;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
 
@@ -67,7 +67,7 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 	
 	TerceroNGC terceroNgc;
 	OrganizacionInternaNGC organizacionNgc;
-	TransaccionTipoNGC transaccionTipoNgc;
+	TransaccionNGC transaccionNgc;
 	FacturaVentaDAO facturaVentaDao;
 	TransaccionAccionNGC transaccionAccionNgc;
 	PlanCuentaNGC planCuentaNgc;
@@ -103,8 +103,8 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 		this.organizacionNgc = organizacionNgc;
 	}
 
-	public void setTransaccionTipoNgc(TransaccionTipoNGC transaccionTipoNgc) {
-		this.transaccionTipoNgc = transaccionTipoNgc;
+	public void setTransaccionNgc(TransaccionNGC transaccionNgc) {
+		this.transaccionNgc = transaccionNgc;
 	}
 
 	public void setCarteraNgc(CarteraNGC carteraNgc) {
@@ -121,7 +121,7 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 		
 		tercero = terceroNgc.obtenerTercero(idTercero);
 		organizacion = organizacionNgc.obtenerOrganizacion(idOrganizacion);
-		tipoTransaccion = transaccionTipoNgc.obtenerTipoTransaccion(idTipoTransaccion);
+		tipoTransaccion = transaccionNgc.obtenerTipoTransaccion(idTipoTransaccion);
 		
 		
 		if((organizacion != null) && (tercero != null) && (tipoTransaccion != null) && (maestroFactura != null) && (!listaDetalles.isEmpty())){					
@@ -453,7 +453,7 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 		
 		tercero = terceroNgc.obtenerTercero(idTercero);
 		organizacion = organizacionNgc.obtenerOrganizacion(idOrganizacion);
-		tipoTransaccion = transaccionTipoNgc.obtenerTipoTransaccion(idTipoTransaccion);
+		tipoTransaccion = transaccionNgc.obtenerTipoTransaccion(idTipoTransaccion);
 		
 		if((organizacion != null) && (tercero != null) && (tipoTransaccion != null) && (maestroFactura != null) && (!listaDetalles.isEmpty())){					
 						

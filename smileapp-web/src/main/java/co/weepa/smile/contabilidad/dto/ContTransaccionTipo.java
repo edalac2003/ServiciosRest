@@ -13,8 +13,7 @@ public class ContTransaccionTipo implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer idtransaccionTipo;
 	private String dsdescripcionTransaccionTipo;
-//	private Set contTransaccionContables = new HashSet(0);
-//	private Set defiTransaccionAccions = new HashSet(0);
+	private String dsprefijo;
 
 	public ContTransaccionTipo() {
 	}
@@ -25,6 +24,12 @@ public class ContTransaccionTipo implements java.io.Serializable {
 		this.dsdescripcionTransaccionTipo = dsdescripcionTransaccionTipo;
 	}
 
+	public ContTransaccionTipo(Integer idtransaccionTipo, String dsdescripcionTransaccionTipo, String dsprefijo) {
+		super();
+		this.idtransaccionTipo = idtransaccionTipo;
+		this.dsdescripcionTransaccionTipo = dsdescripcionTransaccionTipo;
+		this.dsprefijo = dsprefijo;
+	}
 
 	public Integer getIdtransaccionTipo() {
 		return this.idtransaccionTipo;
@@ -41,4 +46,12 @@ public class ContTransaccionTipo implements java.io.Serializable {
 	public void setDsdescripcionTransaccionTipo(String dsdescripcionTransaccionTipo) {
 		this.dsdescripcionTransaccionTipo = dsdescripcionTransaccionTipo;
 	}
+
+	public String getDsprefijo() {
+		return dsprefijo;
+	}
+
+	public void setDsprefijo(String dsprefijo) {
+		this.dsprefijo = dsprefijo;
+	}	
 }

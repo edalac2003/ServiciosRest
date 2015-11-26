@@ -55,7 +55,7 @@ import co.weepa.smile.contabilidad.ngc.OrganizacionInternaNGC;
 import co.weepa.smile.contabilidad.ngc.PlanCuentaNGC;
 import co.weepa.smile.contabilidad.ngc.ProductoNGC;
 import co.weepa.smile.contabilidad.ngc.TerceroNGC;
-import co.weepa.smile.contabilidad.ngc.TransaccionTipoNGC;
+import co.weepa.smile.contabilidad.ngc.TransaccionNGC;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
 
 @SuppressWarnings("rawtypes")
@@ -71,7 +71,7 @@ public class FacturaCompraCtrl extends GenericForwardComposer{
 	TerceroNGC terceroNgc;
 	ProductoNGC productoNgc;
 	FacturaVentaNGC facturaVentaNgc;
-	TransaccionTipoNGC transaccionTipoNgc;
+	TransaccionNGC transaccionNgc;
 	OrganizacionInternaNGC organizacionInternaNgc;
 	FacturaTipoNGC facturaTipoNgc;
 	CarteraNGC carteraNgc;
@@ -92,8 +92,8 @@ public class FacturaCompraCtrl extends GenericForwardComposer{
 		this.facturaVentaNgc = facturaVentaNgc;
 	}
 
-	public void setTransaccionTipoNgc(TransaccionTipoNGC transaccionTipoNgc) {
-		this.transaccionTipoNgc = transaccionTipoNgc;
+	public void setTransaccionNgc(TransaccionNGC transaccionNgc) {
+		this.transaccionNgc = transaccionNgc;
 	}
 
 	public void setOrganizacionInternaNgc(OrganizacionInternaNGC organizacionInternaNgc) {
@@ -281,7 +281,7 @@ public class FacturaCompraCtrl extends GenericForwardComposer{
 		 * Se carga el listado de Tipo Transaccion para seleccionar cual se va a ejecutar.
 		 */
 		try {
-			listaTipoTransaccion = transaccionTipoNgc.listarTipoTransacciones();
+			listaTipoTransaccion = transaccionNgc.listarTipoTransacciones();
 		} catch (ExcepcionesNGC e) {
 			Messagebox.show(e.getMessage());
 		}

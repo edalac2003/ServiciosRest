@@ -14,6 +14,7 @@ public class ContTransaccionContable implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private Integer idtransaccion;
 	private ContMoneda contMoneda;
 	private ContOrganizacionInterna contOrganizacionInterna;
@@ -24,7 +25,7 @@ public class ContTransaccionContable implements java.io.Serializable {
 	private BigDecimal nmvalorMoneda;
 	private String dsdescripcionTransaccion;
 	private String dsnumeroDocumento;
-//	private Set contDetalleTransaccions = new HashSet(0);
+	private String dsnumeroTransaccion;
 
 	public ContTransaccionContable() {
 	}
@@ -131,4 +132,14 @@ public class ContTransaccionContable implements java.io.Serializable {
 	public void setDsnumeroDocumento(String dsnumeroDocumento) {
 		this.dsnumeroDocumento = dsnumeroDocumento;
 	}
+
+	public String getDsnumeroTransaccion() {
+		return dsnumeroTransaccion;
+	}
+
+	public void setDsnumeroTransaccion(String dsnumeroTransaccion) {
+		this.dsnumeroTransaccion = dsnumeroTransaccion;
+	}
+	
+	
 }

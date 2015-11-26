@@ -28,14 +28,9 @@ public class ProductoService {
 	
 	@Transactional
 	@RequestMapping(value="/listarProductos", method=RequestMethod.GET, produces="application/JSON")
-	public @ResponseBody Producto listarProductos() throws Exception{
-		Producto producto = null;
+	public @ResponseBody List<ProdProducto> listarProductos() throws Exception{
 		
-		List<ProdProducto> lista = productoNgc.listarProductos();
-		producto = new Producto();
-		producto.setListaProductos(lista);
-				
-		return producto;		
+		return productoNgc.listarProductos();		
 	}
 	
 	@Transactional
