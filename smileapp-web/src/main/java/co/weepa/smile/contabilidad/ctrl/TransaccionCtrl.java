@@ -17,6 +17,7 @@ import org.zkoss.zul.Textbox;
 
 import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.ContTransaccionTipo;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudor;
 import co.weepa.smile.contabilidad.ngc.TerceroNGC;
 import co.weepa.smile.contabilidad.ngc.TransaccionNGC;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
@@ -61,10 +62,19 @@ public class TransaccionCtrl extends GenericForwardComposer {
 	
 	List<ContTransaccionTipo> listaTipoTransaccion = null;
 	List<ContTercero> listadoDeudores = null;
+	List<ObjetoDeudor> deudores = null;
 	
 	
 	private void cargarDeudores(){
+		try {
+			deudores = terceroNgc.listarDeudores();
+		} catch (ExcepcionesNGC e) {
+			Messagebox.show(e.getMensajeUsuario());
+		}
 		
+		if(deudores != null){
+			System.out.println(deudores);
+		}
 	}
 	
 	private void cargarTipoTransacciones(){

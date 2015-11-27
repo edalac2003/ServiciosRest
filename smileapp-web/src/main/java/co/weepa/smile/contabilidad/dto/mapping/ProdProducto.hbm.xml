@@ -8,17 +8,17 @@
             <column name="IDPRODUCTO" length="50" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="prodColor" class="co.weepa.smile.contabilidad.dto.ProdColor" fetch="join">
+        <many-to-one name="prodColor" class="co.weepa.smile.contabilidad.dto.ProdColor" fetch="join" lazy="false">
             <column name="IDCOLOR">
                 <comment>id color</comment>
             </column>
         </many-to-one>
-        <many-to-one name="prodProductoTipo" class="co.weepa.smile.contabilidad.dto.ProdProductoTipo" fetch="join">
+        <many-to-one name="prodProductoTipo" class="co.weepa.smile.contabilidad.dto.ProdProductoTipo" fetch="join" lazy="false">
             <column name="IDPRODUCTO_TIPO">
                 <comment>codigo tipo producto, ej camisa, zapatos, hardware, insumo</comment>
             </column>
         </many-to-one>
-        <many-to-one name="prodTalla" class="co.weepa.smile.contabilidad.dto.ProdTalla" fetch="join">
+        <many-to-one name="prodTalla" class="co.weepa.smile.contabilidad.dto.ProdTalla" fetch="join" lazy="false">
             <column name="IDTALLA">
                 <comment>id talla</comment>
             </column>

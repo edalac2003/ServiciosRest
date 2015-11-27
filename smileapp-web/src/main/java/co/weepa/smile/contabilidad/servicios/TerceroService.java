@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.weepa.smile.contabilidad.dto.ContTercero;
+import co.weepa.smile.contabilidad.dto.TercOrganizacion;
 import co.weepa.smile.contabilidad.dto.TercPersona;
-import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudores;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudor;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoFactura;
 import co.weepa.smile.contabilidad.ngc.TerceroNGC;
 
@@ -49,8 +50,25 @@ public class TerceroService {
 	
 	@Transactional
 	@RequestMapping(value="/listarDeudores", method=RequestMethod.GET)
-	public @ResponseBody List<ObjetoDeudores> listarDeudores() throws Exception{
+	public @ResponseBody List<ObjetoDeudor> listarDeudores() throws Exception{
 		
 		return terceroNgc.listarDeudores();
+	}
+	
+	
+	@Transactional
+	@RequestMapping(value="/listarPersonasJuridicas", method=RequestMethod.GET)
+	public @ResponseBody List<TercOrganizacion> listarPersonasJuridicas()throws Exception{
+		return terceroNgc.listarOrganizaciones();
+	}
+	
+	@Transactional
+	@RequestMapping(value="/obtenerPersonaJuridica", method=RequestMethod.GET)
+	public @ResponseBody TercOrganizacion obtenerPersonaJuridica(@RequestParam(value="id") int idOrganizacion)throws Exception{
+		if(idOrganizacion >0){
+			return terceroNgc.obtenerPersonaJuridica(idOrganizacion);
+		}
+		
+		return null;
 	}
 }

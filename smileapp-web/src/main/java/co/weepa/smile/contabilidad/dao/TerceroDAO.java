@@ -6,7 +6,7 @@ import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.ContTipoTercero;
 import co.weepa.smile.contabilidad.dto.TercOrganizacion;
 import co.weepa.smile.contabilidad.dto.TercPersona;
-import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudores;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudor;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 
 public interface TerceroDAO {
@@ -29,7 +29,11 @@ public interface TerceroDAO {
 	
 	public TercPersona obtenerPersonaNatural(int idPersona) throws ExcepcionesDAO;
 	
+	public TercPersona obtenerPersonaNatural(ContTercero tercero) throws ExcepcionesDAO;
+	
 	public TercOrganizacion obtenerPersonaJuridica(int idOrganizacion) throws ExcepcionesDAO;
+	
+	public TercOrganizacion obtenerPersonaJuridica(ContTercero tercero) throws ExcepcionesDAO;
 	
 	public List<TercPersona> listarPersonasNaturales() throws ExcepcionesDAO;
 	
@@ -37,6 +41,6 @@ public interface TerceroDAO {
 	
 	public List<TercPersona> listarVendedores() throws ExcepcionesDAO;
 	
-	public List<ObjetoDeudores> listarDeudores() throws ExcepcionesDAO;
+	public List<ObjetoDeudor> listarDeudores() throws ExcepcionesDAO;
 	
 }

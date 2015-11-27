@@ -24,14 +24,6 @@ public class ContTercero implements java.io.Serializable {
 	private String dstelefono;
 	private String dscelular;
 	private String dscorreoElectronico;
-//	private Set tercTerceroRols = new HashSet(0);
-//	private Set contTransaccionContables = new HashSet(0);
-//	private Set tercDireccions = new HashSet(0);
-//	private Set factFacturas = new HashSet(0);
-//	private Set tercPersonas = new HashSet(0);
-//	private Set tercTerceroClasificacions = new HashSet(0);
-//	private Set cartCarteras = new HashSet(0);
-//	private Set tercOrganizacions = new HashSet(0);
 
 	public ContTercero() {
 	}

@@ -1,50 +1,50 @@
 package co.weepa.smile.contabilidad.dto.capsulas;
 
+import java.util.List;
+
+import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.FactDetalleFactura;
 import co.weepa.smile.contabilidad.dto.FactFactura;
+import co.weepa.smile.contabilidad.dto.TercOrganizacion;
 
 public class ObjetoCotizacion {
 	
-	int idOrganizacion;
-	int idTipoTransaccion;
-	int idMedioPago;
-	String  idTercero;
+	TercOrganizacion terceroJuridico;
 	FactFactura maestroCotizacion;
-	FactDetalleFactura detalleCotizacion;
-	public int getIdOrganizacion() {
-		return idOrganizacion;
+	List<FactDetalleFactura> detalleCotizacion;
+	int cantidadItem;
+	
+		
+	public TercOrganizacion getTerceroJuridico() {
+		return terceroJuridico;
 	}
-	public void setIdOrganizacion(int idOrganizacion) {
-		this.idOrganizacion = idOrganizacion;
+
+	public void setTerceroJuridico(TercOrganizacion terceroJuridico) {
+		this.terceroJuridico = terceroJuridico;
 	}
-	public int getIdTipoTransaccion() {
-		return idTipoTransaccion;
-	}
-	public void setIdTipoTransaccion(int idTipoTransaccion) {
-		this.idTipoTransaccion = idTipoTransaccion;
-	}
-	public int getIdMedioPago() {
-		return idMedioPago;
-	}
-	public void setIdMedioPago(int idMedioPago) {
-		this.idMedioPago = idMedioPago;
-	}
-	public String getIdTercero() {
-		return idTercero;
-	}
-	public void setIdTercero(String idTercero) {
-		this.idTercero = idTercero;
-	}
+
 	public FactFactura getMaestroCotizacion() {
 		return maestroCotizacion;
 	}
+	
 	public void setMaestroCotizacion(FactFactura maestroCotizacion) {
 		this.maestroCotizacion = maestroCotizacion;
 	}
-	public FactDetalleFactura getDetalleCotizacion() {
+	
+	public List<FactDetalleFactura> getDetalleCotizacion() {
 		return detalleCotizacion;
 	}
-	public void setDetalleCotizacion(FactDetalleFactura detalleCotizacion) {
+	
+	public void setDetalleCotizacion(List<FactDetalleFactura> detalleCotizacion) {
 		this.detalleCotizacion = detalleCotizacion;
-	}	
+	}
+
+	public int getCantidadItem() {
+		return cantidadItem;
+	}
+
+	public void setCantidadItem(int cantidadItem) {
+		this.cantidadItem = cantidadItem;
+	}
+	
 }

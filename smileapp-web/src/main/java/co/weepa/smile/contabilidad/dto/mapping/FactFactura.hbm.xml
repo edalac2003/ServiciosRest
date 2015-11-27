@@ -8,17 +8,17 @@
             <column name="IDCONSECUTIVO_FACTURA" />
             <generator class="increment" />
         </id>
-        <many-to-one name="contOrganizacionInterna" class="co.weepa.smile.contabilidad.dto.ContOrganizacionInterna" fetch="join">
+        <many-to-one name="contOrganizacionInterna" class="co.weepa.smile.contabilidad.dto.ContOrganizacionInterna" fetch="join" lazy="false">
             <column name="IDORGANIZACION" precision="15" scale="0">
                 <comment>codigo organizacion asociada a la factura</comment>
             </column>
         </many-to-one>
-        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="select">
+        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="join" lazy="false">
             <column name="IDTERCERO" precision="15" scale="0">
                 <comment>Identificacion de tercero asociado a la factura</comment>
             </column>
         </many-to-one>
-        <many-to-one name="factFacturaTipo" class="co.weepa.smile.contabilidad.dto.FactFacturaTipo" fetch="join">
+        <many-to-one name="factFacturaTipo" class="co.weepa.smile.contabilidad.dto.FactFacturaTipo" fetch="join" lazy="false">
             <column name="IDFACTURA_TIPO">
                 <comment>codigo tipo factura</comment>
             </column>

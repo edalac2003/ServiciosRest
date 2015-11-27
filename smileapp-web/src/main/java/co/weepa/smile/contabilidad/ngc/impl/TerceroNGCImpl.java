@@ -7,7 +7,7 @@ import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.ContTipoTercero;
 import co.weepa.smile.contabilidad.dto.TercOrganizacion;
 import co.weepa.smile.contabilidad.dto.TercPersona;
-import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudores;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudor;
 import co.weepa.smile.contabilidad.ngc.TerceroNGC;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
@@ -149,8 +149,20 @@ public class TerceroNGCImpl implements TerceroNGC {
 
 	@Override
 	public TercOrganizacion obtenerPersonaJuridica(int idOrganizacion) throws ExcepcionesNGC {
+		TercOrganizacion organizacion = null;
 		
-		return null;
+		if(idOrganizacion > 0){
+			try {
+				organizacion = terceroDao.obtenerPersonaJuridica(idOrganizacion);
+			} catch (ExcepcionesDAO e) {
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setMensajeTecnico(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());			
+				throw expNgc;
+			}
+		}
+		return organizacion;
 	}
 
 	
@@ -163,10 +175,22 @@ public class TerceroNGCImpl implements TerceroNGC {
 
 	@Override
 	public List<TercOrganizacion> listarOrganizaciones() throws ExcepcionesNGC {
+		List<TercOrganizacion> listaOrganizaciones = null;
 		
-		return null;
+		try {
+			listaOrganizaciones = terceroDao.listarOrganizaciones();
+		} catch (ExcepcionesDAO e) {
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario(e.getMensajeUsuario());
+			expNgc.setMensajeTecnico(e.getMensajeUsuario());
+			expNgc.setOrigen(e.getOrigen());			
+			throw expNgc;
+		}
+		
+		return listaOrganizaciones;
 	}
 
+	
 	@Override
 	public List<TercPersona> listarVendedores() throws ExcepcionesNGC {
 		List<TercPersona> listaPersona = null;
@@ -185,8 +209,8 @@ public class TerceroNGCImpl implements TerceroNGC {
 	}
 
 	@Override
-	public List<ObjetoDeudores> listarDeudores() throws ExcepcionesNGC {
-		List<ObjetoDeudores> listaDeudores = null;
+	public List<ObjetoDeudor> listarDeudores() throws ExcepcionesNGC {
+		List<ObjetoDeudor> listaDeudores = null;
 		
 		try {
 			listaDeudores = terceroDao.listarDeudores();

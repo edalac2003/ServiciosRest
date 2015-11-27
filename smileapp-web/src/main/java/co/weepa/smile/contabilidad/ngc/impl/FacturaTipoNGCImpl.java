@@ -23,7 +23,7 @@ public class FacturaTipoNGCImpl implements FacturaTipoNGC {
 		FactFacturaTipo tipoFactura = null;
 		if (idTipoFactura >= 1){
 			try {
-				tipoFactura = facturaTipoDao.obtenerTipoFactura(1);
+				tipoFactura = facturaTipoDao.obtenerTipoFactura(idTipoFactura);
 			} catch (ExcepcionesDAO e) {
 				expNgc = new ExcepcionesNGC();
 				expNgc.setMensajeTecnico(e.getMensajeTecnico());

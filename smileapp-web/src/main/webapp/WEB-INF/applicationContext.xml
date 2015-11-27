@@ -114,7 +114,7 @@
         	<property name="sessionFactory" ref="sessionFactory" />
         </bean>
 
-        <bean id="CiudadDao" class="co.weepa.smile.contabilidad.dao.hibernate.CiudadDAOHibernate" scope="singleton">
+        <bean id="ciudadDao" class="co.weepa.smile.contabilidad.dao.hibernate.CiudadDAOHibernate" scope="singleton">
         	<property name="sessionFactory" ref="sessionFactory" />
         </bean>
 
@@ -224,9 +224,10 @@
         	<property name="carteraDao" ref="carteraDao" />
         </bean>
 
-        <bean id="facturaNgc" class="co.weepa.smile.contabilidad.ngc.impl.FacturaNGCImpl" scope="singleton">
+        <bean id="facturaNgc" class="co.weepa.smile.contabilidad.ngc.impl.FacturaNGCImpl">
         	<property name="facturaDao" ref="facturaDao" />
         	<property name="facturaTipoNgc" ref="facturaTipoNgc" />
+        	<property name="terceroNgc" ref="terceroNgc" />
         </bean>
         
         <bean id="transaccionNgc" class="co.weepa.smile.contabilidad.ngc.impl.TransaccionNGCImpl">

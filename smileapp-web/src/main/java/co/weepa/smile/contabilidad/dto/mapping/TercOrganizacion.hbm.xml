@@ -8,7 +8,7 @@
             <column name="IDORGANIZACION" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="select">
+        <many-to-one name="contTercero" class="co.weepa.smile.contabilidad.dto.ContTercero" fetch="join">
             <column name="IDTERCERO" precision="15" scale="0" not-null="true">
                 <comment>Codigo unico interno para tercero</comment>
             </column>

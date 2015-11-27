@@ -8,17 +8,17 @@
             <column name="IDDETALLE_FACTURA" />
             <generator class="increment" />
         </id>
-        <many-to-one name="factDetalleFacturaTipo" class="co.weepa.smile.contabilidad.dto.FactDetalleFacturaTipo" fetch="select">
+        <many-to-one name="factDetalleFacturaTipo" class="co.weepa.smile.contabilidad.dto.FactDetalleFacturaTipo" fetch="join" lazy="false">
             <column name="IDDETALLE_FACTURA_TIPO">
                 <comment>tipo detalle de factura</comment>
             </column>
         </many-to-one>
-        <many-to-one name="factFactura" class="co.weepa.smile.contabilidad.dto.FactFactura" fetch="join">
+        <many-to-one name="factFactura" class="co.weepa.smile.contabilidad.dto.FactFactura" fetch="join" lazy="false">
             <column name="IDFACTURA">
                 <comment>codigo factura</comment>
             </column>
         </many-to-one>
-        <many-to-one name="prodProducto" class="co.weepa.smile.contabilidad.dto.ProdProducto" fetch="join">
+        <many-to-one name="prodProducto" class="co.weepa.smile.contabilidad.dto.ProdProducto" fetch="join" lazy="false">
             <column name="IDPRODUCTO" length="50">
                 <comment>codigo producto</comment>
             </column>

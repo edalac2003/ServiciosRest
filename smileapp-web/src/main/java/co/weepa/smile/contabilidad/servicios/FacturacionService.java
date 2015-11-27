@@ -11,13 +11,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.weepa.smile.contabilidad.dto.FactDetalleFactura;
 import co.weepa.smile.contabilidad.dto.FactFactura;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoCotizacion;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoFactura;
 import co.weepa.smile.contabilidad.ngc.FacturaNGC;
 
 @RestController
 @RequestMapping("/factura")
-public class FacturaVentaService {
+public class FacturacionService {
 	
 	@Autowired
 	FacturaNGC facturaNgc;
@@ -31,9 +33,16 @@ public class FacturaVentaService {
 	
 	@Transactional
 	@RequestMapping(value="/listarCotizaciones", method=RequestMethod.GET)
-	public @ResponseBody List<FactFactura> listarCotizaciones(@RequestParam(value="id")int idTipo) throws Exception{
-		if (idTipo > 0){
-			return facturaNgc.listarFacturasxTipo(idTipo);
+	public @ResponseBody List<ObjetoCotizacion> listarCotizaciones() throws Exception{
+		return facturaNgc.listarCotizaciones();
+	}
+	
+	
+	@Transactional
+	@RequestMapping(value="/listarDetallesDocumento", method=RequestMethod.GET)
+	public @ResponseBody List<FactDetalleFactura> listarDetallesDocumento(@RequestParam(value="id") String idCotizacion) throws Exception{
+		if(!idCotizacion.isEmpty()){
+			return facturaNgc.listarDetalles(idCotizacion);
 		}
 		return null;
 	}

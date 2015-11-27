@@ -1,5 +1,7 @@
 package co.weepa.smile.contabilidad.dao.hibernate;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -11,11 +13,12 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import co.weepa.smile.contabilidad.dao.TerceroDAO;
+import co.weepa.smile.contabilidad.dto.CartCartera;
 import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.ContTipoTercero;
 import co.weepa.smile.contabilidad.dto.TercOrganizacion;
 import co.weepa.smile.contabilidad.dto.TercPersona;
-import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudores;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudor;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 
 public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroDAO {
@@ -178,8 +181,29 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 			throw expDao;
 		}finally{
 			session.close();
-		}
+		}		
+		return persona;
+	}
+
+
+	@Override
+	public TercPersona obtenerPersonaNatural(ContTercero tercero) throws ExcepcionesDAO {
+		Session session = null;
+		TercPersona persona = null;
 		
+		try{
+			session=getSession();
+			Criteria criteria = session.createCriteria(TercPersona.class).add(Restrictions.eq("contTercero", tercero));
+			persona = (TercPersona)criteria.uniqueResult();
+		}catch(HibernateException e){
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico("Errores al obtener Persona Natural. DAO : "+e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron problemas al obtener Registro de Persona Natural.");
+			expDao.setOrigen(e);
+			throw expDao;
+		}finally{
+			session.close();
+		}		
 		return persona;
 	}
 
@@ -202,6 +226,27 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 			session.close();
 		}
 		
+		return organizacion;
+	}
+
+	@Override
+	public TercOrganizacion obtenerPersonaJuridica(ContTercero tercero) throws ExcepcionesDAO {
+		Session session = null;
+		TercOrganizacion organizacion = null;
+		
+		try{
+			session=getSession();
+			Criteria criteria = session.createCriteria(TercOrganizacion.class).add(Restrictions.eq("contTercero", tercero));
+			organizacion = (TercOrganizacion)criteria.uniqueResult();
+		}catch(HibernateException e){
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico("Errores al obtener Persona Juridica. DAO : "+e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron problemas al obtener Registro de Persona Juridica.");
+			expDao.setOrigen(e);
+			throw expDao;
+		}finally{
+			session.close();
+		}		
 		return organizacion;
 	}
 
@@ -279,15 +324,18 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 
 
 	@Override
-	public List<ObjetoDeudores> listarDeudores() throws ExcepcionesDAO {
-		List<ObjetoDeudores> listaDeudores = null;
+	public List<ObjetoDeudor> listarDeudores() throws ExcepcionesDAO {
+		List<ObjetoDeudor> listaDeudores = null;
+		List<BigDecimal> listaTercero = null;
+		ObjetoDeudor deudor = null;
+		
 		Session session = null;
-		String sql = "SELECT cont_tercero FROM cont_tercero INNER JOIN cart_cartera ON (cont_tercero.IDTERCERO = cart_cartera.IDTERCERO);";
+		String sqlDeudores = "SELECT DISTINCT cont_tercero.idtercero FROM cont_tercero INNER JOIN cart_cartera ON (cont_tercero.IDTERCERO = cart_cartera.IDTERCERO);";
 		
 		try{
 			session = getSession();
-			Query query = session.createSQLQuery(sql);
-			listaDeudores = query.list();
+			Query query = session.createSQLQuery(sqlDeudores);
+			listaTercero = query.list();
 			
 		}catch(HibernateException e){
 			expDao = new ExcepcionesDAO();
@@ -299,9 +347,40 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 			session.close();
 		}
 		
+		if((listaTercero != null) && (!listaTercero.isEmpty())){
+			listaDeudores = new ArrayList<ObjetoDeudor>();
+			
+			for(BigDecimal idTercero : listaTercero) {
+				deudor = new ObjetoDeudor();
+				ContTercero tercero = obtenerTercero(Long.parseLong(String.valueOf(idTercero)));
+				deudor.setContTercero(tercero);
+				deudor.setListaCartera(listaCarteraxDeudor(tercero));
+				deudor.setTercPersona(obtenerPersonaNatural(tercero));
+				deudor.setTercOrganizacion(obtenerPersonaJuridica(tercero));
+				deudor.setSaldoDeuda(obtenerDeudaxTercero(tercero));
+				listaDeudores.add(deudor);
+			}			
+		}			
 		return listaDeudores;
 	}
 	
+	private List<CartCartera> listaCarteraxDeudor(ContTercero deudor) throws ExcepcionesDAO{
+		List<CartCartera> listaCartera = null;
+		Session session = getSession();
+		Criteria criteria = session.createCriteria(CartCartera.class).add(Restrictions.eq("contTercero", deudor)); 
+		listaCartera = criteria.list();
+		
+		return listaCartera;
+	}
 	
+	private double obtenerDeudaxTercero(ContTercero tercero) throws ExcepcionesDAO{
+		double deuda = 0;
+		Session session = getSession();
+		String sql = "SELECT sum(cart_cartera.NMSALDO) from cart_cartera where cart_cartera.IDTERCERO = "+ tercero.getIdtercero() +";";
+		Query query = session.createSQLQuery(sql);
+		deuda = Double.parseDouble(query.uniqueResult().toString());
+		
+		return deuda;
+	}
 	
 }
