@@ -143,9 +143,68 @@ public class TerceroNGCImpl implements TerceroNGC {
 	
 	@Override
 	public TercPersona obtenerPersonaNatural(int idPersona) throws ExcepcionesNGC {
+		TercPersona personaNatural = null;
 		
-		return null;
+		if(idPersona > 0){
+			try {
+				personaNatural = terceroDao.obtenerPersonaNatural(idPersona);
+			} catch (ExcepcionesDAO e) {
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setMensajeTecnico(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());			
+				throw expNgc;
+			}
+		}else {
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario("No es Posible Realizar la Consulta. Digite un ID de Persona Valido.");
+		}
+		
+		
+		return personaNatural;
 	}
+
+	
+	@Override
+	public TercPersona obtenerPersonaNatural(ContTercero tercero) throws ExcepcionesNGC {
+		TercPersona personaNatural = null;
+		if (tercero != null){
+			try {
+				personaNatural = terceroDao.obtenerPersonaNatural(tercero);
+			} catch (ExcepcionesDAO e) {
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setMensajeTecnico(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());			
+				throw expNgc;
+			}
+		}else{
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario("No es posible realizar la consulta porque el Objeto Tercero esta Vacio.");
+		}
+		
+		return personaNatural;
+	}
+
+
+	@Override
+	public TercOrganizacion obtenerPersonaJuridica(ContTercero tercero) throws ExcepcionesNGC {
+		TercOrganizacion organizacion = null;
+		
+		if(tercero != null){
+			try {
+				organizacion = terceroDao.obtenerPersonaJuridica(tercero);
+			} catch (ExcepcionesDAO e) {
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setMensajeTecnico(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());			
+				throw expNgc;
+			}
+		}
+		return organizacion;
+	}
+
 
 	@Override
 	public TercOrganizacion obtenerPersonaJuridica(int idOrganizacion) throws ExcepcionesNGC {

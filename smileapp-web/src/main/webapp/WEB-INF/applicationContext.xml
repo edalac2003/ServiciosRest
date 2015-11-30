@@ -232,6 +232,8 @@
         
         <bean id="transaccionNgc" class="co.weepa.smile.contabilidad.ngc.impl.TransaccionNGCImpl">
         	<property name="transaccionDao" ref="transaccionDao" />
+        	<property name="terceroNgc" ref="terceroNgc" />
+        	<property name="carteraNgc" ref="carteraNgc" />
         </bean>
         
         
@@ -265,6 +267,9 @@
         
         <bean id="transaccionCtrl" class="co.weepa.smile.contabilidad.ctrl.TransaccionCtrl">
         	<property name="transaccionNgc" ref="transaccionNgc" />
-        	<property name="terceroNgc" ref="terceroNgc" />        
+        	<property name="terceroNgc" ref="terceroNgc" />
+        	<property name="carteraNgc" ref="carteraNgc" />
+        	<property name="monedaNgc" ref="monedaNgc" />        
+        	<property name="facturaNgc" ref="facturaNgc" />
         </bean>
 </beans>

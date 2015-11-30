@@ -45,7 +45,7 @@
 									<div>
 										<label value="SALDO A PAGAR"></label>
 									</div>
-									<div width="150px" align="right">
+									<div width="100px" align="right">
 										<label id="lblSaldoTotal" value="00.000.000"></label>
 									</div>									
 								</hbox>
@@ -53,6 +53,11 @@
 								<hbox height="40px">
 									<label value="Medio de Pago" />
 									<combobox id="cmbMedioPago" width="150px" />
+								</hbox>
+								
+								<hbox height="40px">
+									<label value="Tipo de Pago" />
+									<combobox id="cmbTipoPago" width="150px" />
 								</hbox>
 								<hbox height="40px">
 									<label value="Monto a Pagar" />
@@ -78,13 +83,13 @@
 								<combobox id="cmbBuscarFactura"></combobox>
 							</hbox>
 							<hbox>							
-								<listbox id="listaFacturas" autopaging="true">
+								<listbox id="listaFacturas" autopaging="true"  multiple="true" checkmark="true">
 									<listhead>
-										<listheader label="Tercero" align="center" valign="middle" />
-										<listheader label="Factura" align="center" valign="middle" />
-										<listheader label="Fecha" align="center" valign="middle" />
-										<listheader label="Saldo" align="center" valign="middle" />
-										<listheader label="Canc/Abono" align="center" valign="middle" />
+										<listheader label="Tercero" valign="middle" />
+										<listheader label="Factura" valign="middle" />
+										<listheader label="Fecha" valign="middle" />
+										<listheader label="Saldo" valign="middle" />
+<!-- 										<listheader label="Canc/Abono" align="center" valign="middle" /> -->
 									</listhead>
 								</listbox>
 							</hbox>

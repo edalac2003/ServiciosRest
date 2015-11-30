@@ -3,7 +3,12 @@ package co.weepa.smile.contabilidad.ngc.impl;
 import java.util.List;
 
 import co.weepa.smile.contabilidad.dao.TransaccionDAO;
+import co.weepa.smile.contabilidad.dto.CartCartera;
+import co.weepa.smile.contabilidad.dto.CartPago;
+import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.ContTransaccionTipo;
+import co.weepa.smile.contabilidad.ngc.CarteraNGC;
+import co.weepa.smile.contabilidad.ngc.TerceroNGC;
 import co.weepa.smile.contabilidad.ngc.TransaccionNGC;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
@@ -11,12 +16,38 @@ import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
 public class TransaccionNGCImpl implements TransaccionNGC {
 
 	TransaccionDAO transaccionDao;
+	TerceroNGC terceroNgc;
+	CarteraNGC carteraNgc;
 	
 	public void setTransaccionDao(TransaccionDAO transaccionDao) {
 		this.transaccionDao = transaccionDao;
 	}
+	public void setTerceroNgc(TerceroNGC terceroNgc) {
+		this.terceroNgc = terceroNgc;
+	}
+	
+	public void setCarteraNgc(CarteraNGC carteraNgc) {
+		this.carteraNgc = carteraNgc;
+	}
+
+
 
 	ExcepcionesNGC expNgc = null;
+
+	ContTercero tercero = null;
+	CartCartera cartera = null;
+	
+	
+	
+	@Override
+	public void guardarTransaccion(String idTercero, int idCartera, List<CartPago> listaDetallePago) throws ExcepcionesNGC {
+		tercero = terceroNgc.obtenerTercero(idTercero);
+		cartera = carteraNgc.obtenerMaestroCartera(idCartera); 
+		for (int i=0;i<listaDetallePago.size();i++){
+//			lis
+		}
+		
+	}
 
 	@Override
 	public String consecutivoTransaccionxTipo(ContTransaccionTipo tipo) throws ExcepcionesNGC {

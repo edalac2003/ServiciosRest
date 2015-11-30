@@ -14,6 +14,8 @@ import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 
 public class MonedaDAOHibernate extends HibernateDaoSupport implements MonedaDAO {
 
+	ExcepcionesDAO expDao = null;
+	
 	public ContMoneda obtenerMoneda(int idMoneda) throws ExcepcionesDAO {
 		Session session = null;
 		ContMoneda moneda = null;
@@ -23,7 +25,11 @@ public class MonedaDAOHibernate extends HibernateDaoSupport implements MonedaDAO
 			Criteria criteria = session.createCriteria(ContMoneda.class).add(Restrictions.eq("idmoneda", idMoneda));
 			moneda = (ContMoneda)criteria.uniqueResult();
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO(e);
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron problemas para Obtener el registro de Moneda.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}
@@ -42,7 +48,11 @@ public class MonedaDAOHibernate extends HibernateDaoSupport implements MonedaDAO
 			Criteria criteria = session.createCriteria(ContMoneda.class);
 			listaMonedas = criteria.list();
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO(e);
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron problemas para Obtener el Listado de Moneda.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally {
 			session.close();
 		}

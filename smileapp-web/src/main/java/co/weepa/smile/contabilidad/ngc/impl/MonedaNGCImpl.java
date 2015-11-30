@@ -15,6 +15,9 @@ public class MonedaNGCImpl implements MonedaNGC {
 	public void setMonedaDao(MonedaDAO monedaDao) {
 		this.monedaDao = monedaDao;
 	}
+	
+	ExcepcionesNGC expNgc = null;
+	
 
 	public ContMoneda obtenerMoneda(int idMoneda) throws ExcepcionesNGC {
 		ContMoneda moneda = null;
@@ -23,10 +26,16 @@ public class MonedaNGCImpl implements MonedaNGC {
 			try {
 				moneda = monedaDao.obtenerMoneda(idMoneda);
 			} catch (ExcepcionesDAO e) {
-				throw new ExcepcionesNGC(e);
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeTecnico(e.getMensajeTecnico());
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());
+				throw expNgc;
 			}
 		}else{
-			throw new ExcepcionesNGC("No es posible realizar la Busqueda.  Seleccione un ID de Moneda válido.");
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario("No es posible realizar la Busqueda.  Seleccione un ID de Moneda valido.");
+			throw expNgc;
 		}
 		return moneda;
 	}
@@ -38,7 +47,11 @@ public class MonedaNGCImpl implements MonedaNGC {
 		try {
 			listaMoneda = monedaDao.listarMonedas();
 		} catch (ExcepcionesDAO e) {
-			throw new ExcepcionesNGC(e);
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeTecnico(e.getMensajeTecnico());
+			expNgc.setMensajeUsuario(e.getMensajeUsuario());
+			expNgc.setOrigen(e.getOrigen());
+			throw expNgc;
 		}
 		
 		return listaMoneda;

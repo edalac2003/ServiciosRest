@@ -71,4 +71,14 @@ public class TerceroService {
 		
 		return null;
 	}
+	
+	@Transactional
+	@RequestMapping(value="/obtenerPersonaNatural", method=RequestMethod.GET)
+	public @ResponseBody TercPersona obtenerPersonaNatural(@RequestParam(value="id") int idPersona)throws Exception{
+		if(idPersona >0){
+			return terceroNgc.obtenerPersonaNatural(idPersona);
+		}
+		
+		return null;
+	}
 }

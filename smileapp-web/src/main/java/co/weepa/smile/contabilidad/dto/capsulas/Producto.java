@@ -14,7 +14,7 @@ public class Producto implements Serializable {
 	
 	List<ProdProducto> listaProductos;
 	ProdProducto producto;
-	
+	String mensaje;
 	
 	public List<ProdProducto> getListaProductos() {
 		return listaProductos;
@@ -28,5 +28,13 @@ public class Producto implements Serializable {
 	public void setProducto(ProdProducto producto) {
 		this.producto = producto;
 	}
+	public String getMensaje() {
+		return mensaje;
+	}
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
+	
+	
 	
 }

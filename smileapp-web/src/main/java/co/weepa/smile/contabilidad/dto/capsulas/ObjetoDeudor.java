@@ -13,6 +13,7 @@ public class ObjetoDeudor {
 	TercPersona tercPersona;
 	TercOrganizacion tercOrganizacion;
 	double saldoDeuda;
+	String mensaje;
 	
 	public ObjetoDeudor() {
 		super();
@@ -58,4 +59,13 @@ public class ObjetoDeudor {
 	public void setSaldoDeuda(double saldoDeuda) {
 		this.saldoDeuda = saldoDeuda;
 	}
+
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
+	
 }

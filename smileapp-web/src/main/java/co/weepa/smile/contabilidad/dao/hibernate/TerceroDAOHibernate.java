@@ -141,7 +141,6 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 		Session session = null;
 		
 		try{
-//			session = FactoriaSession.getSessionFactory().openSession();
 			session = getSession();
 			Criteria criteria = session.createCriteria(ContTercero.class).add(Restrictions.eq("contTipoTercero", tipoTercero));
 			listaTercero = criteria.list();
@@ -352,7 +351,7 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 			
 			for(BigDecimal idTercero : listaTercero) {
 				deudor = new ObjetoDeudor();
-				ContTercero tercero = obtenerTercero(Long.parseLong(String.valueOf(idTercero)));
+				ContTercero tercero = obtenerTercero(Long.parseLong(idTercero.toString()));
 				deudor.setContTercero(tercero);
 				deudor.setListaCartera(listaCarteraxDeudor(tercero));
 				deudor.setTercPersona(obtenerPersonaNatural(tercero));

@@ -30,9 +30,11 @@ public interface TerceroNGC {
 	
 	public TercPersona obtenerPersonaNatural(int idPersona) throws ExcepcionesNGC;
 	
+	public TercPersona obtenerPersonaNatural(ContTercero tercero) throws ExcepcionesNGC;
+	
 	public TercOrganizacion obtenerPersonaJuridica(int idOrganizacion) throws ExcepcionesNGC;
 	
-//	public TercOrganizacion obtenerPersonaJuridica(ContTercero tercero) throws ExcepcionesNGC;
+	public TercOrganizacion obtenerPersonaJuridica(ContTercero tercero) throws ExcepcionesNGC;
 	
 	public List<TercPersona> listarPersonasNaturales() throws ExcepcionesNGC;
 	

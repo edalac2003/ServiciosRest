@@ -10,6 +10,7 @@ import co.weepa.smile.contabilidad.dto.FactDetalleFactura;
 import co.weepa.smile.contabilidad.dto.FactFactura;
 import co.weepa.smile.contabilidad.dto.FactFacturaTipo;
 import co.weepa.smile.contabilidad.dto.TercOrganizacion;
+import co.weepa.smile.contabilidad.dto.TercPersona;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoCotizacion;
 import co.weepa.smile.contabilidad.ngc.FacturaNGC;
 import co.weepa.smile.contabilidad.ngc.FacturaTipoNGC;
@@ -122,6 +123,7 @@ public class FacturaNGCImpl implements FacturaNGC {
 		List<ObjetoCotizacion> listaCotizacion = null;
 		FactFacturaTipo tipoFactura = null;
 		TercOrganizacion organizacion = null;
+		TercPersona personaNatural = null;
 		
 		tipoFactura = facturaTipoNgc.obtenerTipoFactura(3);
 		
@@ -137,11 +139,18 @@ public class FacturaNGCImpl implements FacturaNGC {
 				
 		if(listaCotizacion != null){			
 			for(ObjetoCotizacion cotizacion : listaCotizacion){
-				int idOrganizacion = Integer.parseInt(String.valueOf(cotizacion.getMaestroCotizacion().getContTercero().getIdtercero()));
+//				int idTercero = Integer.parseInt(String.valueOf(cotizacion.getMaestroCotizacion().getContTercero().getIdtercero()));
+				ContTercero tercero = cotizacion.getMaestroCotizacion().getContTercero();
 				String numeroDoc = cotizacion.getMaestroCotizacion().getDsnumeroFactura();
-				organizacion = terceroNgc.obtenerPersonaJuridica(idOrganizacion);
+				
+				organizacion = terceroNgc.obtenerPersonaJuridica(tercero);
+				personaNatural = terceroNgc.obtenerPersonaNatural(tercero);
+				
 				List<FactDetalleFactura> detalle = listarDetalles(numeroDoc);
-				cotizacion.setTerceroJuridico(organizacion);
+				if (organizacion != null)
+					cotizacion.setNombreTercero(organizacion.getDsrazonSocial());
+				else
+					cotizacion.setNombreTercero(personaNatural.getDsprimerNombre()+" "+personaNatural.getDsprimerApellido());				
 				cotizacion.setDetalleCotizacion(detalle);
 				cotizacion.setCantidadItem(detalle.size());				
 			}

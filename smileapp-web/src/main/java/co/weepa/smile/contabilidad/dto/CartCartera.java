@@ -22,7 +22,6 @@ public class CartCartera implements java.io.Serializable {
 	private Date fevencimiento;
 	private BigDecimal nmsaldo;
 	private Integer nmcuotas;
-//	private Set cartPagos = new HashSet(0);
 
 	public CartCartera() {
 	}

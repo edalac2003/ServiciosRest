@@ -3,9 +3,11 @@ package co.weepa.smile.contabilidad.ngc.impl;
 import java.util.List;
 
 import co.weepa.smile.contabilidad.dao.CarteraDAO;
+import co.weepa.smile.contabilidad.dto.CartCartera;
 import co.weepa.smile.contabilidad.dto.CartEstado;
 import co.weepa.smile.contabilidad.dto.CartFormaPago;
 import co.weepa.smile.contabilidad.dto.CartTipoPago;
+import co.weepa.smile.contabilidad.dto.FactFactura;
 import co.weepa.smile.contabilidad.ngc.CarteraNGC;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
@@ -18,7 +20,37 @@ public class CarteraNGCImpl implements CarteraNGC {
 		this.carteraDao = carteraDao;
 	}
 
+	ExcepcionesNGC expNgc = null;
 	
+	
+	
+	@Override
+	public CartCartera obtenerMaestroCartera(int idCartera) throws ExcepcionesNGC {
+		CartCartera cartera = null;
+		
+		if(idCartera > 0){
+			try {
+				cartera = carteraDao.obtenerMaestroCartera(idCartera);
+			} catch (ExcepcionesDAO e) {
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeTecnico(e.getMensajeTecnico());
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());
+				throw expNgc;
+			}
+		}else{
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario("No es posible realizar la consultar. Ingrese un Id valido.");
+			throw expNgc;
+		}
+		
+		return cartera;
+	}
+
+
+
+
+
 	public CartTipoPago obtenerTipoPago(int idTipoPago) throws ExcepcionesNGC {
 		CartTipoPago tipoPago = null;
 		
@@ -26,16 +58,39 @@ public class CarteraNGCImpl implements CarteraNGC {
 			try {
 				tipoPago = carteraDao.obtenerTipoPago(idTipoPago);
 			} catch (ExcepcionesDAO e) {
-				throw new ExcepcionesNGC(e);
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeTecnico(e.getMensajeTecnico());
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());
+				throw expNgc;
 			}
 		}else{
-			throw new ExcepcionesNGC("No es posible realizar la Busqueda. Digite un ID de Tipo Pago válido.");
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario("No es posible realizar la consultar. Ingrese un Id valido.");
+			throw expNgc;
 		}			
 		
 		return tipoPago;
 	}
+	
 
-
+	@Override
+	public CartCartera obtenerMaestroCartera(FactFactura factura) throws ExcepcionesNGC {
+		CartCartera cartera = null;
+		if (factura != null){
+			try {
+				cartera = carteraDao.obtenerMaestroCarteraxFactura(factura);
+			} catch (ExcepcionesDAO e) {
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeTecnico(e.getMensajeTecnico());
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());
+				throw expNgc;
+			}
+		}
+		
+		return cartera;
+	}
 
 
 	public CartFormaPago obtenerFormaPago(int idFormaPago) throws ExcepcionesNGC {
@@ -66,10 +121,16 @@ public class CarteraNGCImpl implements CarteraNGC {
 			try {
 				estadoCartera = carteraDao.obtenerEstadoCartera(idEstadoCartera);
 			} catch (ExcepcionesDAO e) {
-				throw new ExcepcionesNGC(e);
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeTecnico(e.getMensajeTecnico());
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());
+				throw expNgc;
 			}
 		}else{
-			throw new ExcepcionesNGC("No es posible realizar la Busqueda. Digite un ID de Estado Cartera válido.");
+			expNgc = new ExcepcionesNGC();			
+			expNgc.setMensajeUsuario("No es posible realizar la Busqueda. Digite un ID de Estado Cartera valido.");			
+			throw expNgc;
 		}
 		return estadoCartera;
 	}
@@ -82,7 +143,11 @@ public class CarteraNGCImpl implements CarteraNGC {
 		try {
 			listaTipoPago = carteraDao.listarTipoPago();
 		} catch (ExcepcionesDAO e) {
-			throw new ExcepcionesNGC(e);
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeTecnico(e.getMensajeTecnico());
+			expNgc.setMensajeUsuario(e.getMensajeUsuario());
+			expNgc.setOrigen(e.getOrigen());
+			throw expNgc;
 		}
 		
 		return listaTipoPago;
@@ -94,7 +159,11 @@ public class CarteraNGCImpl implements CarteraNGC {
 		try {
 			listaFormaPago = carteraDao.listarFormaPago();
 		} catch (ExcepcionesDAO e) {
-			throw new ExcepcionesNGC(e);
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeTecnico(e.getMensajeTecnico());
+			expNgc.setMensajeUsuario(e.getMensajeUsuario());
+			expNgc.setOrigen(e.getOrigen());
+			throw expNgc;
 		}
 		
 		return listaFormaPago;
@@ -106,7 +175,11 @@ public class CarteraNGCImpl implements CarteraNGC {
 		try {
 			listaEstadoCartera = carteraDao.listarEstadoCartera();
 		} catch (ExcepcionesDAO e) {
-			throw new ExcepcionesNGC(e);
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeTecnico(e.getMensajeTecnico());
+			expNgc.setMensajeUsuario(e.getMensajeUsuario());
+			expNgc.setOrigen(e.getOrigen());
+			throw expNgc;
 		}
 		
 		return listaEstadoCartera;

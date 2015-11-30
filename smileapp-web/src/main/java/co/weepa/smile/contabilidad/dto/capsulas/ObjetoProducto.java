@@ -24,6 +24,7 @@ public class ObjetoProducto implements Serializable{
 	private Integer nmimpuesto;
 	private Integer mncantidadMin;
 	private String mncantidadMax;
+	private String mensaje;
 	
 	
 	public ObjetoProducto() {
@@ -131,5 +132,13 @@ public class ObjetoProducto implements Serializable{
 	public void setMncantidadMax(String mncantidadMax) {
 		this.mncantidadMax = mncantidadMax;
 	}
+	public String getMensaje() {
+		return mensaje;
+	}
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
+	
+	
 	
 }

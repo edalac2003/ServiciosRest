@@ -19,6 +19,7 @@ public class ObjetoFactura {
 	Retenciones retenciones;
 	CartCartera maestroCartera;
 	CartPago pagoCartera;
+	String mensaje = "";
 	
 	public ObjetoFactura() {
 		super();
@@ -103,5 +104,15 @@ public class ObjetoFactura {
 	public void setPagoCartera(CartPago pagoCartera) {
 		this.pagoCartera = pagoCartera;
 	}
+
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
+	
+	
 
 }

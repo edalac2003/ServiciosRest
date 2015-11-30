@@ -10,16 +10,67 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import co.weepa.smile.contabilidad.dao.CarteraDAO;
+import co.weepa.smile.contabilidad.dto.CartCartera;
 import co.weepa.smile.contabilidad.dto.CartEstado;
 import co.weepa.smile.contabilidad.dto.CartFormaPago;
 import co.weepa.smile.contabilidad.dto.CartTipoPago;
+import co.weepa.smile.contabilidad.dto.FactFactura;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 
 public class CarteraDAOHibernate extends HibernateDaoSupport implements CarteraDAO {
 	
 	final static Logger logger = Logger.getLogger(CarteraDAOHibernate.class);
-
+	ExcepcionesDAO expDao = null;
 	
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public CartCartera obtenerMaestroCartera(int idCartera) throws ExcepcionesDAO {
+		Session session = null;
+		CartCartera cartera = null;
+		try{
+			session = getSession();
+			Criteria criteria = session.createCriteria(CartCartera.class).add(Restrictions.eq("idcartera", idCartera));
+			cartera = (CartCartera)criteria.uniqueResult();
+		}catch(HibernateException e){
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron Errores al intentar obtener el Registro de Cartera.");
+			expDao.setOrigen(e);
+			throw expDao;
+		}finally{
+			session.close();
+		}
+		
+		return cartera;
+	}
+	
+
+	@Override
+	public CartCartera obtenerMaestroCarteraxFactura(FactFactura factura) throws ExcepcionesDAO {
+		CartCartera cartera = null;
+		Session session = null;
+		
+		try{
+			session = getSession();
+			Criteria criteria = session.createCriteria(CartCartera.class).add(Restrictions.eq("factFactura", factura));
+			cartera = (CartCartera)criteria.uniqueResult();
+			
+		}catch(HibernateException e){
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron Errores al intentar obtener el Registro de Cartera.");
+			expDao.setOrigen(e);
+			throw expDao;
+		}finally{
+			session.close();
+		}
+		
+		return cartera;
+	}
+
+
+
 	public CartTipoPago obtenerTipoPago(int idTipoPago) throws ExcepcionesDAO {
 		CartTipoPago tipoPago = null;
 		Session session = null;
@@ -29,13 +80,18 @@ public class CarteraDAOHibernate extends HibernateDaoSupport implements CarteraD
 			Criteria criteria = session.createCriteria(CartTipoPago.class).add(Restrictions.eq("idtipoPago", idTipoPago));
 			tipoPago = (CartTipoPago)criteria.uniqueResult();
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO(e);
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron Errores al intentar obtener el Registro de Tipo Pago.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}
 				
 		return tipoPago;
 	}
+	
 
 	public CartFormaPago obtenerFormaPago(int idFormaPago) throws ExcepcionesDAO {
 		CartFormaPago formaPago = null;
@@ -46,7 +102,11 @@ public class CarteraDAOHibernate extends HibernateDaoSupport implements CarteraD
 			Criteria criteria = session.createCriteria(CartFormaPago.class).add(Restrictions.eq("idformaPago", idFormaPago));
 			formaPago = (CartFormaPago)criteria.uniqueResult();
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO(e);
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron Errores al intentar obtener el Registro de Forma Pago.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}	
@@ -63,7 +123,11 @@ public class CarteraDAOHibernate extends HibernateDaoSupport implements CarteraD
 			Criteria criteria = session.createCriteria(CartEstado.class).add(Restrictions.eq("idestado", idEstadoCartera));
 			estadoCartera = (CartEstado)criteria.uniqueResult();
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO(e);
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron Errores al intentar obtener el Registro de Estado Cartera.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}
@@ -81,10 +145,12 @@ public class CarteraDAOHibernate extends HibernateDaoSupport implements CarteraD
 			session = getSession();
 			Criteria criteria = session.createCriteria(CartTipoPago.class);
 			listaTipoPago = criteria.list();
-			logger.info("La lista de Tipo de Pago Cartera se Generó correctamente.");
 		}catch(HibernateException e){
-			logger.error("Ocurrió un Error al generar Lista de Tipo de Pago Cartera. Error : "+e.getMessage());
-			throw new ExcepcionesDAO(e);
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron Errores al intentar obtener el listado de Tipo de Pago.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}
@@ -102,10 +168,12 @@ public class CarteraDAOHibernate extends HibernateDaoSupport implements CarteraD
 			session = getSession();
 			Criteria criteria = session.createCriteria(CartFormaPago.class);
 			listaFormaPago = criteria.list();
-			logger.info("La lista de Forma de Pago Cartera se Generó correctamente.");
 		}catch(HibernateException e){
-			logger.error("Ocurrió un Error al generar Lista de Forma de Pago Cartera. Error : "+e.getMessage());
-			throw new ExcepcionesDAO(e);
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron Errores al intentar obtener el Listado de Forma de Pago.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}
@@ -123,10 +191,12 @@ public class CarteraDAOHibernate extends HibernateDaoSupport implements CarteraD
 			session = getSession();
 			Criteria criteria = session.createCriteria(CartEstado.class);
 			listaEstadoCartera = criteria.list();
-			logger.info("La lista Estado Cartera se Generó correctamente.");
 		}catch(HibernateException e){
-			logger.error("Ocurrió un Error al generar Lista Estado Cartera. Error : "+e.getMessage());
-			throw new ExcepcionesDAO(e);
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron Errores al intentar obtener el listado de estado de Cartera.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}
