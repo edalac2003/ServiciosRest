@@ -19,6 +19,7 @@ public class FacturaTipoNGCImpl implements FacturaTipoNGC {
 		this.facturaTipoDao = facturaTipoDao;
 	}
 
+	
 	public FactFacturaTipo obtenerTipoFactura(int idTipoFactura) throws ExcepcionesNGC {
 		FactFacturaTipo tipoFactura = null;
 		if (idTipoFactura >= 1){

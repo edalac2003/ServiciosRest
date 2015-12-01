@@ -338,7 +338,8 @@ public class FacturaCompraCtrl extends GenericForwardComposer{
 		 */
 		if (tipoFactura != null){
 			try {
-				consecutivo = facturaNgc.consecutivoFactura(tipoFactura);
+//				consecutivo = facturaNgc.consecutivoFactura(tipoFactura);
+				consecutivo = facturaNgc.consecutivoFactura("factura compra");
 			} catch (ExcepcionesNGC e) {
 				Messagebox.show(e.getMensajeTecnico());
 				logger.error(e.getMensajeTecnico()+" Originado por : "+e.getMessage());

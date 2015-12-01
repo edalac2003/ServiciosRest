@@ -14,7 +14,9 @@ public interface TransaccionDAO {
 	
 	public int consecutivoTransaccionxTipo(ContTransaccionTipo tipo) throws ExcepcionesDAO;
 	
-	public ContTransaccionTipo obtenerTipoTransaccion(int idTipoTx) throws ExcepcionesDAO;
+	public ContTransaccionTipo obtenerTipoTransaccion(int idTipoTransaccion) throws ExcepcionesDAO;
+	
+	public ContTransaccionTipo obtenerTipoTransaccion(String nombreTransaccion) throws ExcepcionesDAO;
 	
 	public List<ContTransaccionTipo> listarTipoTransacciones() throws ExcepcionesDAO;
 

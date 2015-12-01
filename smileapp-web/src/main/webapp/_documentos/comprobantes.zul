@@ -83,13 +83,12 @@
 								<combobox id="cmbBuscarFactura"></combobox>
 							</hbox>
 							<hbox>							
-								<listbox id="listaFacturas" autopaging="true"  multiple="true" checkmark="true">
+								<listbox id="listaFacturas" autopaging="true" multiple="true" checkmark="true">
 									<listhead>
 										<listheader label="Tercero" valign="middle" />
 										<listheader label="Factura" valign="middle" />
 										<listheader label="Fecha" valign="middle" />
 										<listheader label="Saldo" valign="middle" />
-<!-- 										<listheader label="Canc/Abono" align="center" valign="middle" /> -->
 									</listhead>
 								</listbox>
 							</hbox>

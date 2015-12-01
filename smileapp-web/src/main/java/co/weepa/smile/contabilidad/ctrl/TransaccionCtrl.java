@@ -1,11 +1,16 @@
 package co.weepa.smile.contabilidad.ctrl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import org.zkoss.zhtml.Li;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
@@ -88,20 +93,19 @@ public class TransaccionCtrl extends GenericForwardComposer {
 	Listbox listaDeudores;
 	Listbox listaFacturas;
 	
+	double valorPago = 0;
 	
 	ContTercero tercero = null;
 	CartCartera maestroCartera = null;
 	ContMoneda moneda = null;
-	FactFactura maestroFactura = null;
-	List<CartPago> listaDetallePago = null;
-	
+	FactFactura maestroFactura = null;	
 	
 	List<ContTransaccionTipo> listaTipoTransaccion = null;
 	List<ContTercero> listadoDeudores = null;
 	List<ObjetoDeudor> deudores = null;
 	List<CartFormaPago> listaFormaPago = null;
 	List<CartTipoPago> listaTipoPago = null;
-	
+	List<CartPago> listaDetallePago = null;
 	
 	private void cargarDeudores(){
 		try {
@@ -182,15 +186,93 @@ public class TransaccionCtrl extends GenericForwardComposer {
 		String consecutivo = "";	
 		
 		if (cmbTipoComprobante.getSelectedIndex() >= 0){
-			ContTransaccionTipo tipoTransaccion = listaTipoTransaccion.get(cmbTipoComprobante.getSelectedIndex());
 			try {
-				consecutivo = transaccionNgc.consecutivoTransaccionxTipo(tipoTransaccion);
+				consecutivo = transaccionNgc.consecutivoTransaccionxTipo("RECIBO CAJA");
 			} catch (ExcepcionesNGC e) {
 				Messagebox.show(e.getMensajeUsuario());
 			}
 			txtNumeroComprobante.setText(consecutivo);
 		}		
 	}
+	
+	
+//	private boolean calcularDisponible(Listitem item){
+//		boolean estado = false;
+//		double saldoFactura = 0;
+//		CartPago pago = null;
+//		listaDetallePago = new ArrayList<CartPago>();
+//		
+//		Listcell celdaTercero = (Listcell)item.getChildren().get(0);
+//		Listcell celdaFactura = (Listcell)item.getChildren().get(1);
+//		Listcell celdaFecha = (Listcell)item.getChildren().get(2);
+//		Listcell celdaSaldo = (Listcell)item.getChildren().get(3);
+//		saldoFactura = Double.parseDouble((celdaSaldo.getLabel().trim()));
+//		
+//		
+//		try {
+//			moneda = monedaNgc.obtenerMoneda(1);
+//		} catch (ExcepcionesNGC e) {
+//			Messagebox.show(e.getMensajeUsuario());
+//		}
+//		
+//		String numeroFactura = celdaFactura.getLabel();
+//		
+//		if (!numeroFactura.isEmpty()){
+//			try {
+//				maestroFactura = facturaNgc.obtenerFactura(numeroFactura);
+//			} catch (ExcepcionesNGC e) {
+//				Messagebox.show(e.getMensajeUsuario());
+//			}
+//		}	
+//		
+//		if (maestroCartera != null){
+//			try {
+//				maestroCartera = carteraNgc.obtenerMaestroCartera(maestroFactura);
+//			} catch (ExcepcionesNGC e) {
+//				Messagebox.show(e.getMensajeUsuario());
+//			}
+//		}
+//		
+//		/**
+//		 * Aqui se deben analizar 3 situaciones. 
+//		 * 1: El Monto a Pagar es suficiente para cubrir la deuda del pendiente.
+//		 * 2: El Monto a Pagar no es suficiente para cubrir la deuda (Abono).
+//		 * 3: El Monto a Pagar llegó a Cero, entonces ya no se puede hacer nada.  
+//		 */
+//		valorPago = valorPago - saldoFactura;
+//		
+//		if((maestroCartera != null) && (moneda != null) && (cmbTipoPago.getSelectedIndex() >= 0) && 
+//				(cmbMedioPago.getSelectedIndex() >= 0) && (!txtValorPago.getText().isEmpty()) && (valorPago > 0)){
+//					
+//			CartPago detallePago = new CartPago();
+//			detallePago.setCartCartera(maestroCartera);
+//			detallePago.setContMoneda(moneda);			
+//			detallePago.setCartFormaPago(listaFormaPago.get(cmbMedioPago.getSelectedIndex()));
+//			detallePago.setFepago(dtFechaActual.getValue());
+//			
+//			detallePago.setDsdetalle(txtDetalles.getText());
+//			if(valorPago >= saldoFactura){
+//				for(CartTipoPago tipoPago : listaTipoPago){
+//					if(tipoPago.getDsnombre().toUpperCase().contains("CANCELACION")){
+//						detallePago.setCartTipoPago(tipoPago);
+//					}
+//				}
+//				detallePago.setNmvalor(BigDecimal.valueOf(0.0));
+//			}else {
+//				for(CartTipoPago tipoPago : listaTipoPago){
+//					if(tipoPago.getDsnombre().toUpperCase().contains("ABONO")){
+//						detallePago.setCartTipoPago(tipoPago);
+//					}
+//				}
+//				Double calculo = saldoFactura - valorPago;
+//				detallePago.setNmvalor(BigDecimal.valueOf(calculo));
+//			}			
+//			
+//			listaDetallePago.add(detallePago);
+//		}	
+//		
+//		return estado;		
+//	}
 	
 	
 	public void onSelect$cmbTipoComprobante(){
@@ -207,7 +289,6 @@ public class TransaccionCtrl extends GenericForwardComposer {
 				listaFacturas.getItems().clear();
 				for(CartCartera cartera : deudor.getListaCartera()){
 					Listitem item = new Listitem();
-					item.setCheckable(true);
 					Listcell celdaID = new Listcell(String.valueOf(cartera.getContTercero().getIdtercero())); 
 					Listcell celdaNumeroFactura = new Listcell(cartera.getFactFactura().getDsnumeroFactura());
 					Listcell celdaFecha = new Listcell(String.valueOf(cartera.getFactFactura().getFefactura()));
@@ -222,50 +303,41 @@ public class TransaccionCtrl extends GenericForwardComposer {
 		}
 	}
 	
+	public void onSelect$listaFacturas(){
+//		calcularDisponible(listaFacturas.getSelectedItem());
+	}
+	
+	public void onChange$txtValorPago(){
+		valorPago = Double.parseDouble(txtValorPago.getText());
+		
+	}
 	
 	
-	public void onClick$btnGuardar(){		
-		try {
-			moneda = monedaNgc.obtenerMoneda(1);
-		} catch (ExcepcionesNGC e) {
-			Messagebox.show(e.getMensajeUsuario());
-		}
-		Listitem item = (Listitem)listaFacturas.getChildren();
-		Listcell celda = (Listcell)item.getChildren().get(0);
-		String numeroFactura = celda.getValue();
-		
-		if (!numeroFactura.isEmpty()){
-			try {
-				maestroFactura = facturaNgc.obtenerFactura(numeroFactura);
-			} catch (ExcepcionesNGC e) {
-				Messagebox.show(e.getMensajeUsuario());
-			}
-		}	
-		
-		if (maestroCartera != null){
-			try {
-				maestroCartera = carteraNgc.obtenerMaestroCartera(maestroFactura);
-			} catch (ExcepcionesNGC e) {
-				Messagebox.show(e.getMensajeUsuario());
-			}
-		}
-		
-		if((maestroFactura != null) && (maestroCartera != null) && (moneda != null) && (cmbTipoPago.getSelectedIndex() >= 0) && (cmbMedioPago.getSelectedIndex() >= 0) && (!txtValorPago.getText().isEmpty())){
-			CartPago detallePago = new CartPago();
-			detallePago.setCartCartera(maestroCartera);
-			detallePago.setContMoneda(moneda);
-			detallePago.setCartTipoPago(listaTipoPago.get(cmbTipoPago.getSelectedIndex()));
-			detallePago.setCartFormaPago(listaFormaPago.get(cmbMedioPago.getSelectedIndex()));
-			detallePago.setFepago(dtFechaActual.getValue());
-			detallePago.setNmvalor(BigDecimal.valueOf(Long.parseLong(txtValorPago.getText())));
-			detallePago.setDsdetalle(txtDetalles.getText());
+	public void onClick$btnGuardar(){
+		/**
+		 * Se leen los Registros Seleccionados de la Lista de Facturas y se arma una nueva lista
+		 */
+		Set<Listitem> listaSeleccionados = listaFacturas.getSelectedItems();
+		Iterator iter = listaSeleccionados.iterator();
+		System.out.println("Se seleccionaron "+ listaSeleccionados.size()+" elementos.");
+		while (iter.hasNext()){
+			Listitem item = (Listitem)iter.next();
+			Listcell celdaID = (Listcell)item.getChildren().get(0);
+			Listcell celdaFactura = (Listcell)item.getChildren().get(1);
+			Listcell celdaSaldo = (Listcell)item.getChildren().get(3);
 			
-			try {
-				transaccionNgc.guardarTransaccion(null, 0, null);
-			} catch (ExcepcionesNGC e) {
-				Messagebox.show(e.getMensajeUsuario());
-			}
+			
+			
+			
+			
 		}
+		
+
+//		try {
+//			transaccionNgc.guardarTransaccion(null, 0, null);
+//		} catch (ExcepcionesNGC e) {
+//			Messagebox.show(e.getMensajeUsuario());
+//		}
 		
 	}
 	

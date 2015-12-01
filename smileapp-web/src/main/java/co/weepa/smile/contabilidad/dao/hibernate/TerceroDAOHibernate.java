@@ -300,12 +300,15 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 	public List<TercPersona> listarVendedores() throws ExcepcionesDAO {
 		List<TercPersona> lista = null;
 		Session session = null;
-		String sql = "SELECT * FROM terc_persona INNER JOIN cont_tercero ON (terc_persona.IDPERSONA = cont_tercero.IDTERCERO) "+
+		String sql = "SELECT terc_persona.* FROM terc_persona inner join cont_tercero ON (terc_persona.IDPERSONA = cont_tercero.IDTERCERO) "+
 					"INNER JOIN terc_tercero_rol ON (terc_tercero_rol.IDTERCERO = cont_tercero.IDTERCERO) WHERE terc_tercero_rol.IDROL_TIPO = 4;";
-		
+//		String hql = "from terc_persona tp inner join fetch tp.terc_tercero";
+//				+ "ON terc_persona.IDPERSONA = cont_tercero.IDTERCERO "+
+//				"INNER JOIN terc_tercero_rol ON terc_tercero_rol.IDTERCERO = cont_tercero.IDTERCERO WHERE terc_tercero_rol.IDROL_TIPO = 4";
 		try{
 			session = getSession();
 			Query query = session.createSQLQuery(sql);
+//			Query query = session.createQuery(hql);
 			lista = query.list();
 			
 		}catch(HibernateException e){

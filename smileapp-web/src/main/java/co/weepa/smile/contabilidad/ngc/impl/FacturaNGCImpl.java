@@ -39,12 +39,42 @@ public class FacturaNGCImpl implements FacturaNGC {
 	}
 	
 
-	public String consecutivoFactura(FactFacturaTipo tipoFactura) throws ExcepcionesNGC {
+	public String consecutivoFactura(String nombreFactura) throws ExcepcionesNGC {
 		int consecutivo = 0;
+		int idTipoFactura = 0;
+		FactFacturaTipo tipoFactura = null;
+		String prefijo = "";
 		StringBuilder cadena = new StringBuilder();
 		
-		String prefijo = tipoFactura.getDsprefijo();
+		/**
+		 * Se identifica el tipo de Factura al cual se le signará el Consecutivo
+		 */
 		
+		if((nombreFactura.toUpperCase().contains("FACTURA")) && (nombreFactura.toUpperCase().contains("COMPRA"))){
+			idTipoFactura = 1;
+		}else if((nombreFactura.toUpperCase().contains("FACTURA")) && (nombreFactura.toUpperCase().contains("VENTA"))){
+			idTipoFactura = 2;
+		}else if(nombreFactura.toUpperCase().contains("COTIZACION")){
+			idTipoFactura = 3;
+		}
+			
+		/**
+		 * Se extrae el objeto con la información desde la Base de Datos 
+		 */
+		
+		if (idTipoFactura != 0){
+			tipoFactura = facturaTipoNgc.obtenerTipoFactura(idTipoFactura);
+			prefijo = tipoFactura.getDsprefijo();				//Se obtiene el Prefijo del tipo de Documento
+		}else{
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario("No fue posible resolver el tipo de Factura.");
+			throw expNgc;
+		}
+		
+		/**
+		 * Se consulta la numeración neta por tipo de Documento.
+		 */
+	
 		try {
 			consecutivo = facturaDao.consecutivoFactura(tipoFactura);
 			
@@ -55,6 +85,8 @@ public class FacturaNGCImpl implements FacturaNGC {
 			expNgc.setOrigen(e.getOrigen());
 			throw expNgc;
 		}
+		
+		
 		consecutivo++;
 		if(consecutivo < 10){			
 			cadena.append(prefijo).append("0000").append(consecutivo);			
@@ -71,14 +103,13 @@ public class FacturaNGCImpl implements FacturaNGC {
 	}
 
 	
-	public FactFactura obtenerFactura(String numeroFactura) throws ExcepcionesNGC {
-		
+	public FactFactura obtenerFactura(String numeroFactura) throws ExcepcionesNGC {		
 		return null;
 	}
 
 	
-	public List<FactFactura> listarTodasFacturas() throws ExcepcionesNGC {
-		
+	
+	public List<FactFactura> listarTodasFacturas() throws ExcepcionesNGC {		
 		return null;
 	}
 

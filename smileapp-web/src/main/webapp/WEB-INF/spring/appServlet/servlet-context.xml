@@ -26,11 +26,6 @@
 	
 	<context:component-scan base-package="co.weepa.smile" />
 	
-<!-- 	<context:component-scan base-package="co.weepa.smile.contabilidad.servicios" /> -->
 	
-<!-- 	<context:component-scan base-package="co.weepa.smile.contabilidad.dao" /> -->
-<!-- 	<context:component-scan base-package="co.weepa.smile.contabilidad.ngc" /> -->
-<!-- 	<context:component-scan base-package="co.weepa.smile.contabilidad.dao.hibernate" /> -->
-<!-- 	<context:component-scan base-package="co.weepa.smile.contabilidad.ngc.impl" /> -->
 	
 </beans:beans>

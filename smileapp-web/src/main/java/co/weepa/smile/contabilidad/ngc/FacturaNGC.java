@@ -12,7 +12,7 @@ import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
 
 public interface FacturaNGC {
 	
-	public String consecutivoFactura(FactFacturaTipo tipoFactura) throws ExcepcionesNGC; 
+	public String consecutivoFactura(String tipoDocumento) throws ExcepcionesNGC; 
 	
 	public FactFactura obtenerFactura(String numeroFactura) throws ExcepcionesNGC;
 	

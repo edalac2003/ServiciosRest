@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -55,18 +56,14 @@ public class TransaccionDAOHibernate extends HibernateDaoSupport implements Tran
 			throw expDao;
 		}finally{
 			session.close();
-		}
-		
-		
+		}	
 	}
 
 
 	@Override
 	public int consecutivoTransaccionxTipo(ContTransaccionTipo tipo) throws ExcepcionesDAO {
 		int consecutivo = 0;
-		Session session = null;
-		
-		
+		Session session = null;		
 		
 		try{
 			session = getSession();
@@ -86,13 +83,13 @@ public class TransaccionDAOHibernate extends HibernateDaoSupport implements Tran
 	}
 	
 	
-	public ContTransaccionTipo obtenerTipoTransaccion(int idTipoTx) throws ExcepcionesDAO {
+	public ContTransaccionTipo obtenerTipoTransaccion(int idTipoTransaccion) throws ExcepcionesDAO {
 		Session session = null;
 		ContTransaccionTipo tipoTx = null;
 		
 		try{
 			session = getSession();
-			Criteria criteria = session.createCriteria(ContTransaccionTipo.class).add(Restrictions.eq("idtransaccionTipo", idTipoTx));		
+			Criteria criteria = session.createCriteria(ContTransaccionTipo.class).add(Restrictions.eq("idtransaccionTipo", idTipoTransaccion));		
 			tipoTx = (ContTransaccionTipo)criteria.uniqueResult();
 		}catch(HibernateException e){
 			expDao = new ExcepcionesDAO();
@@ -105,6 +102,45 @@ public class TransaccionDAOHibernate extends HibernateDaoSupport implements Tran
 		}		
 		return tipoTx;
 	}
+	
+	
+	@Override
+	public ContTransaccionTipo obtenerTipoTransaccion(String nombreTransaccion) throws ExcepcionesDAO {
+		Session session = null;
+		ContTransaccionTipo tipoTx = null;
+		List<ContTransaccionTipo> listaTipoTX = null;
+		String hql = "";
+		String[] cadena = nombreTransaccion.split(" ");
+		
+		if (cadena.length == 1){
+			hql = "from ContTransaccionTipo where dsdescripcionTransaccionTipo like '%"+ cadena[0] + "%';";
+		}else if (cadena.length >= 2){
+			hql = "from ContTransaccionTipo where dsdescripcionTransaccionTipo like '%"+ cadena[0] + "%' and dsdescripcionTransaccionTipo like '%"+ cadena[1] + "%'";
+		}
+		
+		try{
+			session = getSession();
+//			Criteria criteria = session.createCriteria(ContTransaccionTipo.class).add(Restrictions.like("dsdescripcionTransaccionTipo", nombreTransaccion));		
+//			tipoTx = (ContTransaccionTipo)criteria.uniqueResult();
+			Query query = session.createQuery(hql);
+//			query.setParameter("", );
+			listaTipoTX = query.list();
+		}catch(HibernateException e){
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron problemas para obtener el Tipo de Transaccion.");
+			expDao.setOrigen(e);
+			throw expDao;
+		}finally{
+			session.close();
+		}
+		
+		if (listaTipoTX != null)
+			tipoTx = listaTipoTX.get(0);
+		
+		return tipoTx;
+	}
+
 
 	
 	@SuppressWarnings("unchecked")
