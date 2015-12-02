@@ -103,8 +103,22 @@ public class FacturaNGCImpl implements FacturaNGC {
 	}
 
 	
-	public FactFactura obtenerFactura(String numeroFactura) throws ExcepcionesNGC {		
-		return null;
+	public FactFactura obtenerFactura(String numeroFactura) throws ExcepcionesNGC {
+		FactFactura factura = null;
+		
+		if(!numeroFactura.isEmpty()){
+			try {
+				factura = facturaDao.obtenerMaestroDocumento(numeroFactura);
+			} catch (ExcepcionesDAO e) {
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeTecnico(e.getMensajeTecnico());
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());
+				throw expNgc;
+			}
+		}
+		
+		return factura;
 	}
 
 	

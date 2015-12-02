@@ -12,6 +12,8 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.zkoss.bind.sys.SaveBinding;
 
 import co.weepa.smile.contabilidad.dao.TransaccionDAO;
+import co.weepa.smile.contabilidad.dto.CartCartera;
+import co.weepa.smile.contabilidad.dto.CartPago;
 import co.weepa.smile.contabilidad.dto.ContDetalleTransaccion;
 import co.weepa.smile.contabilidad.dto.ContTransaccionContable;
 import co.weepa.smile.contabilidad.dto.ContTransaccionTipo;
@@ -58,6 +60,51 @@ public class TransaccionDAOHibernate extends HibernateDaoSupport implements Tran
 			session.close();
 		}	
 	}
+	
+	@Override
+	public void guardarTransaccion(List<CartCartera> listaCartera, List<CartPago> listaPagos, ContTransaccionContable transaccionContable, 
+			List<ContDetalleTransaccion> listaDetalleTransaccion) throws ExcepcionesDAO {
+		Session session = null;
+		Transaction tx = null;
+		
+		try{
+			session = getSession();
+			tx = session.beginTransaction();
+			
+			if((listaCartera != null) && (!listaCartera.isEmpty())){
+				for(CartCartera cartera : listaCartera){
+					session.saveOrUpdate(cartera);
+				}
+			}
+			
+			if((!listaPagos.isEmpty()) && (listaPagos != null)){
+				for(CartPago pago : listaPagos){
+					session.save(pago);
+				}
+			}
+			
+			if(transaccionContable != null)
+				session.save(transaccionContable);
+				
+			if((listaDetalleTransaccion != null) && (listaDetalleTransaccion.isEmpty())){
+				for(ContDetalleTransaccion detalle : listaDetalleTransaccion){
+					session.save(detalle);
+				}
+			}			
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron errores al momento de intentar guardar el Registro de Transaccion.");
+			expDao.setOrigen(e);
+			throw expDao;
+		}finally{
+			session.close();
+		}	
+	}
+
+
 
 
 	@Override
@@ -105,7 +152,7 @@ public class TransaccionDAOHibernate extends HibernateDaoSupport implements Tran
 	
 	
 	@Override
-	public ContTransaccionTipo obtenerTipoTransaccion(String nombreTransaccion) throws ExcepcionesDAO {
+	public ContTransaccionTipo obtenerTipoTransaccionxNombre(String nombreTransaccion) throws ExcepcionesDAO {
 		Session session = null;
 		ContTransaccionTipo tipoTx = null;
 		List<ContTransaccionTipo> listaTipoTX = null;

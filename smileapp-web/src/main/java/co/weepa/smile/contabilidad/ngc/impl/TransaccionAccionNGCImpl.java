@@ -18,6 +18,7 @@ public class TransaccionAccionNGCImpl implements TransaccionAccionNGC {
 		this.transaccionAccionDao = transaccionAccionDao;
 	}
 
+	ExcepcionesNGC expNgc;
 
 	public List<DefiTransaccionAccion> listaCuentasxTransaccion(ContOrganizacionInterna organizacion,
 			ContTransaccionTipo tipoTx) throws ExcepcionesNGC {
@@ -31,10 +32,14 @@ public class TransaccionAccionNGCImpl implements TransaccionAccionNGC {
 					throw new ExcepcionesNGC(e);
 				}
 			}else{
-				throw new ExcepcionesNGC("No se puede realizar la Consulta. Ingrese un Tipo de Transaccion válida.");
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeUsuario("No se puede realizar la Consulta. Ingrese un Tipo de Transaccion valida.");
+				throw expNgc;
 			}
 		} else {
-			throw new ExcepcionesNGC("No se puede realizar la Consulta. Ingrese un Tipo de Organizacion válida.");
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario("No se puede realizar la Consulta. Ingrese un Tipo de Transaccion valida.");
+			throw expNgc;
 		}		
 		
 		return listaCuentas;

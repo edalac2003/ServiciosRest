@@ -26,11 +26,25 @@ public class TerceroService {
 	TerceroNGC terceroNgc;
 	
 	@Transactional
+	@RequestMapping(value="/guardarTercero", method=RequestMethod.POST)
+	public void guardarTercero(@RequestBody ContTercero tercero) throws Exception{
+		System.out.println("Servicio Consumido");
+	}
+	
+	@Transactional
+	@RequestMapping(value="/verObjetoTercero", method=RequestMethod.GET)
+	public ContTercero verObjetoTercero()throws Exception{
+		ContTercero tercero = new ContTercero();
+		tercero.setIdtercero(1008100400);
+		return tercero;
+	}
+	
+	@Transactional
 	@RequestMapping(value="/listarTerceros", method=RequestMethod.GET)
-	public @ResponseBody List<ContTercero> listarTerceros() throws Exception{
-				
+	public @ResponseBody List<ContTercero> listarTerceros() throws Exception{				
 		return terceroNgc.listarTodos();
 	}
+	
 	
 	@Transactional
 	@RequestMapping(value="/obtenerTercero", method=RequestMethod.GET)
@@ -42,11 +56,13 @@ public class TerceroService {
 		return null;
 	}
 	
+	
 	@Transactional
 	@RequestMapping(value="/listarVendedores", method=RequestMethod.GET)
 	public @ResponseBody List<TercPersona> listarVendedores() throws Exception{		
 		return terceroNgc.listarVendedores();		
 	}
+	
 	
 	@Transactional
 	@RequestMapping(value="/listarDeudores", method=RequestMethod.GET)

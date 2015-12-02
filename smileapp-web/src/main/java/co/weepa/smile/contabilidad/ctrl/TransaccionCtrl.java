@@ -304,41 +304,111 @@ public class TransaccionCtrl extends GenericForwardComposer {
 	}
 	
 	public void onSelect$listaFacturas(){
-//		calcularDisponible(listaFacturas.getSelectedItem());
-	}
-	
-	public void onChange$txtValorPago(){
-		valorPago = Double.parseDouble(txtValorPago.getText());
-		
+		BigDecimal valorPago = BigDecimal.valueOf(Double.parseDouble(txtValorPago.getText()));
+		BigDecimal saldoDeuda;
+		Set<Listitem> listaSeleccionados = listaFacturas.getSelectedItems();
+		Iterator iter = listaSeleccionados.iterator();
+		if(!txtValorPago.getText().isEmpty()){
+			while(iter.hasNext()){
+				Listitem item = (Listitem)iter.next();
+				Listcell celdaSaldo = (Listcell)item.getChildren().get(3);
+				saldoDeuda = BigDecimal.valueOf(Double.parseDouble(celdaSaldo.getLabel()));
+				int resultado = valorPago.compareTo(saldoDeuda);
+				if ((resultado == 0) || (resultado == 1)){			//Valor Pago es Mayor o igual al Saldo de la Deuda
+					valorPago = valorPago.subtract(saldoDeuda);
+				}else if (resultado == -1){							//Valor Pago es Menor que Saldo Deuda
+					Messagebox.show("El valor no alcanza a cubrir la Deuda.");
+					valorPago = BigDecimal.ZERO;						
+				}				
+			}	
+		}else{
+			Messagebox.show("No ha definido el Valor a Pagar");
+		}
 	}
 	
 	
 	public void onClick$btnGuardar(){
 		/**
-		 * Se leen los Registros Seleccionados de la Lista de Facturas y se arma una nueva lista
+		 * Se leen los Registros Seleccionados de la Lista de Facturas y se arma nueva lista.
 		 */
 		Set<Listitem> listaSeleccionados = listaFacturas.getSelectedItems();
 		Iterator iter = listaSeleccionados.iterator();
-		System.out.println("Se seleccionaron "+ listaSeleccionados.size()+" elementos.");
+		FactFactura factura = null;
+		CartCartera cartera = null;
+		CartPago pagoCartera = null;
+		List<CartCartera> listaCarteraAfectado = new ArrayList<CartCartera>();
+		List<CartPago> listaPagoCartera = new ArrayList<CartPago>();
+		BigDecimal valorPago = BigDecimal.valueOf(Double.valueOf(txtValorPago.getText()));
+		
+		String idTercero = "";
+		
 		while (iter.hasNext()){
 			Listitem item = (Listitem)iter.next();
 			Listcell celdaID = (Listcell)item.getChildren().get(0);
 			Listcell celdaFactura = (Listcell)item.getChildren().get(1);
 			Listcell celdaSaldo = (Listcell)item.getChildren().get(3);
+			idTercero = celdaID.getLabel();
+			/**
+			 * Armar la estructura de CART_PAGO y Actualizar los objetos de la estructura CART_CARTERA para disminuir el saldo.
+			 * 1. Obtener el objeto CART_CARTERA existente
+			 */
 			
+			try {
+				factura = facturaNgc.obtenerFactura(celdaFactura.getLabel());
+			} catch (ExcepcionesNGC e) {
+				Messagebox.show(e.getMensajeUsuario());
+			}
 			
+			if(factura != null){
+				try {
+					cartera = carteraNgc.obtenerMaestroCartera(factura);
+				} catch (ExcepcionesNGC e) {
+					Messagebox.show(e.getMensajeUsuario());
+				}
+			}
 			
-			
-			
+			if(cartera != null){
+				BigDecimal saldoDeuda = cartera.getNmsaldo();
+				int resultado = valorPago.compareTo(saldoDeuda);
+				
+				if((resultado == 1) || (resultado == 0)){		//El Valor Pago es Mayor o Igual que el saldo de la Deuda.
+					valorPago = valorPago.subtract(saldoDeuda);
+					saldoDeuda = BigDecimal.ZERO;
+					cartera.setNmsaldo(saldoDeuda);
+				}else if (resultado == -1){						//El Valor Pago es Menor que el Saldo de la Deuda.
+					saldoDeuda = saldoDeuda.subtract(valorPago);
+					cartera.setNmsaldo(saldoDeuda);
+					valorPago = BigDecimal.ZERO;
+				}				
+				listaCarteraAfectado.add(cartera);
+				
+				/**
+				 * Se Crea Objeto de Pago Cartera
+				 */
+				pagoCartera = new CartPago();
+				pagoCartera.setCartCartera(cartera);
+				pagoCartera.setCartFormaPago(listaFormaPago.get(cmbMedioPago.getSelectedIndex()));
+				pagoCartera.setCartTipoPago(listaTipoPago.get(cmbTipoPago.getSelectedIndex()));
+				pagoCartera.setContMoneda(moneda);
+				pagoCartera.setDsdetalle(txtDetalles.getText());
+				pagoCartera.setFepago(dtFechaActual.getValue());
+				pagoCartera.setIdpago(0);
+				pagoCartera.setNmvalor(valorPago);
+				
+				listaPagoCartera.add(pagoCartera);
+			}			
 		}
 		
-
-//		try {
-//			transaccionNgc.guardarTransaccion(null, 0, null);
-//		} catch (ExcepcionesNGC e) {
-//			Messagebox.show(e.getMensajeUsuario());
-//		}
-		
+		if((!idTercero.isEmpty()) && (!listaCarteraAfectado.isEmpty()) && (!listaPagoCartera.isEmpty())){
+			try {
+				transaccionNgc.guardarTransaccion(idTercero, txtNumeroComprobante.getText().toUpperCase(), 0.0, "recibo caja efectivo", listaCarteraAfectado, listaPagoCartera);
+				Messagebox.show("Registro Guardado Satisfactoriamente.!!!");
+			} catch (ExcepcionesNGC e) {
+				Messagebox.show(e.getMensajeUsuario());
+			}
+		}else{
+			Messagebox.show("La información no está Completa. Por favor Revise.!!!");
+		}		
 	}
 	
 

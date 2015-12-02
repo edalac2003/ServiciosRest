@@ -10,7 +10,7 @@ import co.weepa.smile.contabilidad.dto.FactFactura;
 public class ObjetoFactura {
 
 	int idOrganizacion;
-	int idTipoTransaccion;
+	String TipoTransaccion;
 	int idMedioPago;
 	String  idTercero;
 	String formaPago;
@@ -33,12 +33,12 @@ public class ObjetoFactura {
 		this.idOrganizacion = idOrganizacion;
 	}
 
-	public int getIdTipoTransaccion() {
-		return idTipoTransaccion;
+	public String getTipoTransaccion() {
+		return TipoTransaccion;
 	}
 
-	public void setIdTipoTransaccion(int idTipoTransaccion) {
-		this.idTipoTransaccion = idTipoTransaccion;
+	public void setTipoTransaccion(String tipoTransaccion) {
+		TipoTransaccion = tipoTransaccion;
 	}
 
 	public int getIdMedioPago() {

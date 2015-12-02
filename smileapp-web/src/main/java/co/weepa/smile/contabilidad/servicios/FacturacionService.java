@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.weepa.smile.contabilidad.dto.CartCartera;
 import co.weepa.smile.contabilidad.dto.CartPago;
+import co.weepa.smile.contabilidad.dto.ContOrganizacionInterna;
+import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.FactDetalleFactura;
 import co.weepa.smile.contabilidad.dto.FactFactura;
+import co.weepa.smile.contabilidad.dto.ProdProducto;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoCotizacion;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoFactura;
 import co.weepa.smile.contabilidad.dto.capsulas.Retenciones;
@@ -29,10 +32,10 @@ public class FacturacionService {
 	FacturaNGC facturaNgc;
 	
 	@Transactional
-	@RequestMapping(value="/guardarFacturaVenta", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/guardarFacturaVenta", method=RequestMethod.POST)
 	public void guardarFacturaVenta(@RequestBody ObjetoFactura facturaVenta) throws Exception{
 		int idOrganizacion = facturaVenta.getIdOrganizacion();
-		int idTipoTransaccion = facturaVenta.getIdTipoTransaccion();
+		String idTipoTransaccion = facturaVenta.getTipoTransaccion();
 		int idMedioPago = facturaVenta.getIdMedioPago();
 		String  idTercero = facturaVenta.getIdTercero();
 		String formaPago = facturaVenta.getFormaPago();
@@ -40,11 +43,19 @@ public class FacturacionService {
 		List<FactDetalleFactura> listaDetalles = facturaVenta.getListaDetalles();
 		Retenciones retenciones = facturaVenta.getRetenciones();
 		CartCartera maestroCartera = facturaVenta.getMaestroCartera();
-		CartPago pagoCartera = facturaVenta.getPagoCartera();
+		CartPago pagoCartera = facturaVenta.getPagoCartera();		
 		
-		System.out.println("Servicio Consumido");
 		System.out.println("El ID del Tercero es : "+idTercero);
 		
+	}
+	
+	@Transactional
+	@RequestMapping(value="/verOrganizacion", method=RequestMethod.GET)
+	public @ResponseBody ContOrganizacionInterna verOrganizacion()throws Exception{
+		ContOrganizacionInterna organizcion = new ContOrganizacionInterna();
+		organizcion.setIdorganizacionInterna(1);
+		organizcion.setDsnombreOrganizacion("Nombre de la Organizacion");
+		return organizcion;
 	}
 	
 	@Transactional
@@ -52,7 +63,7 @@ public class FacturacionService {
 	public @ResponseBody ObjetoFactura verObjetoFactura() throws Exception{
 		ObjetoFactura esquemaFactura = new ObjetoFactura();
 		int idOrganizacion = 0;
-		int idTipoTransaccion = 0;
+		String tipoTransaccion = "";
 		int idMedioPago = 0;
 		String  idTercero = "";
 		String formaPago = "";
@@ -64,11 +75,16 @@ public class FacturacionService {
 		String mensaje = "";
 		
 		maestroFactura = new FactFactura();
+		ContTercero tercero = new ContTercero();
+		maestroFactura.setContTercero(tercero);
+		maestroFactura.setDsvendedor("");
 		listaDetalles = new ArrayList<FactDetalleFactura>();
 		FactDetalleFactura detalleFactura;
 		for(int i=1;i<=5;i++){
+			ProdProducto producto = new ProdProducto();
 			detalleFactura = new FactDetalleFactura();
 			detalleFactura.setIddetalleFactura(i);
+			detalleFactura.setProdProducto(producto);
 			listaDetalles.add(detalleFactura);
 		}
 		
@@ -77,7 +93,7 @@ public class FacturacionService {
 		pagoCartera = new CartPago();
 		
 		esquemaFactura.setIdOrganizacion(idOrganizacion);
-		esquemaFactura.setIdTipoTransaccion(idTipoTransaccion);
+		esquemaFactura.setTipoTransaccion(tipoTransaccion);
 		esquemaFactura.setIdMedioPago(idMedioPago);
 		esquemaFactura.setIdTercero(idTercero);
 		esquemaFactura.setFormaPago(formaPago);

@@ -14,7 +14,7 @@ public interface CarteraDAO {
 	public CartCartera obtenerMaestroCartera(int idCartera) throws ExcepcionesDAO;
 	
 	public CartCartera obtenerMaestroCarteraxFactura(FactFactura factura) throws ExcepcionesDAO;
-	
+		
 	public CartTipoPago obtenerTipoPago(int idTipoPago)throws ExcepcionesDAO;
 	
 	public CartFormaPago obtenerFormaPago(int idFormaPago) throws ExcepcionesDAO;
