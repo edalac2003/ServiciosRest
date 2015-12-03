@@ -195,86 +195,7 @@ public class TransaccionCtrl extends GenericForwardComposer {
 		}		
 	}
 	
-	
-//	private boolean calcularDisponible(Listitem item){
-//		boolean estado = false;
-//		double saldoFactura = 0;
-//		CartPago pago = null;
-//		listaDetallePago = new ArrayList<CartPago>();
-//		
-//		Listcell celdaTercero = (Listcell)item.getChildren().get(0);
-//		Listcell celdaFactura = (Listcell)item.getChildren().get(1);
-//		Listcell celdaFecha = (Listcell)item.getChildren().get(2);
-//		Listcell celdaSaldo = (Listcell)item.getChildren().get(3);
-//		saldoFactura = Double.parseDouble((celdaSaldo.getLabel().trim()));
-//		
-//		
-//		try {
-//			moneda = monedaNgc.obtenerMoneda(1);
-//		} catch (ExcepcionesNGC e) {
-//			Messagebox.show(e.getMensajeUsuario());
-//		}
-//		
-//		String numeroFactura = celdaFactura.getLabel();
-//		
-//		if (!numeroFactura.isEmpty()){
-//			try {
-//				maestroFactura = facturaNgc.obtenerFactura(numeroFactura);
-//			} catch (ExcepcionesNGC e) {
-//				Messagebox.show(e.getMensajeUsuario());
-//			}
-//		}	
-//		
-//		if (maestroCartera != null){
-//			try {
-//				maestroCartera = carteraNgc.obtenerMaestroCartera(maestroFactura);
-//			} catch (ExcepcionesNGC e) {
-//				Messagebox.show(e.getMensajeUsuario());
-//			}
-//		}
-//		
-//		/**
-//		 * Aqui se deben analizar 3 situaciones. 
-//		 * 1: El Monto a Pagar es suficiente para cubrir la deuda del pendiente.
-//		 * 2: El Monto a Pagar no es suficiente para cubrir la deuda (Abono).
-//		 * 3: El Monto a Pagar llegó a Cero, entonces ya no se puede hacer nada.  
-//		 */
-//		valorPago = valorPago - saldoFactura;
-//		
-//		if((maestroCartera != null) && (moneda != null) && (cmbTipoPago.getSelectedIndex() >= 0) && 
-//				(cmbMedioPago.getSelectedIndex() >= 0) && (!txtValorPago.getText().isEmpty()) && (valorPago > 0)){
-//					
-//			CartPago detallePago = new CartPago();
-//			detallePago.setCartCartera(maestroCartera);
-//			detallePago.setContMoneda(moneda);			
-//			detallePago.setCartFormaPago(listaFormaPago.get(cmbMedioPago.getSelectedIndex()));
-//			detallePago.setFepago(dtFechaActual.getValue());
-//			
-//			detallePago.setDsdetalle(txtDetalles.getText());
-//			if(valorPago >= saldoFactura){
-//				for(CartTipoPago tipoPago : listaTipoPago){
-//					if(tipoPago.getDsnombre().toUpperCase().contains("CANCELACION")){
-//						detallePago.setCartTipoPago(tipoPago);
-//					}
-//				}
-//				detallePago.setNmvalor(BigDecimal.valueOf(0.0));
-//			}else {
-//				for(CartTipoPago tipoPago : listaTipoPago){
-//					if(tipoPago.getDsnombre().toUpperCase().contains("ABONO")){
-//						detallePago.setCartTipoPago(tipoPago);
-//					}
-//				}
-//				Double calculo = saldoFactura - valorPago;
-//				detallePago.setNmvalor(BigDecimal.valueOf(calculo));
-//			}			
-//			
-//			listaDetallePago.add(detallePago);
-//		}	
-//		
-//		return estado;		
-//	}
-	
-	
+		
 	public void onSelect$cmbTipoComprobante(){
 		if (cmbTipoComprobante.getSelectedIndex() >= 0){
 			asignarConsecutivo();
@@ -393,15 +314,17 @@ public class TransaccionCtrl extends GenericForwardComposer {
 				pagoCartera.setDsdetalle(txtDetalles.getText());
 				pagoCartera.setFepago(dtFechaActual.getValue());
 				pagoCartera.setIdpago(0);
-				pagoCartera.setNmvalor(valorPago);
-				
+				pagoCartera.setNmvalor(saldoDeuda);				
 				listaPagoCartera.add(pagoCartera);
 			}			
 		}
 		
 		if((!idTercero.isEmpty()) && (!listaCarteraAfectado.isEmpty()) && (!listaPagoCartera.isEmpty())){
+			String nombreDocumento = cmbTipoComprobante.getText();
+			Double valorDescuento = 0.0;
+			
 			try {
-				transaccionNgc.guardarTransaccion(idTercero, txtNumeroComprobante.getText().toUpperCase(), 0.0, "recibo caja efectivo", listaCarteraAfectado, listaPagoCartera);
+				transaccionNgc.guardarTransaccion(idTercero, BigDecimal.valueOf(Double.parseDouble(txtValorPago.getText())), valorDescuento, nombreDocumento, listaCarteraAfectado, listaPagoCartera);
 				Messagebox.show("Registro Guardado Satisfactoriamente.!!!");
 			} catch (ExcepcionesNGC e) {
 				Messagebox.show(e.getMensajeUsuario());

@@ -170,6 +170,7 @@
         	<property name="centroCostoNgc" ref="centroCostoNgc" />
         	<property name="carteraNgc" ref="carteraNgc" />
         	<property name="transaccionNgc" ref="transaccionNgc" />
+        	<property name="facturaNgc" ref="facturaNgc" />
         </bean>
         
         <bean id="normaTipoNgc" class="co.weepa.smile.contabilidad.ngc.impl.NormaTipoNGCImpl">
@@ -237,6 +238,7 @@
         	<property name="transaccionAccionNgc" ref="transaccionAccionNgc" />
         	<property name="organizacionInternaNgc" ref="organizacionInternaNgc" />
         	<property name="monedaNgc" ref="monedaNgc" />
+        	<property name="centroCostoNgc" ref="centroCostoNgc" />
         </bean>
         
         

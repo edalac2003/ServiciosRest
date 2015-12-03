@@ -23,7 +23,6 @@ public class RrhhUsuario implements java.io.Serializable {
 	private Date febloqueo;
 	private String dspassword;
 	private Date feactualizacion;
-//	private Set rrhhUsuarioRoleses = new HashSet(0);
 
 	public RrhhUsuario() {
 	}

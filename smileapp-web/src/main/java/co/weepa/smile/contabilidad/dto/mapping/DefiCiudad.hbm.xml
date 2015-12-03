@@ -23,21 +23,5 @@
                 <comment>otros detalles sobre ciudad</comment>
             </column>
         </property>
-<!--         <set name="tercDireccions" table="terc_direccion" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDCIUDAD" length="10"> -->
-<!--                     <comment>codigo de la ciudad</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.TercDireccion" /> -->
-<!--         </set> -->
-<!--         <set name="defiTarifaIcas" table="defi_tarifa_ica" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDCIUDAD" length="10" not-null="true"> -->
-<!--                     <comment>codigo ciudad</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.DefiTarifaIca" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

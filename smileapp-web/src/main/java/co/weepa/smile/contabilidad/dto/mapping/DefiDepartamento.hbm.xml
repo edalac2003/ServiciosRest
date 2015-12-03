@@ -23,21 +23,5 @@
                 <comment>detalles de departamento</comment>
             </column>
         </property>
-<!--         <set name="tercDireccions" table="terc_direccion" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDDEPARTAMENTO_ESTADO" length="10"> -->
-<!--                     <comment>codigo del departamento</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.TercDireccion" /> -->
-<!--         </set> -->
-<!--         <set name="defiCiudads" table="defi_ciudad" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDDEPARTAMENTO" length="10" not-null="true"> -->
-<!--                     <comment>codigo del departamento al que pertenece</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.DefiCiudad" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

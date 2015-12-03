@@ -18,13 +18,5 @@
                 <comment>Descripcion del rol</comment>
             </column>
         </property>
-<!--         <set name="rrhhUsuarioRoleses" table="rrhh_usuario_roles" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDROL"> -->
-<!--                     <comment>Clave foranea a tabla roles</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.RrhhUsuarioRoles" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

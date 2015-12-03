@@ -19,13 +19,13 @@ import co.weepa.smile.contabilidad.dto.ContTransaccionContable;
 import co.weepa.smile.contabilidad.dto.ContTransaccionTipo;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoCartera;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
+import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
 
 public class TransaccionDAOHibernate extends HibernateDaoSupport implements TransaccionDAO {
 
 	ExcepcionesDAO expDao = null;
+	String consecutivo = "";
 	
-
-
 	@Override
 	public void guardarCartera(ObjetoCartera cartera, ContTransaccionContable transaccion,
 			List<ContDetalleTransaccion> listaDetalleTransaccion) throws ExcepcionesDAO {
@@ -70,25 +70,44 @@ public class TransaccionDAOHibernate extends HibernateDaoSupport implements Tran
 		try{
 			session = getSession();
 			tx = session.beginTransaction();
-			
+			System.out.println("Se va a Guardar la SIguiente informacion");
 			if((listaCartera != null) && (!listaCartera.isEmpty())){
 				for(CartCartera cartera : listaCartera){
+					System.out.println(cartera.getFactFactura().getDsnumeroFactura()+" - "+cartera.getNmsaldo());
 					session.saveOrUpdate(cartera);
 				}
 			}
 			
-			if((!listaPagos.isEmpty()) && (listaPagos != null)){
+			if(  (listaPagos != null) && (!listaPagos.isEmpty())){
 				for(CartPago pago : listaPagos){
+					System.out.println(pago.getCartCartera().getFactFactura().getDsnumeroFactura()+" - "+pago.getNmvalor());
 					session.save(pago);
 				}
 			}
 			
-			if(transaccionContable != null)
-				session.save(transaccionContable);
+			if(transaccionContable != null){
+				ContTransaccionTipo tipoTransaccion = transaccionContable.getContTransaccionTipo();
+				consecutivo = consecutivoConPrefijo(tipoTransaccion);
+				transaccionContable.setDsnumeroTransaccion(consecutivo);
+				transaccionContable.setDsnumeroDocumento(consecutivo);
 				
-			if((listaDetalleTransaccion != null) && (listaDetalleTransaccion.isEmpty())){
+				session.save(transaccionContable);
+			}
+				
+			/**
+			 * ESTABA REVISANDO ESTA PARTE.....  TIENE UNAS EXCEPCIONES CON LA LISTADETALLETRANSACCION.... PILAS, REVISA!!!!
+			 * 
+			 */
+			
+			System.out.println(transaccionContable.getContTransaccionTipo().getDsdescripcionTransaccionTipo()+" - "+ transaccionContable.getDsnumeroDocumento()+" - "+transaccionContable.getNmvalorTransaccion());	
+			
+			
+			
+			
+			if((listaDetalleTransaccion != null) && (!listaDetalleTransaccion.isEmpty())){
 				for(ContDetalleTransaccion detalle : listaDetalleTransaccion){
 					session.save(detalle);
+					System.out.println(detalle.getContPlanCuenta().getIdcuenta()+" - "+detalle.getNmvalor());
 				}
 			}			
 			tx.commit();
@@ -106,6 +125,31 @@ public class TransaccionDAOHibernate extends HibernateDaoSupport implements Tran
 
 
 
+	private String consecutivoConPrefijo(ContTransaccionTipo tipoTransaccion) throws ExcepcionesDAO {
+		int registro = 0;
+		String cadena = "";
+		
+		if(tipoTransaccion != null){
+			String prefijo = tipoTransaccion.getDsprefijo();
+			registro = consecutivoTransaccionxTipo(tipoTransaccion);
+			registro++;
+			
+			if((registro >=1) && (registro < 10)){
+				cadena = prefijo+"0000"+String.valueOf(registro); 
+			}else if((registro >= 10) && (registro < 100)){
+				cadena = prefijo+"000"+String.valueOf(consecutivo);
+			}else if((registro >= 100) && (registro < 1000)){
+				cadena = prefijo+"00"+String.valueOf(registro);
+			}else if((registro >= 1000) && (registro < 10000)){
+				cadena = prefijo+"0"+String.valueOf(registro);
+			}else {
+				cadena = prefijo+String.valueOf(registro);
+			}
+		}
+		
+		return cadena;
+	}
+	
 
 	@Override
 	public int consecutivoTransaccionxTipo(ContTransaccionTipo tipo) throws ExcepcionesDAO {

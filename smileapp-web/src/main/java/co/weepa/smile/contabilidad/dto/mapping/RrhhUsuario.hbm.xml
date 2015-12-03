@@ -8,7 +8,7 @@
             <column name="IDUSUARIO" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="tercPersona" class="co.weepa.smile.contabilidad.dto.TercPersona" fetch="join" lazy="false">
+        <many-to-one name="tercPersona" class="co.weepa.smile.contabilidad.dto.TercPersona" fetch="join">
             <column name="IDPERSONA">
                 <comment>clave foranea a tabla persona</comment>
             </column>

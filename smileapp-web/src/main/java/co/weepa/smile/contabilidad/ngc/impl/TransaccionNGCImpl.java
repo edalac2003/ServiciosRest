@@ -8,6 +8,7 @@ import java.util.List;
 import co.weepa.smile.contabilidad.dao.TransaccionDAO;
 import co.weepa.smile.contabilidad.dto.CartCartera;
 import co.weepa.smile.contabilidad.dto.CartPago;
+import co.weepa.smile.contabilidad.dto.ContCentroCosto;
 import co.weepa.smile.contabilidad.dto.ContDetalleTransaccion;
 import co.weepa.smile.contabilidad.dto.ContMoneda;
 import co.weepa.smile.contabilidad.dto.ContOrganizacionInterna;
@@ -16,6 +17,7 @@ import co.weepa.smile.contabilidad.dto.ContTransaccionContable;
 import co.weepa.smile.contabilidad.dto.ContTransaccionTipo;
 import co.weepa.smile.contabilidad.dto.DefiTransaccionAccion;
 import co.weepa.smile.contabilidad.ngc.CarteraNGC;
+import co.weepa.smile.contabilidad.ngc.CentroCostoNGC;
 import co.weepa.smile.contabilidad.ngc.MonedaNGC;
 import co.weepa.smile.contabilidad.ngc.OrganizacionInternaNGC;
 import co.weepa.smile.contabilidad.ngc.TerceroNGC;
@@ -32,6 +34,7 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 	TransaccionAccionNGC transaccionAccionNgc;
 	OrganizacionInternaNGC organizacionInternaNgc;
 	MonedaNGC monedaNgc;
+	CentroCostoNGC centroCostoNgc;
 	
 	public void setTransaccionDao(TransaccionDAO transaccionDao) {
 		this.transaccionDao = transaccionDao;
@@ -56,6 +59,10 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 		this.monedaNgc = monedaNgc;
 	}
 
+	public void setCentroCostoNgc(CentroCostoNGC centroCostoNgc) {
+		this.centroCostoNgc = centroCostoNgc;
+	}
+
 
 	ExcepcionesNGC expNgc = null;
 	ContTercero tercero = null;
@@ -70,7 +77,7 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 	
 	
 	@Override
-	public void guardarTransaccion(String idTercero, String numeroDocumento, Double valorDescuento, String nombreTransaccion, List<CartCartera> listaCartera, 
+	public void guardarTransaccion(String idTercero, BigDecimal valorTransaccion, Double valorDescuento, String nombreTransaccion, List<CartCartera> listaCartera, 
 			List<CartPago> listaDetallePago) throws ExcepcionesNGC {		
 		/**
 		 * Se inician los procedimientos para realizar la transaccion Contable.
@@ -78,8 +85,7 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 		String desripcionTransaccion = listaDetallePago.get(0).getDsdetalle();
 		ContTercero tercero = listaCartera.get(0).getContTercero();
 		moneda = monedaNgc.obtenerMoneda(1);
-		Date fechaTransaccion = listaDetallePago.get(0).getFepago();
-		BigDecimal valorTransaccion = listaDetallePago.get(0).getNmvalor();		
+		Date fechaTransaccion = listaDetallePago.get(0).getFepago();	
 		BigDecimal valorCuenta;
 		BigDecimal valorTransaccionTercero;
 		BigDecimal valorTransaccionDescuento;
@@ -88,6 +94,7 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 		
 		tipoTransaccion = obtenerTipoTransaccionxNombre(nombreTransaccion);
 		listaTransaccionAccion = transaccionAccionNgc.listaCuentasxTransaccion(organizacionInterna, tipoTransaccion);
+		
 		/**
 		 * Se crea Objeto CONT_TRANSACCION_CONTABLE
 		 */
@@ -98,7 +105,7 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 		transaccionContable.setFetransaccion(fechaTransaccion);
 		transaccionContable.setNmvalorMoneda(valorTransaccion);
 		transaccionContable.setDsdescripcionTransaccion(desripcionTransaccion);
-		transaccionContable.setDsnumeroDocumento(numeroDocumento);
+		transaccionContable.setDsnumeroDocumento("");
 		transaccionContable.setContMoneda(moneda);
 		
 		/**
@@ -111,7 +118,7 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 		
 		if((nombreTransaccion.toUpperCase().contains("RECIBO")) && (nombreTransaccion.toUpperCase().contains("CAJA")) && (nombreTransaccion.toUpperCase().contains("NO EFECTIVO"))){			
 			if((listaTransaccionAccion != null) && (!listaTransaccionAccion.isEmpty())){				
-				
+				ContCentroCosto centroCosto = 
 				/**
 				 * Se crea Objeto y Lista del tipo CONT_DETALLE_TRANSACCION 
 				 */
@@ -119,11 +126,11 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 				for(DefiTransaccionAccion accion : listaTransaccionAccion){
 					String cuenta = String.valueOf(accion.getContPlanCuenta().getIdcuenta());
 					valorCuenta = BigDecimal.ZERO;
-					if(cuenta.startsWith("1110")){
+					if(cuenta.startsWith("1110")){							//La Cuenta de Banco Aumtenta (Suma)
 						valorCuenta = valorTransaccionFinal;
-					}else if(cuenta.startsWith("1305")){
+					}else if(cuenta.startsWith("1305")){					//La cuenta CxC disminuye (resta)
 						valorCuenta = valorTransaccionTercero.negate();
-					}else if(cuenta.startsWith("530535")){
+					}else if(cuenta.startsWith("530535")){					//En caso de Presentarse Descuentos tambien aumenta para compensar la diferencia.
 						valorCuenta = valorTransaccionDescuento;
 					}
 					detalleTransaccion = new ContDetalleTransaccion();
@@ -136,21 +143,7 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 				}				
 			}			
 		}else if((nombreTransaccion.toUpperCase().contains("RECIBO")) && (nombreTransaccion.toUpperCase().contains("CAJA")) && (nombreTransaccion.toUpperCase().contains("EFECTIVO"))){
-//			tipoTransaccion = obtenerTipoTransaccionxNombre(nombreTransaccion);
-//			listaTransaccionAccion = transaccionAccionNgc.listaCuentasxTransaccion(organizacionInterna, tipoTransaccion);
-			
 			if((listaTransaccionAccion != null) && (!listaTransaccionAccion.isEmpty())){								
-				/**
-				 * Se crea Objeto CONT_TRANSACCION_CONTABLE
-				 */
-//				transaccionContable = new ContTransaccionContable();
-//				transaccionContable.setContOrganizacionInterna(organizacionInterna);
-//				transaccionContable.setContTercero(null);
-//				transaccionContable.setContTransaccionTipo(tipoTransaccion);
-//				transaccionContable.setFetransaccion(fechaTransaccion);
-//				transaccionContable.setNmvalorMoneda(valorTransaccion);
-//				transaccionContable.setDsdescripcionTransaccion(null);
-//				transaccionContable.setDsnumeroDocumento(numeroDocumento);
 				
 				/**
 				 * Se crea Objeto y Lista del tipo CONT_DETALLE_TRANSACCION 
@@ -159,11 +152,11 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 				for(DefiTransaccionAccion accion : listaTransaccionAccion){
 					String cuenta = String.valueOf(accion.getContPlanCuenta().getIdcuenta());
 					valorCuenta = BigDecimal.ZERO;
-					if(cuenta.startsWith("1110")){
+					if(cuenta.startsWith("1105")){							//La Cuenta de Caja Aumtenta (Suma)
 						valorCuenta = valorTransaccionFinal;
-					}else if(cuenta.startsWith("1305")){
+					}else if(cuenta.startsWith("1305")){					//La cuenta CxC disminuye (resta)
 						valorCuenta = valorTransaccionTercero.negate();
-					}else if(cuenta.startsWith("530535")){
+					}else if(cuenta.startsWith("530535")){					//En caso de Presentarse Descuentos tambien aumenta para compensar la diferencia.
 						valorCuenta = valorTransaccionDescuento;
 					}
 					detalleTransaccion = new ContDetalleTransaccion();
@@ -176,22 +169,7 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 				}			
 			}			
 		}else if((nombreTransaccion.toUpperCase().contains("COMPROBANTE")) && (nombreTransaccion.toUpperCase().contains("EGRESO")) && (nombreTransaccion.toUpperCase().contains("EFECTIVO"))){
-//			tipoTransaccion = obtenerTipoTransaccionxNombre(nombreTransaccion);
-//			listaTransaccionAccion = transaccionAccionNgc.listaCuentasxTransaccion(organizacionInterna, tipoTransaccion);
-			
-			if((listaTransaccionAccion != null) && (!listaTransaccionAccion.isEmpty())){								
-				/**
-				 * Se crea Objeto CONT_TRANSACCION_CONTABLE
-				 */
-//				transaccionContable = new ContTransaccionContable();
-//				transaccionContable.setContOrganizacionInterna(organizacionInterna);
-//				transaccionContable.setContTercero(null);
-//				transaccionContable.setContTransaccionTipo(tipoTransaccion);
-//				transaccionContable.setFetransaccion(fechaTransaccion);
-//				transaccionContable.setNmvalorMoneda(valorTransaccion);
-//				transaccionContable.setDsdescripcionTransaccion(null);
-//				transaccionContable.setDsnumeroDocumento(numeroDocumento);
-				
+			if((listaTransaccionAccion != null) && (!listaTransaccionAccion.isEmpty())){
 				/**
 				 * Se crea Objeto y Lista del tipo CONT_DETALLE_TRANSACCION 
 				 */
@@ -199,10 +177,10 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 				for(DefiTransaccionAccion accion : listaTransaccionAccion){
 					String cuenta = String.valueOf(accion.getContPlanCuenta().getIdcuenta());
 					valorCuenta = BigDecimal.ZERO;
-					if(cuenta.startsWith("1105")){
-						valorCuenta = valorTransaccion.negate();
-					}else if(cuenta.startsWith("2205")){
+					if(cuenta.startsWith("1105")){							//La Cuenta de Caja Disminuye (Resta)
 						valorCuenta = valorTransaccion;
+					}else if(cuenta.startsWith("2205")){					//La cuenta Proveedores Aumenta (Valor Positivo)
+						valorCuenta = valorTransaccion.negate();
 					}
 					detalleTransaccion = new ContDetalleTransaccion();
 					detalleTransaccion.setContCentroCosto(null);
@@ -214,22 +192,7 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 				}				
 			}			
 		}else if((nombreTransaccion.toUpperCase().contains("COMPROBANTE")) && (nombreTransaccion.toUpperCase().contains("EGRESO")) && (nombreTransaccion.toUpperCase().contains("NO EFECTIVO"))){
-//			tipoTransaccion = obtenerTipoTransaccionxNombre(nombreTransaccion);
-//			listaTransaccionAccion = transaccionAccionNgc.listaCuentasxTransaccion(organizacionInterna, tipoTransaccion);
-			
 			if((listaTransaccionAccion != null) && (!listaTransaccionAccion.isEmpty())){								
-				/**
-				 * Se crea Objeto CONT_TRANSACCION_CONTABLE
-				 */
-//				transaccionContable = new ContTransaccionContable();
-//				transaccionContable.setContOrganizacionInterna(organizacionInterna);
-//				transaccionContable.setContTercero(null);
-//				transaccionContable.setContTransaccionTipo(tipoTransaccion);
-//				transaccionContable.setFetransaccion(fechaTransaccion);
-//				transaccionContable.setNmvalorMoneda(valorTransaccion);
-//				transaccionContable.setDsdescripcionTransaccion(null);
-//				transaccionContable.setDsnumeroDocumento(numeroDocumento);
-				
 				/**
 				 * Se crea Objeto y Lista del tipo CONT_DETALLE_TRANSACCION 
 				 */
@@ -237,9 +200,9 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 				for(DefiTransaccionAccion accion : listaTransaccionAccion){
 					String cuenta = String.valueOf(accion.getContPlanCuenta().getIdcuenta());
 					valorCuenta = BigDecimal.ZERO;
-					if(cuenta.startsWith("1110")){
+					if(cuenta.startsWith("1110")){							//La Cuenta de Banco Disminuye (Resta)
 						valorCuenta = valorTransaccion.negate();
-					}else if(cuenta.startsWith("2205")){
+					}else if(cuenta.startsWith("2205")){					//La cuenta Proveedores Aumenta (Valor Positivo)
 						valorCuenta = valorTransaccion;
 					}
 					detalleTransaccion = new ContDetalleTransaccion();
