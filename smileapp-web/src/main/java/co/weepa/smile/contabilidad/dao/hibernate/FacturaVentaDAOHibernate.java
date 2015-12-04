@@ -22,7 +22,7 @@ public class FacturaVentaDAOHibernate extends HibernateDaoSupport implements Fac
 	ExcepcionesDAO expDao = null;
 	
 	public void guardarFactura(FactFactura maestroFactura, List<FactDetalleFactura>  listaDetalleFactura, ContTransaccionContable maestroTransaccion, 
-			List<ContDetalleTransaccion> listaDetalleTransaccion, CartCartera cartera, CartPago pagoCartera) throws ExcepcionesDAO {
+			List<ContDetalleTransaccion> listaDetalleTransaccion, CartCartera maestroCartera, CartPago pagoCartera) throws ExcepcionesDAO {
 		Session session = null;
 		Transaction tx = null;
 		
@@ -34,9 +34,6 @@ public class FacturaVentaDAOHibernate extends HibernateDaoSupport implements Fac
 			
 			for(FactDetalleFactura detalleFactura : listaDetalleFactura){
 				ProdProducto producto = detalleFactura.getProdProducto();
-				int cantidad = detalleFactura.getNmcantidad();
-				int saldo = producto.getNmsaldo() - cantidad;
-				producto.setNmsaldo(saldo);
 				session.update(producto);
 				session.save(detalleFactura);
 			}
@@ -47,8 +44,8 @@ public class FacturaVentaDAOHibernate extends HibernateDaoSupport implements Fac
 				session.save(detalleTx);
 			}
 			
-			if (cartera != null)
-				session.save(cartera);
+			if (maestroCartera != null)
+				session.save(maestroCartera);
 			
 			if (pagoCartera != null)
 				session.save(pagoCartera);
@@ -66,6 +63,47 @@ public class FacturaVentaDAOHibernate extends HibernateDaoSupport implements Fac
 	}
 
 	
+	@Override
+	public void actualizarFactura(FactFactura maestroFactura, List<FactDetalleFactura> listaDetalleFactura, ContTransaccionContable maestroTransaccion, 
+			List<ContDetalleTransaccion> listaDetalleTransaccion, CartCartera maestroCartera, CartPago pagoCartera) throws ExcepcionesDAO {
+		Session session = null;
+		Transaction tx = null;
+		
+		try{
+			session = getSession();
+			tx = session.beginTransaction();
+			
+			session.update(maestroFactura);
+			
+			for(FactDetalleFactura detalleFactura : listaDetalleFactura){
+				session.update(detalleFactura);
+			}
+			
+			session.update(maestroTransaccion);
+			
+			for(ContDetalleTransaccion detalleTx : listaDetalleTransaccion){							
+				session.update(detalleTx);
+			}
+			
+			if (maestroCartera != null)
+				session.update(maestroCartera);
+			
+			if (pagoCartera != null)
+				session.update(pagoCartera);
+			
+			tx.commit();
+		}catch(HibernateException e){
+			tx.rollback();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron Errores al Intentar Guardar el Registo de Factura de Venta.");
+			expDao.setOrigen(e);
+			throw expDao;
+		}finally{
+			session.close();
+		}	
+	}
+
+
 	@Override
 	public void guardarFacturaCompra(FactFactura maestroFactura, List<FactDetalleFactura>  listaDetalleFactura, ContTransaccionContable maestroTransaccion, 
 			List<ContDetalleTransaccion> listaDetalleTransaccion, CartCartera cartera, CartPago pagoCartera) throws ExcepcionesDAO {

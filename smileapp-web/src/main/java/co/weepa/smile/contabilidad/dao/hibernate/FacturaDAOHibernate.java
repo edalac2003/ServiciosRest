@@ -13,12 +13,15 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import co.weepa.smile.contabilidad.dao.FacturaDAO;
 import co.weepa.smile.contabilidad.dao.TerceroDAO;
+import co.weepa.smile.contabilidad.dto.CartCartera;
+import co.weepa.smile.contabilidad.dto.CartPago;
 import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.FactDetalleFactura;
 import co.weepa.smile.contabilidad.dto.FactFactura;
 import co.weepa.smile.contabilidad.dto.FactFacturaTipo;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoCotizacion;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoFactura;
+import co.weepa.smile.contabilidad.dto.capsulas.Retenciones;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 
 public class FacturaDAOHibernate extends HibernateDaoSupport implements FacturaDAO{
@@ -181,9 +184,41 @@ public class FacturaDAOHibernate extends HibernateDaoSupport implements FacturaD
 		
 		return listaCotizacion;
 	}
-
-
 	
+	@Override
+	public List<ObjetoFactura> listarFacturas(FactFacturaTipo tipoDocumento) throws ExcepcionesDAO {
+		List<ObjetoFactura> listaFacturas = null;
+		List<FactFactura> listaMaestroDocumento = null;		
+		Session session = null;
+		
+		try{
+			session = getSession();
+			Criteria criteria = session.createCriteria(FactFactura.class).add(Restrictions.eq("factFacturaTipo", tipoDocumento));
+			listaMaestroDocumento = criteria.list();
+		}catch(HibernateException e){
+			ExcepcionesDAO expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron errores al Momento de intentar Obtener el Listado de Factura por Tipo");
+			expDao.setOrigen(e);
+			throw expDao;
+		}finally{
+			session.close();
+		}
+		
+		if(listaMaestroDocumento != null){
+			listaFacturas = new ArrayList<ObjetoFactura>();
+			ContTercero tercero = null;
+			for(FactFactura maestro : listaMaestroDocumento){
+				ObjetoFactura factura = new ObjetoFactura();
+				factura.setMaestroFactura(maestro);
+				listaFacturas.add(factura);
+			}
+		}
+		
+		return listaFacturas;
+	}
+
+
 	@Override
 	public List<FactDetalleFactura> listarDetallesDocumento(FactFactura documento) throws ExcepcionesDAO {
 		List<FactDetalleFactura> listadetalles = null;

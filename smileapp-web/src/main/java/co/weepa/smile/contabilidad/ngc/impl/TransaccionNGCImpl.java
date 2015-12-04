@@ -11,7 +11,9 @@ import co.weepa.smile.contabilidad.dto.CartPago;
 import co.weepa.smile.contabilidad.dto.ContCentroCosto;
 import co.weepa.smile.contabilidad.dto.ContDetalleTransaccion;
 import co.weepa.smile.contabilidad.dto.ContMoneda;
+import co.weepa.smile.contabilidad.dto.ContNormaTipo;
 import co.weepa.smile.contabilidad.dto.ContOrganizacionInterna;
+import co.weepa.smile.contabilidad.dto.ContPlanCuenta;
 import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.ContTransaccionContable;
 import co.weepa.smile.contabilidad.dto.ContTransaccionTipo;
@@ -19,7 +21,9 @@ import co.weepa.smile.contabilidad.dto.DefiTransaccionAccion;
 import co.weepa.smile.contabilidad.ngc.CarteraNGC;
 import co.weepa.smile.contabilidad.ngc.CentroCostoNGC;
 import co.weepa.smile.contabilidad.ngc.MonedaNGC;
+import co.weepa.smile.contabilidad.ngc.NormaTipoNGC;
 import co.weepa.smile.contabilidad.ngc.OrganizacionInternaNGC;
+import co.weepa.smile.contabilidad.ngc.PlanCuentaNGC;
 import co.weepa.smile.contabilidad.ngc.TerceroNGC;
 import co.weepa.smile.contabilidad.ngc.TransaccionAccionNGC;
 import co.weepa.smile.contabilidad.ngc.TransaccionNGC;
@@ -35,6 +39,8 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 	OrganizacionInternaNGC organizacionInternaNgc;
 	MonedaNGC monedaNgc;
 	CentroCostoNGC centroCostoNgc;
+	NormaTipoNGC normaTipoNgc;
+	PlanCuentaNGC planCuentaNgc;
 	
 	public void setTransaccionDao(TransaccionDAO transaccionDao) {
 		this.transaccionDao = transaccionDao;
@@ -61,6 +67,14 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 
 	public void setCentroCostoNgc(CentroCostoNGC centroCostoNgc) {
 		this.centroCostoNgc = centroCostoNgc;
+	}
+
+	public void setNormaTipoNgc(NormaTipoNGC normaTipoNgc) {
+		this.normaTipoNgc = normaTipoNgc;
+	}
+
+	public void setPlanCuentaNgc(PlanCuentaNGC planCuentaNgc) {
+		this.planCuentaNgc = planCuentaNgc;
 	}
 
 
@@ -118,7 +132,10 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 		
 		if((nombreTransaccion.toUpperCase().contains("RECIBO")) && (nombreTransaccion.toUpperCase().contains("CAJA")) && (nombreTransaccion.toUpperCase().contains("NO EFECTIVO"))){			
 			if((listaTransaccionAccion != null) && (!listaTransaccionAccion.isEmpty())){				
-				ContCentroCosto centroCosto = 
+				ContCentroCosto centroCosto = centroCostoNgc.obtenerCentroCosto(1);
+				ContNormaTipo normaTipo = normaTipoNgc.obtenerTipoNorma(1);
+				ContPlanCuenta planCuenta = null;
+				
 				/**
 				 * Se crea Objeto y Lista del tipo CONT_DETALLE_TRANSACCION 
 				 */
@@ -133,9 +150,11 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 					}else if(cuenta.startsWith("530535")){					//En caso de Presentarse Descuentos tambien aumenta para compensar la diferencia.
 						valorCuenta = valorTransaccionDescuento;
 					}
+					planCuenta = planCuentaNgc.obtenerCuentaPUC(accion.getContPlanCuenta().getIdcuenta());
+					normaTipo = planCuenta.getContCuentaGrupo().getContNormaTipo();
 					detalleTransaccion = new ContDetalleTransaccion();
-					detalleTransaccion.setContCentroCosto(null);
-					detalleTransaccion.setContNormaTipo(null);
+					detalleTransaccion.setContCentroCosto(centroCosto);
+					detalleTransaccion.setContNormaTipo(normaTipo);
 					detalleTransaccion.setContPlanCuenta(null);
 					detalleTransaccion.setContTransaccionContable(transaccionContable);
 					detalleTransaccion.setNmvalor(valorCuenta);

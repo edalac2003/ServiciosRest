@@ -29,8 +29,6 @@ public class FacturaTipoDAOHibernate extends HibernateDaoSupport implements Fact
 			session = getSession();
 			Criteria criteria = session.createCriteria(FactFacturaTipo.class).add(Restrictions.eq("idfacturaTipo", idTipoFactura));
 			tipoFactura = (FactFacturaTipo)criteria.uniqueResult();
-//			Query query = session.createSQLQuery(sql);
-//			tipoFactura = (FactFacturaTipo)query.uniqueResult();
 		}catch(HibernateException e){
 			logger.error("Se presentaron Errores la intentar obtener el Tipo de Factura. ");
 			ExcepcionesDAO expDao = new ExcepcionesDAO();
@@ -46,6 +44,35 @@ public class FacturaTipoDAOHibernate extends HibernateDaoSupport implements Fact
 	}
 
 	
+	
+	@Override
+	public FactFacturaTipo obtenerTipoFacturaxNombre(String nombreFactura) throws ExcepcionesDAO {
+		FactFacturaTipo tipoFactura = null;
+		Session session = null;
+		String[] cadena = nombreFactura.split(" ");
+		
+		String sql = "SELECT * FROM fact_factura_tipo where dsnombre like %"+ cadena[0] +"% and dsnombre like %"+ cadena[1] + "%;";
+		
+		try{
+			session = getSession();
+			Query query = session.createSQLQuery(sql);
+			tipoFactura = (FactFacturaTipo)query.uniqueResult();
+		}catch(HibernateException e){
+			logger.error("Se presentaron Errores la intentar obtener el Tipo de Factura. ");
+			ExcepcionesDAO expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron Errores la intentar obtener el Tipo de Factura. ");
+			expDao.setOrigen(e);
+			throw expDao;
+		}finally{
+			session.close();
+		}
+		
+		return tipoFactura;
+	}
+
+
+
 	@SuppressWarnings("unchecked")
 	public List<FactFacturaTipo> listarTipoFactura() throws ExcepcionesDAO {
 		List<FactFacturaTipo> lista = null;

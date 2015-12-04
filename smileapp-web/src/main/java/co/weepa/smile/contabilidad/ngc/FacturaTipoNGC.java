@@ -10,6 +10,8 @@ public interface FacturaTipoNGC {
 
 	public FactFacturaTipo obtenerTipoFactura(int idTipoFactura) throws ExcepcionesNGC;
 	
+	public FactFacturaTipo obtenerTipoFacturaxNombre(String nombreFactura) throws ExcepcionesNGC;
+	
 	public List<FactFacturaTipo> listarTipoFactura() throws ExcepcionesNGC;
 	
 	public FactDetalleFacturaTipo obtenerTipoDetalleFactura(int idTipoDetalle) throws ExcepcionesNGC;

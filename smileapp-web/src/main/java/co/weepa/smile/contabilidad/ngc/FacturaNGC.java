@@ -8,6 +8,7 @@ import co.weepa.smile.contabilidad.dto.FactDetalleFactura;
 import co.weepa.smile.contabilidad.dto.FactFactura;
 import co.weepa.smile.contabilidad.dto.FactFacturaTipo;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoCotizacion;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoFactura;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
 
 public interface FacturaNGC {
@@ -27,6 +28,8 @@ public interface FacturaNGC {
 	public ObjetoCotizacion obtenerCotizacion(String numeroCotizacion) throws ExcepcionesNGC;
 	
 	public List<ObjetoCotizacion> listarCotizaciones() throws ExcepcionesNGC;
+	
+	public List<ObjetoFactura> listarFacturasVentas() throws ExcepcionesNGC;
 	
 	public List<FactDetalleFactura> listarDetalles(String idDocumento) throws ExcepcionesNGC;
 }

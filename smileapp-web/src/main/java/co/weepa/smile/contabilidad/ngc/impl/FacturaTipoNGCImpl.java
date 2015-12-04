@@ -42,6 +42,29 @@ public class FacturaTipoNGCImpl implements FacturaTipoNGC {
 	}
 	
 	
+	@Override
+	public FactFacturaTipo obtenerTipoFacturaxNombre(String nombreFactura) throws ExcepcionesNGC {
+		FactFacturaTipo tipoFactura = null;
+		if (!nombreFactura.isEmpty()){
+			try {
+				tipoFactura = facturaTipoDao.obtenerTipoFacturaxNombre(nombreFactura);
+			} catch (ExcepcionesDAO e) {
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeTecnico(e.getMensajeTecnico());
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());
+				throw expNgc;
+			}
+		}else{
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeUsuario("No es Posible realiza la consulta. Se requiere un nombre de Factura Valido.");
+			throw expNgc;
+		}	
+		
+		return tipoFactura;
+	}
+
+
 	public List<FactFacturaTipo> listarTipoFactura() throws ExcepcionesNGC {
 		List<FactFacturaTipo> listaTipo = null;
 		try {

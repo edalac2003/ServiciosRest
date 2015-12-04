@@ -43,6 +43,7 @@ import co.weepa.smile.contabilidad.dto.FactDetalleFacturaTipo;
 import co.weepa.smile.contabilidad.dto.FactFactura;
 import co.weepa.smile.contabilidad.dto.FactFacturaTipo;
 import co.weepa.smile.contabilidad.dto.ProdProducto;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoFactura;
 import co.weepa.smile.contabilidad.dto.capsulas.Retenciones;
 import co.weepa.smile.contabilidad.ngc.CarteraNGC;
 import co.weepa.smile.contabilidad.ngc.FacturaNGC;
@@ -665,13 +666,31 @@ public class FacturaVentaCtrl extends GenericForwardComposer{
 				
 				
 			
-			}if(cmbTipoDocumento.getText().contains("FACTURA DE VENTA")){
+			}
+			ObjetoFactura objetoFactura = new ObjetoFactura();
+//			(cmbIdCliente.getText(), organizacion.getIdorganizacionInterna(), tipoTransaccion.getIdtransaccionTipo(), 
+//					maestroFactura, cmbFormaPago.getText(), cmbMedioPago.getSelectedIndex(), listaDetalleFactura, retenciones, maestroCartera, pagoCartera);
+			
+			objetoFactura.setIdTercero(cmbIdCliente.getText());
+			objetoFactura.setIdOrganizacion(organizacion.getIdorganizacionInterna());
+			objetoFactura.setTipoTransaccion("FACTURA VENTA");
+			objetoFactura.setMaestroFactura(maestroFactura);
+			objetoFactura.setFormaPago(cmbFormaPago.getText());
+			objetoFactura.setIdMedioPago(cmbMedioPago.getSelectedIndex());
+			objetoFactura.setListaDetalles(listaDetalleFactura);
+			objetoFactura.setRetenciones(retenciones);
+			objetoFactura.setMaestroCartera(maestroCartera);
+			objetoFactura.setPagoCartera(pagoCartera);
+						
+			if(cmbTipoDocumento.getText().contains("FACTURA DE VENTA")){
 				/*
 				 * Una vez comprobados los datos requeridos, se procede a guardar la factura.
 				 */
 				try {
-					facturaVentaNgc.guardarFactura(cmbIdCliente.getText(), organizacion.getIdorganizacionInterna(), tipoTransaccion.getIdtransaccionTipo(), 
-							maestroFactura, cmbFormaPago.getText(), cmbMedioPago.getSelectedIndex(), listaDetalleFactura, retenciones, maestroCartera, pagoCartera);
+					facturaVentaNgc.convertirObjetoFactura(objetoFactura);
+					
+//					facturaVentaNgc.guardarFactura(cmbIdCliente.getText(), organizacion.getIdorganizacionInterna(), tipoTransaccion.getIdtransaccionTipo(), 
+//							maestroFactura, cmbFormaPago.getText(), cmbMedioPago.getSelectedIndex(), listaDetalleFactura, retenciones, maestroCartera, pagoCartera);
 					Messagebox.show("Factura de Venta Guardada Satisfactoriamente");
 				} catch (ExcepcionesNGC e) {
 					Messagebox.show(e.getMensajeUsuario());

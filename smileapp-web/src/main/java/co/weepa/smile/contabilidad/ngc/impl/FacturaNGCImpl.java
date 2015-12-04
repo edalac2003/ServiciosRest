@@ -5,6 +5,8 @@ import java.util.List;
 
 import co.weepa.smile.contabilidad.dao.FacturaDAO;
 import co.weepa.smile.contabilidad.dao.TerceroDAO;
+import co.weepa.smile.contabilidad.dto.CartCartera;
+import co.weepa.smile.contabilidad.dto.CartPago;
 import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.FactDetalleFactura;
 import co.weepa.smile.contabilidad.dto.FactFactura;
@@ -12,6 +14,7 @@ import co.weepa.smile.contabilidad.dto.FactFacturaTipo;
 import co.weepa.smile.contabilidad.dto.TercOrganizacion;
 import co.weepa.smile.contabilidad.dto.TercPersona;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoCotizacion;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoFactura;
 import co.weepa.smile.contabilidad.ngc.FacturaNGC;
 import co.weepa.smile.contabilidad.ngc.FacturaTipoNGC;
 import co.weepa.smile.contabilidad.ngc.TerceroNGC;
@@ -203,6 +206,47 @@ public class FacturaNGCImpl implements FacturaNGC {
 		
 		return listaCotizacion;
 	}
+	
+
+	@Override
+	public List<ObjetoFactura> listarFacturasVentas() throws ExcepcionesNGC {
+		List<ObjetoFactura> listaFacturas = null;
+		List<FactDetalleFactura> listaDetalleFactura = null;
+		FactFacturaTipo tipoFactura = facturaTipoNgc.obtenerTipoFactura(2);
+		
+		try {
+			listaFacturas = facturaDao.listarFacturas(tipoFactura);
+		} catch (ExcepcionesDAO e) {
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeTecnico(e.getMensajeTecnico());
+			expNgc.setMensajeUsuario(e.getMensajeUsuario());
+			expNgc.setOrigen(e.getOrigen());
+			throw expNgc;
+		}
+		
+		for(ObjetoFactura objeto : listaFacturas){
+			FactFactura factura = objeto.getMaestroFactura();
+			int idFactura = factura.getIdconsecutivoFactura();
+			try {
+				listaDetalleFactura = facturaDao.listarDetallesDocumento(factura);
+			} catch (ExcepcionesDAO e) {
+				expNgc = new ExcepcionesNGC();
+				expNgc.setMensajeTecnico(e.getMensajeTecnico());
+				expNgc.setMensajeUsuario(e.getMensajeUsuario());
+				expNgc.setOrigen(e.getOrigen());
+				throw expNgc;
+			}
+			if(listaDetalleFactura != null){
+				objeto.setListaDetalles(listaDetalleFactura);
+			}
+			
+			
+		}
+		
+		return listaFacturas;
+	}
+	
+	
 
 	@Override
 	public List<FactDetalleFactura> listarDetalles(String idDocumento) throws ExcepcionesNGC {

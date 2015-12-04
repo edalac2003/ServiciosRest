@@ -6,7 +6,7 @@
     <class name="co.weepa.smile.contabilidad.dto.CartCartera" table="cart_cartera">
         <id name="idcartera" type="int">
             <column name="IDCARTERA" />
-            <generator class="assigned" />
+            <generator class="increment" />
         </id>
         <many-to-one name="cartEstado" class="co.weepa.smile.contabilidad.dto.CartEstado" fetch="join">
             <column name="IDESTADO">

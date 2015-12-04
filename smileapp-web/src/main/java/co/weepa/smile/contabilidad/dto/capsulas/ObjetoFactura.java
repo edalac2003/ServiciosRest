@@ -10,8 +10,8 @@ import co.weepa.smile.contabilidad.dto.FactFactura;
 public class ObjetoFactura {
 
 	int idOrganizacion;
-	String TipoTransaccion;
 	int idMedioPago;
+	String TipoTransaccion;	
 	String  idTercero;
 	String formaPago;
 	FactFactura maestroFactura;	

@@ -2,11 +2,8 @@ package co.weepa.smile.contabilidad.dto.capsulas;
 
 import java.util.List;
 
-import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.FactDetalleFactura;
 import co.weepa.smile.contabilidad.dto.FactFactura;
-import co.weepa.smile.contabilidad.dto.TercOrganizacion;
-import co.weepa.smile.contabilidad.dto.TercPersona;
 
 public class ObjetoCotizacion {
 	

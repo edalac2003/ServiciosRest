@@ -10,6 +10,8 @@ public interface FacturaTipoDAO {
 
 	public FactFacturaTipo obtenerTipoFactura(int idTipoFactura) throws ExcepcionesDAO;
 	
+	public FactFacturaTipo obtenerTipoFacturaxNombre(String nombreFactura) throws ExcepcionesDAO;
+	
 	public List<FactFacturaTipo> listarTipoFactura() throws ExcepcionesDAO;
 	
 	public FactDetalleFacturaTipo obtenerTipoDetalleFactura(int idTipoDetalle) throws ExcepcionesDAO;

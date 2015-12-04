@@ -31,5 +31,7 @@ public interface FacturaDAO {
 	
 	public List<ObjetoCotizacion> listarCotizaciones(FactFacturaTipo tipoDocumento) throws ExcepcionesDAO;
 	
+	public List<ObjetoFactura> listarFacturas(FactFacturaTipo tipoDocumento) throws ExcepcionesDAO;
+	
 	public List<FactDetalleFactura> listarDetallesDocumento(FactFactura documento) throws ExcepcionesDAO;
 }

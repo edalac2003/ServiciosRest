@@ -1,8 +1,10 @@
 package co.weepa.smile.contabilidad.ngc.impl;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.jboss.logging.Logger;
@@ -22,16 +24,22 @@ import co.weepa.smile.contabilidad.dto.ContTransaccionContable;
 import co.weepa.smile.contabilidad.dto.ContTransaccionTipo;
 import co.weepa.smile.contabilidad.dto.DefiTransaccionAccion;
 import co.weepa.smile.contabilidad.dto.FactDetalleFactura;
+import co.weepa.smile.contabilidad.dto.FactDetalleFacturaTipo;
 import co.weepa.smile.contabilidad.dto.FactFactura;
+import co.weepa.smile.contabilidad.dto.FactFacturaTipo;
+import co.weepa.smile.contabilidad.dto.ProdProducto;
+import co.weepa.smile.contabilidad.dto.TercPersona;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoFactura;
 import co.weepa.smile.contabilidad.dto.capsulas.Retenciones;
 import co.weepa.smile.contabilidad.ngc.CarteraNGC;
 import co.weepa.smile.contabilidad.ngc.CentroCostoNGC;
 import co.weepa.smile.contabilidad.ngc.FacturaNGC;
+import co.weepa.smile.contabilidad.ngc.FacturaTipoNGC;
 import co.weepa.smile.contabilidad.ngc.FacturaVentaNGC;
 import co.weepa.smile.contabilidad.ngc.MonedaNGC;
 import co.weepa.smile.contabilidad.ngc.OrganizacionInternaNGC;
 import co.weepa.smile.contabilidad.ngc.PlanCuentaNGC;
+import co.weepa.smile.contabilidad.ngc.ProductoNGC;
 import co.weepa.smile.contabilidad.ngc.TerceroNGC;
 import co.weepa.smile.contabilidad.ngc.TransaccionAccionNGC;
 import co.weepa.smile.contabilidad.ngc.TransaccionNGC;
@@ -62,6 +70,8 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 	ContOrganizacionInterna organizacion = null;
 	ContTransaccionTipo tipoTransaccion = null;
 	CartFormaPago formaPago = null;
+	FactFacturaTipo tipoFactura;
+	FactDetalleFacturaTipo tipoDetalleFactura;
 	
 	
 	List<ContDetalleTransaccion> listaDetalleTransaccion = null;
@@ -72,11 +82,13 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 	TransaccionNGC transaccionNgc;
 	FacturaVentaDAO facturaVentaDao;
 	FacturaNGC facturaNgc;
+	FacturaTipoNGC facturaTipoNgc;
 	TransaccionAccionNGC transaccionAccionNgc;
 	PlanCuentaNGC planCuentaNgc;
 	MonedaNGC monedaNgc;
 	CentroCostoNGC centroCostoNgc;
 	CarteraNGC carteraNgc;
+	ProductoNGC productoNgc;
 	
 	public void setFacturaVentaDao(FacturaVentaDAO facturaVentaDao) {
 		this.facturaVentaDao = facturaVentaDao;
@@ -117,14 +129,27 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 	public void setCarteraNgc(CarteraNGC carteraNgc) {
 		this.carteraNgc = carteraNgc;
 	}
-
 		
+	public void setProductoNgc(ProductoNGC productoNgc) {
+		this.productoNgc = productoNgc;
+	}
+	
+	public void setFacturaTipoNgc(FacturaTipoNGC facturaTipoNgc) {
+		this.facturaTipoNgc = facturaTipoNgc;
+	}
+	
 	/*
 	 * Metodo Guardar Factura
 	 * Se reciben los parámetros enviados desde la vista para ser procesados.
 	 */
+	
+
 	@Override
-	public void convertirObjetoFactura(ObjetoFactura objetoFactura) throws ExcepcionesNGC {
+	public String convertirObjetoFactura(ObjetoFactura objetoFactura) throws ExcepcionesNGC {
+		String consecutivo = "";
+		
+		Date fechaActual = null;
+		DateFormat formatoFecha = DateFormat.getDateInstance(DateFormat.MEDIUM);		
 		String idTercero = objetoFactura.getIdTercero().toUpperCase();
 		String nombreTransaccion = objetoFactura.getTipoTransaccion().toUpperCase();
 		String formaPago = objetoFactura.getFormaPago().toUpperCase();
@@ -132,18 +157,52 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 		int idOrganizacion = objetoFactura.getIdOrganizacion();
 		int idMedioPago = objetoFactura.getIdMedioPago();
 		FactFactura maestroFactura = objetoFactura.getMaestroFactura();		
+		
+//		FactFacturaTipo tipoFactura = facturaTipoNgc.obtenerTipoFacturaxNombre(objetoFactura.getTipoTransaccion());
+		
+		tipoDetalleFactura = facturaTipoNgc.obtenerTipoDetalleFactura(1);
+		
+		/**
+		 * Se asigna temporalmente la fecha del sistema
+		 */
+		fechaActual = new Date();
+		maestroFactura.setFefactura(fechaActual);
+		
+		
 		List<FactDetalleFactura> listaDetalles = objetoFactura.getListaDetalles();
+		
 		Retenciones retenciones = objetoFactura.getRetenciones();
-		CartCartera maestroCartera = objetoFactura.getMaestroCartera();
-		CartPago pagoCartera = objetoFactura.getPagoCartera();
 		
-		tipoTransaccion = transaccionNgc.obtenerTipoTransaccionxNombre(nombreTransaccion);		
-		guardarFactura(idTercero, idOrganizacion, nombreTransaccion, tipoTransaccion, maestroFactura, formaPago, 
-				idMedioPago, listaDetalles, retenciones, maestroCartera, pagoCartera);
+		CartCartera maestroCartera = null;
+		CartPago pagoCartera = null;
+		if((objetoFactura.getMaestroCartera().getIdcartera() > 0)){
+			maestroCartera = objetoFactura.getMaestroCartera();
+			pagoCartera = objetoFactura.getPagoCartera();
+		}
 		
+		
+		
+		
+		if((nombreTransaccion.contains("FACTURA")) && (nombreTransaccion.contains("VENTA"))){
+			tipoTransaccion = transaccionNgc.obtenerTipoTransaccionxNombre(nombreTransaccion);
+			tipoFactura = facturaTipoNgc.obtenerTipoFactura(2);
+			maestroFactura.setFactFacturaTipo(tipoFactura);
+			consecutivo = guardarFactura(idTercero, idOrganizacion, nombreTransaccion, tipoTransaccion, maestroFactura, formaPago,					
+					idMedioPago, listaDetalles, retenciones, maestroCartera, pagoCartera);
+		}else if((nombreTransaccion.contains("FACTURA")) && (nombreTransaccion.contains("COMPRA"))){
+			tipoTransaccion = transaccionNgc.obtenerTipoTransaccionxNombre(nombreTransaccion);
+			tipoFactura = facturaTipoNgc.obtenerTipoFactura(1);
+			maestroFactura.setFactFacturaTipo(tipoFactura);
+			
+		}else if (nombreTransaccion.contains("COTIZACION")){
+			tipoFactura = facturaTipoNgc.obtenerTipoFactura(3);
+			maestroFactura.setFactFacturaTipo(tipoFactura);
+			guardarCotizacion(idTercero, idOrganizacion, nombreTransaccion, maestroFactura, listaDetalles);
+			
+		}
+		
+		return consecutivo;
 	}
-	
-	
 	
 	public String guardarFactura(String  idTercero, int idOrganizacion, String nombreTransaccion, ContTransaccionTipo tipoTransaccion, FactFactura maestroFactura, String formaPago, int idMedioPago, 
 			List<FactDetalleFactura> listaDetalles, Retenciones retenciones, CartCartera maestroCartera, CartPago pagoCartera) throws ExcepcionesNGC {
@@ -153,30 +212,49 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 		moneda = monedaNgc.obtenerMoneda(1);
 		centroCosto = centroCostoNgc.obtenerCentroCosto(1);
 		String numeroFactura = "";
-//		tipoTransaccion = transaccionNgc.obtenerTipoTransaccion(idTipoTransaccion);
 		
 		if((organizacion != null) && (tercero != null) && (tipoTransaccion != null) && (maestroFactura != null) && (!listaDetalles.isEmpty())){	
 			if((nombreTransaccion.contains("FACTURA")) && (nombreTransaccion.contains("VENTA"))){
 				double porcentaje = 0;
+				subtotal = 0;
+				vrTotal = 0;
+				subTotalDescuento = 0;
+				
 				/**
 				 * Se analiza la lista Detalle Factura para calcular los valores que se necesitaran mas adelante cuando se desee realizar el detalle
 				 * de la transaccion donde se asigna el valor a cada cuenta.			
 				 */
 				for(FactDetalleFactura detalle : listaDetalles){
-					totalxProducto = (detalle.getNmcantidad() * detalle.getProdProducto().getNmprecioVenta());
-					subtotal = subtotal + totalxProducto;
+					totalxProducto = (detalle.getNmcantidad() * detalle.getNmprecio());
+					subtotal = subtotal + totalxProducto;					
+					int vrImpuesto = detalle.getNmimpuesto();					
 					
-					int vrImpuesto = detalle.getProdProducto().getNmimpuesto();
 					if ((vrImpuesto >= 0) && (vrImpuesto <= 1)){
 						porcentaje = vrImpuesto;
-					}else if ((vrImpuesto >= 1) && (vrImpuesto <= 100)){
-						porcentaje = detalle.getProdProducto().getNmimpuesto()/100.0;
+					}else if ((vrImpuesto > 1) && (vrImpuesto <= 100)){
+						porcentaje = detalle.getNmimpuesto()/100.0;
 					}else{
 						porcentaje = 0;
-					}			
-					costoVenta = costoVenta + (detalle.getProdProducto().getNmprecioCompra()*detalle.getNmcantidad());
-					vrIVA = vrIVA + (totalxProducto * porcentaje);
+					}		
+					
+					costoVenta = costoVenta + (detalle.getNmprecio()*detalle.getNmcantidad());
+					if (porcentaje == 0){
+						vrIVA = vrIVA + vrImpuesto;
+					}else{
+						vrIVA = vrIVA + (totalxProducto * porcentaje);
+					}
+					
 					subTotalDescuento = subTotalDescuento + (detalle.getNmdescuento());
+					/**
+					 * Se deben actualizar las Existencias del Producto (existenciaActual = existenciaAntes - cantidadVendida)
+					 */
+					ProdProducto producto = productoNgc.obtenerProducto(detalle.getProdProducto().getIdproducto());
+					int cantidad = detalle.getNmcantidad();
+					int saldo = producto.getNmsaldo() - cantidad;
+					producto.setNmsaldo(saldo);
+					detalle.setProdProducto(producto);
+					detalle.setFactDetalleFacturaTipo(tipoDetalleFactura);
+					detalle.setFactFactura(maestroFactura);
 				}		
 				vrTotal = (subtotal + vrIVA) - subTotalDescuento;
 				
@@ -191,7 +269,7 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 				
 				//Se actualiza el valor Total en el Maestro Factura
 				maestroFactura.setNmvalorTotal(BigDecimal.valueOf(vrTotal));
-				
+				maestroFactura.setContOrganizacionInterna(organizacion);
 				
 				
 				/*
@@ -203,7 +281,6 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 				transaccionContable.setFetransaccion(maestroFactura.getFefactura());
 				transaccionContable.setNmvalorTransaccion(maestroFactura.getNmvalorTotal());
 				transaccionContable.setDsdescripcionTransaccion("transaccion del documento : "+nombreTransaccion);
-//				transaccionContable.setDsnumeroDocumento(maestroFactura.getDsnumeroFactura());
 				transaccionContable.setContOrganizacionInterna(organizacion);
 				transaccionContable.setContMoneda(moneda);
 				transaccionContable.setContTercero(tercero);
@@ -271,24 +348,7 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 							detalleTransaccion.setContCentroCosto(centroCosto);
 							listaDetalleTransaccion.add(detalleTransaccion);
 							asientoContable = asientoContable + valorCuenta;
-						}
-						
-						/*
-						 * En caso de ser a Credito
-						 */
-						if(formaPago.contains("CREDITO")){
-//							if(cuenta.startsWith("1305")){
-//								maestroCartera.setContPlanCuenta(cuentaPUC);
-//							}
-						}else if (formaPago.contains("CONTADO")){
-							// Se genera recibo de caja por ser de contado
-							// Ahora se valida a donde se llevará el valor pagado, si es en Caja (efectivo) o a un Banco (otro Medio)
-//							SI(MedioPago de pago == efectivo) entonces
-//								llevar valor a la cuenta de Caja
-//							sino
-//								llevar valor a la cuenta de Banco
-						}
-						
+						}												
 					} //Fin Para (DefiTransaccionAccion cuentaxTX : listaCuentasxTransaccion)
 					
 
@@ -301,7 +361,9 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 					}
 					
 					numeroFactura = facturaNgc.consecutivoFactura(nombreTransaccion);
+					maestroFactura.setDsnumeroFactura(numeroFactura);
 					transaccionContable.setDsnumeroDocumento(maestroFactura.getDsnumeroFactura());
+					
 					try {						
 						facturaVentaDao.guardarFactura(maestroFactura, listaDetalles, transaccionContable, listaDetalleTransaccion, maestroCartera, pagoCartera);
 					} catch (ExcepcionesDAO e) {
@@ -311,7 +373,7 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 						expNgc.setMensajeUsuario(e.getMensajeUsuario());
 						expNgc.setOrigen(e.getOrigen());
 						throw expNgc;
-					}
+					}	
 					
 					/**
 					 * En caso que se haya realizado algun tipo de Abono o Cuota Inicial, se debe dejar registro del dinero recibido por medio de una 
@@ -332,13 +394,11 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 	}		
 			
 
-	
-	
-	
 
-	public void guardarCotizacion(String idTercero, int idOrganizacion, FactFactura maestroFactura, List<FactDetalleFactura> listaDetalles) throws ExcepcionesNGC {
+	public void guardarCotizacion(String idTercero, int idOrganizacion, String nombreTransaccion, FactFactura maestroFactura, List<FactDetalleFactura> listaDetalles) throws ExcepcionesNGC {
 		tercero = maestroFactura.getContTercero();
 		organizacion = organizacionNgc.obtenerOrganizacion(idOrganizacion);
+		String numeroFactura = "";
 		
 		if((organizacion != null) && (tercero != null) && (maestroFactura != null) && (!listaDetalles.isEmpty())){					
 			double porcentaje = 0;
@@ -347,41 +407,46 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 			 * de la transaccion donde se asigna el valor a cada cuenta.			
 			 */
 			for(FactDetalleFactura detalle : listaDetalles){
-				totalxProducto = (detalle.getNmcantidad() * detalle.getProdProducto().getNmprecioVenta());
-				subtotal = subtotal + totalxProducto;				
-				vrIVA = ((porcentaje > 0)?(totalxProducto * porcentaje):0);
-				subTotalIVA = subTotalIVA + vrIVA;
+				totalxProducto = (detalle.getNmcantidad() * detalle.getNmprecio());
+				subtotal = subtotal + totalxProducto;					
+				int vrImpuesto = detalle.getNmimpuesto();					
+				
+				if ((vrImpuesto >= 0) && (vrImpuesto <= 1)){
+					porcentaje = vrImpuesto;
+				}else if ((vrImpuesto > 1) && (vrImpuesto <= 100)){
+					porcentaje = detalle.getNmimpuesto()/100.0;
+				}else{
+					porcentaje = 0;
+				}		
+				
+				costoVenta = costoVenta + (detalle.getNmprecio()*detalle.getNmcantidad());
+				if (porcentaje == 0){
+					vrIVA = vrIVA + vrImpuesto;
+				}else{
+					vrIVA = vrIVA + (totalxProducto * porcentaje);
+				}
+				
 				subTotalDescuento = subTotalDescuento + (detalle.getNmdescuento());
-				detalle.setNmsubtotal(totalxProducto);
-//				detalle.setNmimpuesto(Integer.parseInt(String.valueOf(vrIVA)));				
+				/**
+				 * Se deben actualizar las Existencias del Producto (existenciaActual = existenciaAntes - cantidadVendida)
+				 */
+				ProdProducto producto = productoNgc.obtenerProducto(detalle.getProdProducto().getIdproducto());
+				int cantidad = detalle.getNmcantidad();
+				int saldo = producto.getNmsaldo() - cantidad;
+				producto.setNmsaldo(saldo);
+				detalle.setProdProducto(producto);
+				detalle.setFactDetalleFacturaTipo(tipoDetalleFactura);
+				detalle.setFactFactura(maestroFactura);
 			}		
-			vrTotal = (subtotal + subTotalIVA) - subTotalDescuento;
-			
+			vrTotal = (subtotal + vrIVA) - subTotalDescuento;			
 			
 			//Se actualiza el valor Total en el Maestro Factura
 			maestroFactura.setNmvalorTotal(BigDecimal.valueOf(vrTotal));
-			
-			try {
-				moneda = monedaNgc.obtenerMoneda(1);
-			}catch (ExcepcionesNGC e1) {
-				ExcepcionesNGC expNgc = new ExcepcionesNGC();
-				expNgc.setMensajeTecnico(e1.getMensajeTecnico());
-				expNgc.setMensajeUsuario(e1.getMensajeUsuario());
-				expNgc.setOrigen(e1.getOrigen());
-				throw expNgc;
-			}
-			
-			try {
-				centroCosto = centroCostoNgc.obtenerCentroCosto(1);
-			} catch (ExcepcionesNGC e1) {
-				ExcepcionesNGC expNgc = new ExcepcionesNGC();
-				expNgc.setMensajeTecnico(e1.getMensajeTecnico());
-				expNgc.setMensajeUsuario(e1.getMensajeUsuario());
-				expNgc.setOrigen(e1.getOrigen());
-				throw expNgc;
-			}
+			maestroFactura.setContOrganizacionInterna(organizacion);		
 		
 		}
+		numeroFactura = facturaNgc.consecutivoFactura(nombreTransaccion);
+		maestroFactura.setDsnumeroFactura(numeroFactura);
 		
 		try {
 			facturaVentaDao.guardarCotizacion(maestroFactura, listaDetalles);
