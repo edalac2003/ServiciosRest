@@ -7,7 +7,7 @@ import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 
 public interface NormaTipoDAO {
 	
-	public ContNormaTipo obtenerTipoNorma(int idTipo) throws ExcepcionesDAO;
+	public ContNormaTipo obtenerTipoNorma(String idTipo) throws ExcepcionesDAO;
 	
 	public List<ContNormaTipo> listarTodo() throws ExcepcionesDAO;	
 

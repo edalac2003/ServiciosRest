@@ -96,15 +96,20 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 		/**
 		 * Se inician los procedimientos para realizar la transaccion Contable.
 		 */
-		String desripcionTransaccion = listaDetallePago.get(0).getDsdetalle();
+//		String descripcionTransaccion = listaDetallePago.get(0).getDsdetalle();
 		ContTercero tercero = listaCartera.get(0).getContTercero();
-		moneda = monedaNgc.obtenerMoneda(1);
+		moneda = monedaNgc.obtenerMoneda(1);										//Para especificar el tipo de Moneda en la cual se está realizando la transaccion
+		ContCentroCosto centroCosto = centroCostoNgc.obtenerCentroCosto(1);			//Define el centro de Costos
+		ContNormaTipo normaTipo = normaTipoNgc.obtenerTipoNorma("1");				//Especifica el tipo de Norma aplicable al Plan de Cuentas
+		ContPlanCuenta planCuenta = null;
+		
+		
 		Date fechaTransaccion = listaDetallePago.get(0).getFepago();	
 		BigDecimal valorCuenta;
 		BigDecimal valorTransaccionTercero;
 		BigDecimal valorTransaccionDescuento;
 		BigDecimal valorTransaccionFinal; 
-		organizacionInterna = organizacionInternaNgc.obtenerOrganizacion(1);
+		organizacionInterna = organizacionInternaNgc.obtenerOrganizacion(1);	//Define el tipo de Organizacion
 		
 		tipoTransaccion = obtenerTipoTransaccionxNombre(nombreTransaccion);
 		listaTransaccionAccion = transaccionAccionNgc.listaCuentasxTransaccion(organizacionInterna, tipoTransaccion);
@@ -118,7 +123,8 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 		transaccionContable.setContTransaccionTipo(tipoTransaccion);
 		transaccionContable.setFetransaccion(fechaTransaccion);
 		transaccionContable.setNmvalorMoneda(valorTransaccion);
-		transaccionContable.setDsdescripcionTransaccion(desripcionTransaccion);
+		transaccionContable.setNmvalorTransaccion(valorTransaccion);
+		transaccionContable.setDsdescripcionTransaccion("Transaccion del documento : "+nombreTransaccion);
 		transaccionContable.setDsnumeroDocumento("");
 		transaccionContable.setContMoneda(moneda);
 		
@@ -129,13 +135,8 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 		valorTransaccionDescuento = BigDecimal.valueOf(valorDescuento);
 		valorTransaccionFinal = valorTransaccionTercero.subtract(valorTransaccionDescuento);
 		
-		
-		if((nombreTransaccion.toUpperCase().contains("RECIBO")) && (nombreTransaccion.toUpperCase().contains("CAJA")) && (nombreTransaccion.toUpperCase().contains("NO EFECTIVO"))){			
+		if((nombreTransaccion.toUpperCase().contains("RECIBO")) && (nombreTransaccion.toUpperCase().contains("CAJA"))){			
 			if((listaTransaccionAccion != null) && (!listaTransaccionAccion.isEmpty())){				
-				ContCentroCosto centroCosto = centroCostoNgc.obtenerCentroCosto(1);
-				ContNormaTipo normaTipo = normaTipoNgc.obtenerTipoNorma(1);
-				ContPlanCuenta planCuenta = null;
-				
 				/**
 				 * Se crea Objeto y Lista del tipo CONT_DETALLE_TRANSACCION 
 				 */
@@ -145,49 +146,62 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 					valorCuenta = BigDecimal.ZERO;
 					if(cuenta.startsWith("1110")){							//La Cuenta de Banco Aumtenta (Suma)
 						valorCuenta = valorTransaccionFinal;
-					}else if(cuenta.startsWith("1305")){					//La cuenta CxC disminuye (resta)
-						valorCuenta = valorTransaccionTercero.negate();
-					}else if(cuenta.startsWith("530535")){					//En caso de Presentarse Descuentos tambien aumenta para compensar la diferencia.
-						valorCuenta = valorTransaccionDescuento;
-					}
-					planCuenta = planCuentaNgc.obtenerCuentaPUC(accion.getContPlanCuenta().getIdcuenta());
-					normaTipo = planCuenta.getContCuentaGrupo().getContNormaTipo();
-					detalleTransaccion = new ContDetalleTransaccion();
-					detalleTransaccion.setContCentroCosto(centroCosto);
-					detalleTransaccion.setContNormaTipo(normaTipo);
-					detalleTransaccion.setContPlanCuenta(null);
-					detalleTransaccion.setContTransaccionContable(transaccionContable);
-					detalleTransaccion.setNmvalor(valorCuenta);
-					listaDetalleTransaccion.add(detalleTransaccion);
-				}				
-			}			
-		}else if((nombreTransaccion.toUpperCase().contains("RECIBO")) && (nombreTransaccion.toUpperCase().contains("CAJA")) && (nombreTransaccion.toUpperCase().contains("EFECTIVO"))){
-			if((listaTransaccionAccion != null) && (!listaTransaccionAccion.isEmpty())){								
-				
-				/**
-				 * Se crea Objeto y Lista del tipo CONT_DETALLE_TRANSACCION 
-				 */
-				
-				for(DefiTransaccionAccion accion : listaTransaccionAccion){
-					String cuenta = String.valueOf(accion.getContPlanCuenta().getIdcuenta());
-					valorCuenta = BigDecimal.ZERO;
-					if(cuenta.startsWith("1105")){							//La Cuenta de Caja Aumtenta (Suma)
+					}else if(cuenta.startsWith("1105")){					//La Cuenta de Caja Aumtenta (Suma)
 						valorCuenta = valorTransaccionFinal;
 					}else if(cuenta.startsWith("1305")){					//La cuenta CxC disminuye (resta)
 						valorCuenta = valorTransaccionTercero.negate();
 					}else if(cuenta.startsWith("530535")){					//En caso de Presentarse Descuentos tambien aumenta para compensar la diferencia.
 						valorCuenta = valorTransaccionDescuento;
 					}
-					detalleTransaccion = new ContDetalleTransaccion();
-					detalleTransaccion.setContCentroCosto(null);
-					detalleTransaccion.setContNormaTipo(null);
-					detalleTransaccion.setContPlanCuenta(null);
-					detalleTransaccion.setContTransaccionContable(transaccionContable);
-					detalleTransaccion.setNmvalor(valorCuenta);
-					listaDetalleTransaccion.add(detalleTransaccion);
-				}			
+					planCuenta = planCuentaNgc.obtenerCuentaPUC(accion.getContPlanCuenta().getIdcuenta());
+					if (planCuenta != null)
+						normaTipo = planCuenta.getContCuentaGrupo().getContNormaTipo();
+					
+					if (valorCuenta.compareTo(BigDecimal.ZERO) != 0){
+						detalleTransaccion = new ContDetalleTransaccion();
+						detalleTransaccion.setContCentroCosto(centroCosto);
+						detalleTransaccion.setContNormaTipo(normaTipo);
+						detalleTransaccion.setContPlanCuenta(planCuenta);
+						detalleTransaccion.setContTransaccionContable(transaccionContable);
+						detalleTransaccion.setNmvalor(valorCuenta);
+						listaDetalleTransaccion.add(detalleTransaccion);
+					}					
+				}				
 			}			
-		}else if((nombreTransaccion.toUpperCase().contains("COMPROBANTE")) && (nombreTransaccion.toUpperCase().contains("EGRESO")) && (nombreTransaccion.toUpperCase().contains("EFECTIVO"))){
+		}
+//		else if((nombreTransaccion.toUpperCase().contains("RECIBO")) && (nombreTransaccion.toUpperCase().contains("CAJA")) && (nombreTransaccion.toUpperCase().contains("EFECTIVO"))){
+//			if((listaTransaccionAccion != null) && (!listaTransaccionAccion.isEmpty())){								
+//				
+//				/**
+//				 * Se crea Objeto y Lista del tipo CONT_DETALLE_TRANSACCION 
+//				 */
+//				
+//				for(DefiTransaccionAccion accion : listaTransaccionAccion){
+//					String cuenta = String.valueOf(accion.getContPlanCuenta().getIdcuenta());
+//					valorCuenta = BigDecimal.ZERO;
+//					if(cuenta.startsWith("1105")){							//La Cuenta de Caja Aumtenta (Suma)
+//						valorCuenta = valorTransaccionFinal;
+//					}else if(cuenta.startsWith("1305")){					//La cuenta CxC disminuye (resta)
+//						valorCuenta = valorTransaccionTercero.negate();
+//					}else if(cuenta.startsWith("530535")){					//En caso de Presentarse Descuentos tambien aumenta para compensar la diferencia.
+//						valorCuenta = valorTransaccionDescuento;
+//					}
+//					planCuenta = planCuentaNgc.obtenerCuentaPUC(accion.getContPlanCuenta().getIdcuenta());
+//					if (planCuenta != null)
+//						normaTipo = planCuenta.getContCuentaGrupo().getContNormaTipo();
+//					if (valorCuenta != BigDecimal.ZERO){
+//						detalleTransaccion = new ContDetalleTransaccion();
+//						detalleTransaccion.setContCentroCosto(centroCosto);
+//						detalleTransaccion.setContNormaTipo(normaTipo);
+//						detalleTransaccion.setContPlanCuenta(planCuenta);
+//						detalleTransaccion.setContTransaccionContable(transaccionContable);
+//						detalleTransaccion.setNmvalor(valorCuenta);
+//						listaDetalleTransaccion.add(detalleTransaccion);
+//					}
+//				}			
+//			}			
+//		}
+		else if((nombreTransaccion.toUpperCase().contains("COMPROBANTE")) && (nombreTransaccion.toUpperCase().contains("EGRESO"))){
 			if((listaTransaccionAccion != null) && (!listaTransaccionAccion.isEmpty())){
 				/**
 				 * Se crea Objeto y Lista del tipo CONT_DETALLE_TRANSACCION 
@@ -197,43 +211,58 @@ public class TransaccionNGCImpl implements TransaccionNGC {
 					String cuenta = String.valueOf(accion.getContPlanCuenta().getIdcuenta());
 					valorCuenta = BigDecimal.ZERO;
 					if(cuenta.startsWith("1105")){							//La Cuenta de Caja Disminuye (Resta)
-						valorCuenta = valorTransaccion;
-					}else if(cuenta.startsWith("2205")){					//La cuenta Proveedores Aumenta (Valor Positivo)
 						valorCuenta = valorTransaccion.negate();
+					}else if(cuenta.startsWith("1110")){					//La Cuenta de Banco Disminuye (Resta)
+						valorCuenta = valorTransaccion.negate();
+					}else if(cuenta.startsWith("2205")){					//La cuenta Proveedores Aumenta (Valor Positivo)
+						valorCuenta = valorTransaccion;
 					}
-					detalleTransaccion = new ContDetalleTransaccion();
-					detalleTransaccion.setContCentroCosto(null);
-					detalleTransaccion.setContNormaTipo(null);
-					detalleTransaccion.setContPlanCuenta(null);
-					detalleTransaccion.setContTransaccionContable(transaccionContable);
-					detalleTransaccion.setNmvalor(valorCuenta);	
-					listaDetalleTransaccion.add(detalleTransaccion);
+					planCuenta = planCuentaNgc.obtenerCuentaPUC(accion.getContPlanCuenta().getIdcuenta());
+					if (planCuenta != null)
+						normaTipo = planCuenta.getContCuentaGrupo().getContNormaTipo();
+					if (valorCuenta.compareTo(BigDecimal.ZERO) != 0){
+						detalleTransaccion = new ContDetalleTransaccion();
+						detalleTransaccion.setContCentroCosto(centroCosto);
+						detalleTransaccion.setContNormaTipo(normaTipo);
+						detalleTransaccion.setContPlanCuenta(planCuenta);
+						detalleTransaccion.setContTransaccionContable(transaccionContable);
+						detalleTransaccion.setNmvalor(valorCuenta);	
+						listaDetalleTransaccion.add(detalleTransaccion);
+					}					
 				}				
 			}			
-		}else if((nombreTransaccion.toUpperCase().contains("COMPROBANTE")) && (nombreTransaccion.toUpperCase().contains("EGRESO")) && (nombreTransaccion.toUpperCase().contains("NO EFECTIVO"))){
-			if((listaTransaccionAccion != null) && (!listaTransaccionAccion.isEmpty())){								
-				/**
-				 * Se crea Objeto y Lista del tipo CONT_DETALLE_TRANSACCION 
-				 */
-				
-				for(DefiTransaccionAccion accion : listaTransaccionAccion){
-					String cuenta = String.valueOf(accion.getContPlanCuenta().getIdcuenta());
-					valorCuenta = BigDecimal.ZERO;
-					if(cuenta.startsWith("1110")){							//La Cuenta de Banco Disminuye (Resta)
-						valorCuenta = valorTransaccion.negate();
-					}else if(cuenta.startsWith("2205")){					//La cuenta Proveedores Aumenta (Valor Positivo)
-						valorCuenta = valorTransaccion;
-					}
-					detalleTransaccion = new ContDetalleTransaccion();
-					detalleTransaccion.setContCentroCosto(null);
-					detalleTransaccion.setContNormaTipo(null);
-					detalleTransaccion.setContPlanCuenta(null);
-					detalleTransaccion.setContTransaccionContable(transaccionContable);
-					detalleTransaccion.setNmvalor(valorCuenta);
-					listaDetalleTransaccion.add(detalleTransaccion);
-				}			
-			}			
 		}
+//		else if((nombreTransaccion.toUpperCase().contains("COMPROBANTE")) && (nombreTransaccion.toUpperCase().contains("EGRESO")) && (nombreTransaccion.toUpperCase().contains("NO EFECTIVO"))){
+//			if((listaTransaccionAccion != null) && (!listaTransaccionAccion.isEmpty())){								
+//				/**
+//				 * Se crea Objeto y Lista del tipo CONT_DETALLE_TRANSACCION 
+//				 */
+//				
+//				for(DefiTransaccionAccion accion : listaTransaccionAccion){
+//					String cuenta = String.valueOf(accion.getContPlanCuenta().getIdcuenta());
+//					valorCuenta = BigDecimal.ZERO;
+//					if(cuenta.startsWith("1110")){							//La Cuenta de Banco Disminuye (Resta)
+//						valorCuenta = valorTransaccion.negate();
+//					}else if(cuenta.startsWith("2205")){					//La cuenta Proveedores Aumenta (Valor Positivo)
+//						valorCuenta = valorTransaccion;
+//					}
+//					planCuenta = planCuentaNgc.obtenerCuentaPUC(accion.getContPlanCuenta().getIdcuenta());
+//					if (planCuenta != null)
+//						normaTipo = planCuenta.getContCuentaGrupo().getContNormaTipo();
+//					
+//					if (valorCuenta != BigDecimal.ZERO){
+//						detalleTransaccion = new ContDetalleTransaccion();
+//					detalleTransaccion.setContCentroCosto(centroCosto);
+//					detalleTransaccion.setContNormaTipo(normaTipo);
+//					detalleTransaccion.setContPlanCuenta(planCuenta);
+//					detalleTransaccion.setContTransaccionContable(transaccionContable);
+//					detalleTransaccion.setNmvalor(valorCuenta);
+//					listaDetalleTransaccion.add(detalleTransaccion);
+//					}
+//					
+//				}			
+//			}			
+//		}
 		
 		if((!listaCartera.isEmpty()) && (!listaDetallePago.isEmpty()) && (transaccionContable != null) && (!listaDetalleTransaccion.isEmpty())){
 			try {

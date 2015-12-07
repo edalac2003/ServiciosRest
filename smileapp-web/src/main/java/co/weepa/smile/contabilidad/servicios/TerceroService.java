@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.TercOrganizacion;
 import co.weepa.smile.contabilidad.dto.TercPersona;
-import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudor;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoTercero;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoFactura;
 import co.weepa.smile.contabilidad.ngc.TerceroNGC;
 
@@ -65,10 +65,12 @@ public class TerceroService {
 	
 	
 	@Transactional
-	@RequestMapping(value="/listarDeudores", method=RequestMethod.GET)
-	public @ResponseBody List<ObjetoDeudor> listarDeudores() throws Exception{
+	@RequestMapping(value="/listarCarteraTerceros", method=RequestMethod.GET)
+	public @ResponseBody List<ObjetoTercero> listarCarteraTerceros(
+			@RequestParam(value="tercero")String tipoTercero, 
+			@RequestParam(value="documento")String tipoDocumento) throws Exception{
 		
-		return terceroNgc.listarDeudores();
+		return terceroNgc.listarCarteraTercero(tipoTercero, tipoDocumento);
 	}
 	
 	
@@ -77,6 +79,7 @@ public class TerceroService {
 	public @ResponseBody List<TercOrganizacion> listarPersonasJuridicas()throws Exception{
 		return terceroNgc.listarOrganizaciones();
 	}
+	
 	
 	@Transactional
 	@RequestMapping(value="/obtenerPersonaJuridica", method=RequestMethod.GET)

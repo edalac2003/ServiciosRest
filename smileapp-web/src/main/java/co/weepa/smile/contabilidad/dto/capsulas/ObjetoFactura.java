@@ -13,6 +13,7 @@ public class ObjetoFactura {
 	int idMedioPago;
 	String TipoTransaccion;	
 	String  idTercero;
+	String nombreTercero;
 	String formaPago;
 	FactFactura maestroFactura;	
 	List<FactDetalleFactura> listaDetalles;
@@ -55,6 +56,14 @@ public class ObjetoFactura {
 
 	public void setIdTercero(String idTercero) {
 		this.idTercero = idTercero;
+	}
+	
+	public String getNombreTercero() {
+		return nombreTercero;
+	}
+
+	public void setNombreTercero(String nombreTercero) {
+		this.nombreTercero = nombreTercero;
 	}
 
 	public String getFormaPago() {

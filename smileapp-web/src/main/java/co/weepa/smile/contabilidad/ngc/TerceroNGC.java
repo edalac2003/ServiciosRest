@@ -6,7 +6,7 @@ import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.ContTipoTercero;
 import co.weepa.smile.contabilidad.dto.TercOrganizacion;
 import co.weepa.smile.contabilidad.dto.TercPersona;
-import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudor;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoTercero;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
 
@@ -42,5 +42,5 @@ public interface TerceroNGC {
 	
 	public List<TercPersona> listarVendedores() throws ExcepcionesNGC;
 	
-	public List<ObjetoDeudor> listarDeudores() throws ExcepcionesNGC;
+	public List<ObjetoTercero> listarCarteraTercero(String tipoTercero, String tipoDocumento) throws ExcepcionesNGC;
 }

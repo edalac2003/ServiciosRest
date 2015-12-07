@@ -30,7 +30,7 @@ import co.weepa.smile.contabilidad.dto.ContMoneda;
 import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.ContTransaccionTipo;
 import co.weepa.smile.contabilidad.dto.FactFactura;
-import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudor;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoTercero;
 import co.weepa.smile.contabilidad.ngc.CarteraNGC;
 import co.weepa.smile.contabilidad.ngc.FacturaNGC;
 import co.weepa.smile.contabilidad.ngc.MonedaNGC;
@@ -102,38 +102,33 @@ public class TransaccionCtrl extends GenericForwardComposer {
 	
 	List<ContTransaccionTipo> listaTipoTransaccion = null;
 	List<ContTercero> listadoDeudores = null;
-	List<ObjetoDeudor> deudores = null;
+	List<ObjetoTercero> deudores = null;
 	List<CartFormaPago> listaFormaPago = null;
 	List<CartTipoPago> listaTipoPago = null;
 	List<CartPago> listaDetallePago = null;
 	
-	private void cargarDeudores(){
+	
+	private void cargarCarteraTercero(String tipoTercero){
 		try {
-			deudores = terceroNgc.listarDeudores();
+			deudores = terceroNgc.listarCarteraTercero(tipoTercero, cmbTipoComprobante.getText().toUpperCase());
 		} catch (ExcepcionesNGC e) {
 			Messagebox.show(e.getMensajeUsuario());
 		}
+		listaDeudores.getItems().clear();
 		
 		if(deudores != null){			
-			for(ObjetoDeudor deudor : deudores){
+			for(ObjetoTercero deudor : deudores){
 				Listitem item = new Listitem();
 				Listcell celdaID = new Listcell(String.valueOf(deudor.getContTercero().getIdtercero()));
-				item.appendChild(celdaID);	
-				if(deudor.getTercOrganizacion() != null){
-					Listcell celdaNombre = new Listcell(deudor.getTercOrganizacion().getDsrazonSocial());
-					item.appendChild(celdaNombre);
-				}else if (deudor.getTercPersona() != null){
-					String nombreTercero = deudor.getTercPersona().getDsprimerNombre()+ " " +deudor.getTercPersona().getDsprimerApellido();
-					Listcell celdaNombre = new Listcell(nombreTercero);
-					item.appendChild(celdaNombre);
-				}
+				item.appendChild(celdaID);
+				Listcell celdaNombre = new Listcell(deudor.getNombreTercero());
+				item.appendChild(celdaNombre);
 				Listcell celdaSaldo = new Listcell(String.valueOf(deudor.getSaldoDeuda()));							
 				item.appendChild(celdaSaldo);
 				listaDeudores.appendChild(item);
 			}
 		}
 	}
-	
 	
 	private void cargarMedioPago(){
 		try {
@@ -184,10 +179,10 @@ public class TransaccionCtrl extends GenericForwardComposer {
 	
 	private void asignarConsecutivo(){
 		String consecutivo = "";	
-		
+		txtNumeroComprobante.setText("");
 		if (cmbTipoComprobante.getSelectedIndex() >= 0){
 			try {
-				consecutivo = transaccionNgc.consecutivoTransaccionxTipo("RECIBO CAJA");
+				consecutivo = transaccionNgc.consecutivoTransaccionxTipo(cmbTipoComprobante.getText());
 			} catch (ExcepcionesNGC e) {
 				Messagebox.show(e.getMensajeUsuario());
 			}
@@ -200,11 +195,18 @@ public class TransaccionCtrl extends GenericForwardComposer {
 		if (cmbTipoComprobante.getSelectedIndex() >= 0){
 			asignarConsecutivo();
 		}
+		
+		if((cmbTipoComprobante.getText().contains("RECIBO")) && (cmbTipoComprobante.getText().contains("CAJA"))){
+			cargarCarteraTercero("DEUDORES");
+		}else if((cmbTipoComprobante.getText().contains("COMPROBANTE")) && (cmbTipoComprobante.getText().contains("EGRESO"))){
+			cargarCarteraTercero("ACREEDORES");
+		}
 	}
+	
 	
 	public void onSelect$listaDeudores(){
 		if (listaDeudores.getSelectedIndex() >= 0){
-			ObjetoDeudor deudor = deudores.get(listaDeudores.getSelectedIndex());
+			ObjetoTercero deudor = deudores.get(listaDeudores.getSelectedIndex());
 			lblSaldoTotal.setValue(String.valueOf(deudor.getSaldoDeuda()));
 			if (deudor.getListaCartera() != null){
 				listaFacturas.getItems().clear();
@@ -218,7 +220,17 @@ public class TransaccionCtrl extends GenericForwardComposer {
 					item.appendChild(celdaNumeroFactura);
 					item.appendChild(celdaFecha);
 					item.appendChild(celdaSaldo);
-					listaFacturas.appendChild(item);
+					
+					
+					if((cmbTipoComprobante.getText().contains("RECIBO")) && (cmbTipoComprobante.getText().contains("CAJA"))){
+						if(cartera.getFactFactura().getFactFacturaTipo().getIdfacturaTipo() == 2){			//Factura de Ventas
+							listaFacturas.appendChild(item);
+						}
+					}else if((cmbTipoComprobante.getText().contains("COMPROBANTE")) && (cmbTipoComprobante.getText().contains("EGRESO"))){
+						if(cartera.getFactFactura().getFactFacturaTipo().getIdfacturaTipo() == 1){			//Factura de Compras
+							listaFacturas.appendChild(item);
+						}
+					}					
 				}
 			}
 		}
@@ -267,7 +279,7 @@ public class TransaccionCtrl extends GenericForwardComposer {
 			Listitem item = (Listitem)iter.next();
 			Listcell celdaID = (Listcell)item.getChildren().get(0);
 			Listcell celdaFactura = (Listcell)item.getChildren().get(1);
-			Listcell celdaSaldo = (Listcell)item.getChildren().get(3);
+//			Listcell celdaSaldo = (Listcell)item.getChildren().get(3);
 			idTercero = celdaID.getLabel();
 			/**
 			 * Armar la estructura de CART_PAGO y Actualizar los objetos de la estructura CART_CARTERA para disminuir el saldo.
@@ -314,7 +326,7 @@ public class TransaccionCtrl extends GenericForwardComposer {
 				pagoCartera.setDsdetalle(txtDetalles.getText());
 				pagoCartera.setFepago(dtFechaActual.getValue());
 				pagoCartera.setIdpago(0);
-				pagoCartera.setNmvalor(saldoDeuda);				
+				pagoCartera.setNmvalor(BigDecimal.valueOf(Double.valueOf(txtValorPago.getText())));				
 				listaPagoCartera.add(pagoCartera);
 			}			
 		}
@@ -341,8 +353,7 @@ public class TransaccionCtrl extends GenericForwardComposer {
 	public void doAfterCompose(Component comp) throws Exception {
 		
 		super.doAfterCompose(comp);
-		cargarTipoTransacciones();
-		cargarDeudores();
+		cargarTipoTransacciones();		
 		cargarMedioPago();
 		cargarTipoPago();
 	}	

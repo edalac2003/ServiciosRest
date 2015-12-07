@@ -10,19 +10,24 @@ import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
 
 public class NormaTipoNGCImpl implements NormaTipoNGC {
 
+	ExcepcionesNGC expNgc;
 	NormaTipoDAO normaTipoDao;
 	
 	public void setNormaTipoDao(NormaTipoDAO normaTipoDao) {
 		this.normaTipoDao = normaTipoDao;
 	}
 
-	public ContNormaTipo obtenerTipoNorma(int idTipo) throws ExcepcionesNGC {
+	public ContNormaTipo obtenerTipoNorma(String idTipo) throws ExcepcionesNGC {
 		ContNormaTipo tipoNorma = null;
 		
 		try {
 			tipoNorma = normaTipoDao.obtenerTipoNorma(idTipo);
 		} catch (ExcepcionesDAO e) {
-			throw new ExcepcionesNGC(e);
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeTecnico(e.getMensajeTecnico());
+			expNgc.setMensajeUsuario(e.getMensajeUsuario());
+			expNgc.setOrigen(e.getOrigen());
+			throw expNgc;
 		}
 		
 		return tipoNorma;
@@ -34,7 +39,11 @@ public class NormaTipoNGCImpl implements NormaTipoNGC {
 		try {
 			listaTipoNorma = normaTipoDao.listarTodo();
 		} catch (ExcepcionesDAO e) {
-			throw new ExcepcionesNGC(e);
+			expNgc = new ExcepcionesNGC();
+			expNgc.setMensajeTecnico(e.getMensajeTecnico());
+			expNgc.setMensajeUsuario(e.getMensajeUsuario());
+			expNgc.setOrigen(e.getOrigen());
+			throw expNgc;
 		}
 		
 		return listaTipoNorma;

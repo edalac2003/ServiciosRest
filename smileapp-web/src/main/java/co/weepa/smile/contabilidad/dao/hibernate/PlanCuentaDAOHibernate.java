@@ -16,6 +16,8 @@ import co.weepa.smile.contabilidad.dto.ContPlanCuenta;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 
 public class PlanCuentaDAOHibernate extends HibernateDaoSupport implements PlanCuentaDAO {
+	
+	ExcepcionesDAO expDao = null;
 
 	public void guardarCuentaPUC(List<ContPlanCuenta> listaCuentas) throws ExcepcionesDAO {
 		Session session = null;
@@ -30,7 +32,11 @@ public class PlanCuentaDAOHibernate extends HibernateDaoSupport implements PlanC
 			tx.commit();
 		}catch(HibernateException e){
 			tx.rollback();
-			throw new ExcepcionesDAO("Se presentaron errores al intentar guardar registro de Cuentas. Error : "+e.toString());
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron errores al intentar guardar registro de Cuentas.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}		
@@ -51,7 +57,11 @@ public class PlanCuentaDAOHibernate extends HibernateDaoSupport implements PlanC
 			tx.commit();
 		}catch(HibernateException e){
 			tx.rollback();
-			throw new ExcepcionesDAO("Se presentaron errores al intentar guardar registro de Grupo de Cuentas. Error : "+e.toString());
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron errores al intentar guardar registro de Grupo de Cuentas.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}		
@@ -60,16 +70,20 @@ public class PlanCuentaDAOHibernate extends HibernateDaoSupport implements PlanC
 
 	public ContPlanCuenta obtenerCuentaPUC(int idCuenta) throws ExcepcionesDAO {
 		ContPlanCuenta cuenta = null;
-//		Session session = null;
-//		try{
-//			session = getSession();
-//			Criteria criteria = session.createCriteria(ContPlanCuenta.class).add(Restrictions.eq("idcuenta", idCuenta));
-//			cuenta = (ContPlanCuenta)criteria.uniqueResult();
-//		}catch(HibernateException e){
-//			throw new ExcepcionesDAO(e);
-//		}finally{
-//			session.close();
-//		}
+		Session session = null;
+		try{
+			session = getSession();
+			Criteria criteria = session.createCriteria(ContPlanCuenta.class).add(Restrictions.eq("idcuenta", idCuenta));
+			cuenta = (ContPlanCuenta)criteria.uniqueResult();
+		}catch(HibernateException e){
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron errores al intentar obtener Registro de Cuenta Contable.");
+			expDao.setOrigen(e);
+			throw expDao;
+		}finally{
+			session.close();
+		}
 		
 		return cuenta;
 	}
@@ -83,7 +97,11 @@ public class PlanCuentaDAOHibernate extends HibernateDaoSupport implements PlanC
 			Criteria criteria = session.createCriteria(ContPlanCuenta.class);
 			listaPUC = criteria.list();
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO(e);
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron errores al intentar lista el Plan de Cuentas.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}

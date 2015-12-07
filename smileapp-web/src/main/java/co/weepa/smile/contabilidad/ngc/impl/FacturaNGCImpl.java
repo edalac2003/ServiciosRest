@@ -213,6 +213,9 @@ public class FacturaNGCImpl implements FacturaNGC {
 		List<ObjetoFactura> listaFacturas = null;
 		List<FactDetalleFactura> listaDetalleFactura = null;
 		FactFacturaTipo tipoFactura = facturaTipoNgc.obtenerTipoFactura(2);
+		TercPersona persona = null;
+		TercOrganizacion organizacion = null;
+		
 		
 		try {
 			listaFacturas = facturaDao.listarFacturas(tipoFactura);
@@ -235,9 +238,20 @@ public class FacturaNGCImpl implements FacturaNGC {
 				expNgc.setMensajeUsuario(e.getMensajeUsuario());
 				expNgc.setOrigen(e.getOrigen());
 				throw expNgc;
-			}
+			}			
 			if(listaDetalleFactura != null){
 				objeto.setListaDetalles(listaDetalleFactura);
+			}
+			ContTercero tercero = factura.getContTercero();
+			organizacion = terceroNgc.obtenerPersonaJuridica(tercero);
+			if(organizacion != null){
+				objeto.setNombreTercero(organizacion.getDsrazonSocial());
+			}else{
+				persona = terceroNgc.obtenerPersonaNatural(tercero);
+				if(persona != null){
+					String nombre = persona.getDsprimerNombre()+" "+persona.getDssegundoNombre()+" "+persona.getDsprimerApellido()+" "+persona.getDssegundoApellido();
+					objeto.setNombreTercero(nombre);
+				}
 			}
 			
 			

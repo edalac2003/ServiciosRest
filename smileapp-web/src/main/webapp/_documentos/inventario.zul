@@ -1,0 +1,140 @@
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page title="Modulo Inventarios" contentType="text/html;charset=UTF-8"?>
+
+<zk>
+<window title="Modulo Inventarios" border="normal">
+	<borderlayout height="800px">
+		<north></north>
+		<center>
+			<div>
+				<hbox>
+					<vbox width="600px">
+						<vbox height="300px"></vbox>
+						
+						<hbox height="300px">
+							<vbox width="200px">
+								<label value="" />
+							</vbox>
+							<vbox width="200px">
+								<div height="40px">
+									<label value="Categoria del Producto" />
+								</div>
+								
+								<radiogroup id="grupoCategoria" />
+								<div height="40px">
+									<radio id="opMateriaPrima" label="Materia Prima" radiogroup="grupoCategoria"/>
+								</div>
+								<div height="40px">
+									<radio id="opProductoProceso" label="Producto en Proceso"  radiogroup="grupoCategoria"/>
+								</div>
+								<div height="40px">
+									<radio id="opProductoTerminado" label="Producto Terminado"  radiogroup="grupoCategoria"/>
+								</div>								
+							</vbox>
+							<vbox width="100px" />
+						</hbox>
+						<vbox height="300px" />
+					</vbox>
+					<vbox width="600px">
+						<hbox height="80px" align="center">
+							<label value="Crear Articulo" />
+						</hbox>						
+						<vbox height="300px">
+							<div height="40px" align="right">
+								<label value="NOMBRE DEL PRODUCTO" /> 
+								<textbox id="txtNombreProducto" width="200px"/>
+							</div>
+							<div height="40px" align="right">
+								<label value="REFERENCIA" /> 
+								<textbox id="txtReferencia" width="200px"/>
+							</div>
+							<div height="40px" align="right">
+								<label value="TIPO DE CATEGORIA" />
+								<combobox id="cmbTipoCategoria" width="200px"/>
+							</div>
+							<div height="40px" align="right">
+								<label value="ID ARTICULO" />
+								<textbox id="txtIdProducto" width="200px" />
+							</div>
+						</vbox>
+						<vbox height="300px" width="100%">
+							<div height="40px" align="center">
+								<label value="Seleccione Sub-Categorias" />
+							</div>
+							<div align="right" width="100%">
+								<div height="40px">
+									<label value="SubCategoria 1"></label>
+									<combobox id="cmbSubcategoria1" width="200px"/>
+								</div>
+								<div height="40px">
+									<label value="SubCategoria 2"></label>
+									<combobox id="cmbSubcategoria2" width="200px"/>
+								</div>
+								<div height="40px">
+									<label value="Tags de Busqueda"></label>
+									<textbox id="txtTags" width="200px"/>
+									<listbox id="listaTags" width="200px">
+										<listhead>
+											<listheader label="Tags" />
+										</listhead>
+									</listbox>
+								</div>							
+							</div>							
+						</vbox>
+					</vbox>
+					<vbox width="600px">
+						<vbox height="300px">
+							<hbox height="80px" align="center">
+								<label value="Crear Articulo" />
+							</hbox>
+							<vbox height="300px">
+								<div align="right">
+									<div height="40px">
+										<label value="Unidades del Producto" />
+										<combobox id="cmbTipoUnidades" width="200px"/>
+									</div>
+									<div height="40px">
+										<label value="Codigo de Barras" />
+										<textbox id="txtCodigoBarras" width="200px" />
+									</div>
+									<div height="40px">
+										<label value="Existencias" />
+										<textbox id="txtExistencias" width="200px" />
+									</div>								
+								</div>
+															
+							</vbox>
+							<vbox height="200px" width="100%">
+								<div align="right">
+									<div height="40px">
+										<label value="Asignar Lista de Precios" />
+										<combobox id="cmbListaPrecios" width="200px"/>
+									</div>
+									<div height="40px">
+										<label value="IVA" />
+										<combobox id="cmbIVA" width="100px"/>
+									</div>
+									<div height="40px">
+										<label value="Stock Minimo" />
+										<textbox id="txtStockMinimo" width="100px"/>
+									</div>
+									<div height="40px">
+										<label value="Stock Maximo" />
+										<textbox id="txtStockMaximo" width="100px"/>
+									</div>								
+								</div>								
+							</vbox>
+							<div align="center">
+								<vbox align="center" pack="center"  height="100px">
+									<button id="btnGuardar" label="Guardar" height="50px" width="170px" />
+								</vbox>	
+							</div>
+										
+						</vbox>						
+					</vbox>
+				</hbox>
+			</div>
+		</center>
+	</borderlayout>
+</window>
+</zk>

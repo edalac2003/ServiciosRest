@@ -1,0 +1,23 @@
+<?page title="Modulo Terceros" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Modulo Terceros" border="normal" height="900px">
+	<borderlayout height="800px">
+		<north></north>
+		<center>
+			<div>
+				<hbox>
+					<vbox width="600px">
+						<vbox height=""></vbox>
+					</vbox>
+					<vbox width="600px">
+						<label value="Caja 02" />
+					</vbox>
+					<vbox width="600px">
+						<label value="Caja 03" />
+					</vbox>
+				</hbox>
+			</div>
+		</center>
+	</borderlayout>
+</window>
+</zk>

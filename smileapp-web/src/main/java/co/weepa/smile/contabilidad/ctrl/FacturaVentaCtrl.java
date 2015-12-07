@@ -699,7 +699,7 @@ public class FacturaVentaCtrl extends GenericForwardComposer{
 			}else if (cmbTipoDocumento.getText().contains("COTIZACION")){
 				
 				try {
-					facturaVentaNgc.guardarCotizacion(cmbIdArticulo.getText(), 1, maestroFactura, listaDetalleFactura);
+					facturaVentaNgc.guardarCotizacion(cmbIdArticulo.getText(), 1, "COTIZACION", maestroFactura, listaDetalleFactura);
 					Messagebox.show("Cotizacion Guardada Satisfactoriamente");
 				} catch (ExcepcionesNGC e) {
 					Messagebox.show(e.getMensajeUsuario());

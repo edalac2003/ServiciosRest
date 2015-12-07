@@ -8,6 +8,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.zkoss.bind.sys.SaveBinding;
 
@@ -61,6 +62,8 @@ public class TransaccionDAOHibernate extends HibernateDaoSupport implements Tran
 		}	
 	}
 	
+	@SuppressWarnings("deprecation")
+	@Autowired(required = false)
 	@Override
 	public void guardarTransaccion(List<CartCartera> listaCartera, List<CartPago> listaPagos, ContTransaccionContable transaccionContable, 
 			List<ContDetalleTransaccion> listaDetalleTransaccion) throws ExcepcionesDAO {
@@ -70,17 +73,14 @@ public class TransaccionDAOHibernate extends HibernateDaoSupport implements Tran
 		try{
 			session = getSession();
 			tx = session.beginTransaction();
-			System.out.println("Se va a Guardar la SIguiente informacion");
 			if((listaCartera != null) && (!listaCartera.isEmpty())){
 				for(CartCartera cartera : listaCartera){
-					System.out.println(cartera.getFactFactura().getDsnumeroFactura()+" - "+cartera.getNmsaldo());
 					session.saveOrUpdate(cartera);
 				}
 			}
 			
-			if(  (listaPagos != null) && (!listaPagos.isEmpty())){
+			if((listaPagos != null) && (!listaPagos.isEmpty())){
 				for(CartPago pago : listaPagos){
-					System.out.println(pago.getCartCartera().getFactFactura().getDsnumeroFactura()+" - "+pago.getNmvalor());
 					session.save(pago);
 				}
 			}
@@ -90,24 +90,12 @@ public class TransaccionDAOHibernate extends HibernateDaoSupport implements Tran
 				consecutivo = consecutivoConPrefijo(tipoTransaccion);
 				transaccionContable.setDsnumeroTransaccion(consecutivo);
 				transaccionContable.setDsnumeroDocumento(consecutivo);
-				
 				session.save(transaccionContable);
-			}
-				
-			/**
-			 * ESTABA REVISANDO ESTA PARTE.....  TIENE UNAS EXCEPCIONES CON LA LISTADETALLETRANSACCION.... PILAS, REVISA!!!!
-			 * 
-			 */
-			
-			System.out.println(transaccionContable.getContTransaccionTipo().getDsdescripcionTransaccionTipo()+" - "+ transaccionContable.getDsnumeroDocumento()+" - "+transaccionContable.getNmvalorTransaccion());	
-			
-			
-			
+			}			
 			
 			if((listaDetalleTransaccion != null) && (!listaDetalleTransaccion.isEmpty())){
 				for(ContDetalleTransaccion detalle : listaDetalleTransaccion){
-					session.save(detalle);
-					System.out.println(detalle.getContPlanCuenta().getIdcuenta()+" - "+detalle.getNmvalor());
+					session.save(detalle);					
 				}
 			}			
 			tx.commit();
@@ -132,7 +120,6 @@ public class TransaccionDAOHibernate extends HibernateDaoSupport implements Tran
 		if(tipoTransaccion != null){
 			String prefijo = tipoTransaccion.getDsprefijo();
 			registro = consecutivoTransaccionxTipo(tipoTransaccion);
-			registro++;
 			
 			if((registro >=1) && (registro < 10)){
 				cadena = prefijo+"0000"+String.valueOf(registro); 
@@ -145,8 +132,7 @@ public class TransaccionDAOHibernate extends HibernateDaoSupport implements Tran
 			}else {
 				cadena = prefijo+String.valueOf(registro);
 			}
-		}
-		
+		}		
 		return cadena;
 	}
 	
@@ -211,10 +197,7 @@ public class TransaccionDAOHibernate extends HibernateDaoSupport implements Tran
 		
 		try{
 			session = getSession();
-//			Criteria criteria = session.createCriteria(ContTransaccionTipo.class).add(Restrictions.like("dsdescripcionTransaccionTipo", nombreTransaccion));		
-//			tipoTx = (ContTransaccionTipo)criteria.uniqueResult();
 			Query query = session.createQuery(hql);
-//			query.setParameter("", );
 			listaTipoTX = query.list();
 		}catch(HibernateException e){
 			expDao = new ExcepcionesDAO();

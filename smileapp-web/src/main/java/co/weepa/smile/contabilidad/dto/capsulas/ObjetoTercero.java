@@ -7,15 +7,14 @@ import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.TercOrganizacion;
 import co.weepa.smile.contabilidad.dto.TercPersona;
 
-public class ObjetoDeudor {
+public class ObjetoTercero {
 	ContTercero contTercero;
 	List<CartCartera> listaCartera;
-	TercPersona tercPersona;
-	TercOrganizacion tercOrganizacion;
+	String nombreTercero;
 	double saldoDeuda;
 	String mensaje;
 	
-	public ObjetoDeudor() {
+	public ObjetoTercero() {
 		super();
 	}	
 
@@ -36,20 +35,12 @@ public class ObjetoDeudor {
 		this.listaCartera = listaCartera;
 	}
 
-	public TercPersona getTercPersona() {
-		return tercPersona;
+	public String getNombreTercero() {
+		return nombreTercero;
 	}
-	
-	public void setTercPersona(TercPersona tercPersona) {
-		this.tercPersona = tercPersona;
-	}
-	
-	public TercOrganizacion getTercOrganizacion() {
-		return tercOrganizacion;
-	}
-	
-	public void setTercOrganizacion(TercOrganizacion tercOrganizacion) {
-		this.tercOrganizacion = tercOrganizacion;
+
+	public void setNombreTercero(String nombreTercero) {
+		this.nombreTercero = nombreTercero;
 	}
 
 	public double getSaldoDeuda() {

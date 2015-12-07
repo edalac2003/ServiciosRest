@@ -18,7 +18,7 @@ import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.ContTipoTercero;
 import co.weepa.smile.contabilidad.dto.TercOrganizacion;
 import co.weepa.smile.contabilidad.dto.TercPersona;
-import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudor;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoTercero;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 
 public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroDAO {
@@ -326,46 +326,67 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 
 
 	@Override
-	public List<ObjetoDeudor> listarDeudores() throws ExcepcionesDAO {
-		List<ObjetoDeudor> listaDeudores = null;
+	public List<ObjetoTercero> listarCarteraTercero(String tipoTercero, String tipoDocumento) throws ExcepcionesDAO {
+		List<ObjetoTercero> listaDeudores = null;
 		List<BigDecimal> listaTercero = null;
-		ObjetoDeudor deudor = null;
-		
+		ObjetoTercero deudor = null;		
 		Session session = null;
-		String sqlDeudores = "SELECT DISTINCT cont_tercero.idtercero FROM cont_tercero INNER JOIN cart_cartera ON (cont_tercero.IDTERCERO = cart_cartera.IDTERCERO);";
-		
-		try{
-			session = getSession();
-			Query query = session.createSQLQuery(sqlDeudores);
-			listaTercero = query.list();
-			
-		}catch(HibernateException e){
-			expDao = new ExcepcionesDAO();
-			expDao.setMensajeTecnico("Errores al Listar Deudores. DAO : "+e.getMessage());
-			expDao.setMensajeUsuario("Se presentaron problemas al obtener listado de Deudores.");
-			expDao.setOrigen(e);
-			throw expDao;
-		}finally{
-			session.close();
+		String sql = "";
+		/**
+		 * Se buscan los terceros con cartera y de acuerdo por tipo de Factura
+		 */
+		if (tipoTercero.toUpperCase().contains("DEUDORES")){				//Las Facturas de Venta
+			sql = "select distinct cont_tercero.IDTERCERO from cont_tercero inner join cart_cartera on (cart_cartera.IDTERCERO = cont_tercero.IDTERCERO) inner join fact_factura "
+					+ "on (fact_factura.IDCONSECUTIVO_FACTURA = cart_cartera.IDCONS_FACTURA) where fact_factura.IDFACTURA_TIPO = 2;";
+		}else if (tipoTercero.toUpperCase().contains("ACREEDORES")){		// Las Facturas de Compra
+			sql = "select distinct cont_tercero.IDTERCERO from cont_tercero inner join cart_cartera on (cart_cartera.IDTERCERO = cont_tercero.IDTERCERO) inner join fact_factura "
+					+ "on (fact_factura.IDCONSECUTIVO_FACTURA = cart_cartera.IDCONS_FACTURA) where fact_factura.IDFACTURA_TIPO = 1;";
 		}
 		
+		if(!sql.isEmpty()){
+			try{
+				session = getSession();
+				Query query = session.createSQLQuery(sql);
+				listaTercero = query.list();
+				
+			}catch(HibernateException e){
+				expDao = new ExcepcionesDAO();
+				expDao.setMensajeTecnico("Errores al Listar Deudores. DAO : "+e.getMessage());
+				expDao.setMensajeUsuario("Se presentaron problemas al obtener listado de Deudores.");
+				expDao.setOrigen(e);
+				throw expDao;
+			}finally{
+				session.close();
+			}
+		}		
+		
 		if((listaTercero != null) && (!listaTercero.isEmpty())){
-			listaDeudores = new ArrayList<ObjetoDeudor>();
+			listaDeudores = new ArrayList<ObjetoTercero>();
 			
 			for(BigDecimal idTercero : listaTercero) {
-				deudor = new ObjetoDeudor();
+				deudor = new ObjetoTercero();
 				ContTercero tercero = obtenerTercero(Long.parseLong(idTercero.toString()));
 				deudor.setContTercero(tercero);
 				deudor.setListaCartera(listaCarteraxDeudor(tercero));
-				deudor.setTercPersona(obtenerPersonaNatural(tercero));
-				deudor.setTercOrganizacion(obtenerPersonaJuridica(tercero));
-				deudor.setSaldoDeuda(obtenerDeudaxTercero(tercero));
+				TercPersona persona = obtenerPersonaNatural(tercero);
+				if (persona != null){
+					String nombre = persona.getDsprimerNombre()+" "+persona.getDssegundoNombre()+" "+persona.getDsprimerApellido()+" "+persona.getDssegundoApellido();
+					deudor.setNombreTercero(nombre);
+				}else{
+					TercOrganizacion organizacion = obtenerPersonaJuridica(tercero);
+					if(organizacion != null){
+						deudor.setNombreTercero(organizacion.getDsrazonSocial());
+					}
+				}
+				deudor.setSaldoDeuda(obtenerDeudaxTercero(tercero, tipoDocumento));
 				listaDeudores.add(deudor);
 			}			
 		}			
 		return listaDeudores;
 	}
 	
+
+
 	private List<CartCartera> listaCarteraxDeudor(ContTercero deudor) throws ExcepcionesDAO{
 		List<CartCartera> listaCartera = null;
 		Session session = getSession();
@@ -375,10 +396,22 @@ public class TerceroDAOHibernate extends HibernateDaoSupport implements TerceroD
 		return listaCartera;
 	}
 	
-	private double obtenerDeudaxTercero(ContTercero tercero) throws ExcepcionesDAO{
+	private double obtenerDeudaxTercero(ContTercero tercero, String tipoDocumento) throws ExcepcionesDAO{
 		double deuda = 0;
 		Session session = getSession();
-		String sql = "SELECT sum(cart_cartera.NMSALDO) from cart_cartera where cart_cartera.IDTERCERO = "+ tercero.getIdtercero() +";";
+		String sql = "";
+		Long idTercero = tercero.getIdtercero();
+		/**
+		 * Para buscar la Deuda, se debe definir sobre que tipo de Documento se va a realizar. (FV o FC ya que el mismo tercero puede llegar a ser Cliente y Proveedor)
+		 */
+		if((tipoDocumento.contains("RECIBO")) && (tipoDocumento.contains("CAJA"))){
+			sql = "SELECT sum(cart_cartera.NMSALDO) from cart_cartera inner join fact_factura on (cart_cartera.IDCONS_FACTURA = fact_factura.IDCONSECUTIVO_FACTURA) "
+					+ "where (cart_cartera.IDTERCERO = "+idTercero+ " AND fact_factura.IDFACTURA_TIPO = 2);";
+		}else if((tipoDocumento.contains("COMPROBANTE")) && (tipoDocumento.contains("EGRESO"))){
+			sql = "SELECT sum(cart_cartera.NMSALDO) from cart_cartera inner join fact_factura on (cart_cartera.IDCONS_FACTURA = fact_factura.IDCONSECUTIVO_FACTURA) "
+					+ "where (cart_cartera.IDTERCERO = "+idTercero+" AND fact_factura.IDFACTURA_TIPO = 1);";
+		}		
+		
 		Query query = session.createSQLQuery(sql);
 		deuda = Double.parseDouble(query.uniqueResult().toString());
 		

@@ -7,7 +7,7 @@ import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.ContTipoTercero;
 import co.weepa.smile.contabilidad.dto.TercOrganizacion;
 import co.weepa.smile.contabilidad.dto.TercPersona;
-import co.weepa.smile.contabilidad.dto.capsulas.ObjetoDeudor;
+import co.weepa.smile.contabilidad.dto.capsulas.ObjetoTercero;
 import co.weepa.smile.contabilidad.ngc.TerceroNGC;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesNGC;
@@ -268,15 +268,15 @@ public class TerceroNGCImpl implements TerceroNGC {
 	}
 
 	@Override
-	public List<ObjetoDeudor> listarDeudores() throws ExcepcionesNGC {
-		List<ObjetoDeudor> listaDeudores = null;
-		
+	public List<ObjetoTercero> listarCarteraTercero(String tipoTercero, String tipoDocumento) throws ExcepcionesNGC {
+		List<ObjetoTercero> listaDeudores = null;
+				
 		try {
-			listaDeudores = terceroDao.listarDeudores();
+			listaDeudores = terceroDao.listarCarteraTercero(tipoTercero, tipoDocumento);
 		} catch (ExcepcionesDAO e) {
 			expNgc = new ExcepcionesNGC();
 			expNgc.setMensajeUsuario(e.getMensajeUsuario());
-			expNgc.setMensajeTecnico(e.getMensajeUsuario());
+			expNgc.setMensajeTecnico(e.getMensajeTecnico());
 			expNgc.setOrigen(e.getOrigen());			
 			throw expNgc;
 		}		

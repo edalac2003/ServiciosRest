@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import co.weepa.smile.contabilidad.dao.NormaTipoDAO;
@@ -13,20 +14,24 @@ import co.weepa.smile.contabilidad.dto.ContNormaTipo;
 import co.weepa.smile.contabilidad.util.exception.ExcepcionesDAO;
 
 public class NormaTipoDAOHibernate extends HibernateDaoSupport implements NormaTipoDAO {
+	
+	ExcepcionesDAO expDao;
 
-	public ContNormaTipo obtenerTipoNorma(int idTipo) throws ExcepcionesDAO {
+	public ContNormaTipo obtenerTipoNorma(String idTipo) throws ExcepcionesDAO {
 		ContNormaTipo tipoNorma = null;
 		Session session = null;
 		
 		try{
-//			session = FactoriaSession.getSessionFactory().openSession();
 			session = getSession();
-			Query query = session.createQuery("from ContNormaTipo where idnormaTipo = idTipo");
-			query.setParameter("idTipo", idTipo);
-			tipoNorma = (ContNormaTipo) query.uniqueResult();
+			Criteria criteria = session.createCriteria(ContNormaTipo.class).add(Restrictions.eq("idnormaTipo", idTipo));
+			tipoNorma = (ContNormaTipo)criteria.uniqueResult();
 				
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO(e);
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron problemas al Obtener el Registro de Tipo Norma Contable.");
+			expDao.setOrigen(e);
+			throw expDao;
 		}finally{
 			session.close();
 		}
@@ -45,7 +50,10 @@ public class NormaTipoDAOHibernate extends HibernateDaoSupport implements NormaT
 			Criteria criteria = session.createCriteria(ContNormaTipo.class);
 			listaTipoNorma = criteria.list();			
 		}catch(HibernateException e){
-			throw new ExcepcionesDAO(e);
+			expDao = new ExcepcionesDAO();
+			expDao.setMensajeTecnico(e.getMessage());
+			expDao.setMensajeUsuario("Se presentaron problemas al Obtener el Listado de Tipo Norma Contable.");
+			expDao.setOrigen(e);
 		}finally {
 			session.close();
 		}
