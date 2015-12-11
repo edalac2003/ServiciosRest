@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.ContMoneda" table="cont_moneda">
+    <class name="co.weepa.smile.contabilidad.dto.ContMoneda" table="cont_moneda" catalog="weepa">
         <id name="idmoneda" type="int">
             <column name="IDMONEDA" />
             <generator class="increment" />
@@ -28,29 +28,5 @@
                 <comment>Nombre del pais o paises que usan la moneda: ej Dolar es usado en USA,ECUADOR, etc.</comment>
             </column>
         </property>
-<!--         <set name="contTransaccionContables" table="cont_transaccion_contable" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDMONEDA" not-null="true"> -->
-<!--                     <comment>codigo de la moneda en la que se da la transaccion, ejemplo COP para indicar pesos</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContTransaccionContable" /> -->
-<!--         </set> -->
-<!--         <set name="cartPagos" table="cart_pago" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDMONEDA"> -->
-<!--                     <comment>tipo de moneda pago</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.CartPago" /> -->
-<!--         </set> -->
-<!--         <set name="contTerceros" table="cont_tercero" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDMONEDA"> -->
-<!--                     <comment>indica en que codigo moneda se hacen las transacciones</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContTercero" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

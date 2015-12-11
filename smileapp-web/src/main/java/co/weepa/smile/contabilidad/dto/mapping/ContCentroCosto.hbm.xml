@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.ContCentroCosto" table="cont_centro_costo">
+    <class name="co.weepa.smile.contabilidad.dto.ContCentroCosto" table="cont_centro_costo" catalog="weepa">
         <id name="idcentroCosto" type="java.lang.Integer">
             <column name="IDCENTRO_COSTO" />
             <generator class="increment" />
@@ -18,13 +18,5 @@
                 <comment>Descripcion del centro de costo: ej el CENTRO DE COSTO GENERAL se usa como default para toda las organizaciones</comment>
             </column>
         </property>
-<!--         <set name="contDetalleTransaccions" table="cont_detalle_transaccion" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDCENTRO_COSTO" not-null="true"> -->
-<!--                     <comment>centro de costo asociado, usar valor por defecto 10000</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContDetalleTransaccion" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

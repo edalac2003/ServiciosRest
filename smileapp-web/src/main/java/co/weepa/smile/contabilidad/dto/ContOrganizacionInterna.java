@@ -13,10 +13,12 @@ public class ContOrganizacionInterna implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idorganizacionInterna;
 	private String dsnombreOrganizacion;
-//	private Set factFacturas = new HashSet(0);
-//	private Set rrhhRolesOrganizacioneses = new HashSet(0);
-//	private Set contTransaccionContables = new HashSet(0);
-//	private Set defiTransaccionAccions = new HashSet(0);
+	private String dsNit;
+	private String dsDireccion;
+	private String dsTelefono1;
+	private String dsTelefono2;
+	private String dsCorreo1;
+	private String dsCorreo2;
 
 	public ContOrganizacionInterna() {
 	}
@@ -44,5 +46,53 @@ public class ContOrganizacionInterna implements java.io.Serializable {
 
 	public void setDsnombreOrganizacion(String dsnombreOrganizacion) {
 		this.dsnombreOrganizacion = dsnombreOrganizacion;
+	}
+
+	public String getDsNit() {
+		return dsNit;
+	}
+
+	public void setDsNit(String dsNit) {
+		this.dsNit = dsNit;
+	}
+
+	public String getDsDireccion() {
+		return dsDireccion;
+	}
+
+	public void setDsDireccion(String dsDireccion) {
+		this.dsDireccion = dsDireccion;
+	}
+
+	public String getDsTelefono1() {
+		return dsTelefono1;
+	}
+
+	public void setDsTelefono1(String dsTelefono1) {
+		this.dsTelefono1 = dsTelefono1;
+	}
+
+	public String getDsTelefono2() {
+		return dsTelefono2;
+	}
+
+	public void setDsTelefono2(String dsTelefono2) {
+		this.dsTelefono2 = dsTelefono2;
+	}
+
+	public String getDsCorreo1() {
+		return dsCorreo1;
+	}
+
+	public void setDsCorreo1(String dsCorreo1) {
+		this.dsCorreo1 = dsCorreo1;
+	}
+
+	public String getDsCorreo2() {
+		return dsCorreo2;
+	}
+
+	public void setDsCorreo2(String dsCorreo2) {
+		this.dsCorreo2 = dsCorreo2;
 	}
 }

@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.ContCuentaGrupo" table="cont_cuenta_grupo">
+    <class name="co.weepa.smile.contabilidad.dto.ContCuentaGrupo" table="cont_cuenta_grupo" catalog="weepa">
         <id name="idcuentaGrupo" type="int">
             <column name="IDCUENTA_GRUPO" />
             <generator class="assigned" />
@@ -18,13 +18,5 @@
                 <comment>Descripcion del grupo, Ej Activos en Norma Contable Colombiana</comment>
             </column>
         </property>
-<!--         <set name="contPlanCuentas" table="cont_plan_cuenta" inverse="true" lazy="false" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDCUENTA_GRUPO" not-null="true"> -->
-<!--                     <comment>indica el codigo del grupo al que pertenece, ej 10000000 (activo de colgaap)</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContPlanCuenta" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

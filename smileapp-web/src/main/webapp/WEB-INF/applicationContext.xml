@@ -122,7 +122,11 @@
         	<property name="sessionFactory" ref="sessionFactory" />
         </bean>
 
-        <bean id="productoDao" class="co.weepa.smile.contabilidad.dao.hibernate.ProdProductoDAOHibernate" scope="singleton">
+        <bean id="productoCategoriaDao" class="co.weepa.smile.contabilidad.dao.hibernate.ProductoCategoriaDAOHibernate" scope="singleton">
+        	<property name="sessionFactory" ref="sessionFactory" />
+        </bean>
+        
+         <bean id="productoDao" class="co.weepa.smile.contabilidad.dao.hibernate.ProdProductoDAOHibernate" scope="singleton">
         	<property name="sessionFactory" ref="sessionFactory" />
         </bean>
 
@@ -189,6 +193,12 @@
         
         <bean id="productoNgc" class="co.weepa.smile.contabilidad.ngc.impl.ProductoNGCImpl">
         	<property name="productoDao" ref="productoDao" />
+        	<property name="productoCategoriaNgc" ref="productoCategoriaNgc" />
+        </bean>
+        
+        <bean id="productoCategoriaNgc" class="co.weepa.smile.contabilidad.ngc.impl.ProductoCategoriaNGCImpl">
+        	<property name="productoCategoriaDao" ref="productoCategoriaDao" />
+        	<property name="productoNGC" ref="productoNgc" />
         </bean>
         
 		<bean id="productoSedeNgc" class="co.weepa.smile.contabilidad.ngc.impl.ProductoSedeNGCImpl">
@@ -231,6 +241,7 @@
         	<property name="facturaDao" ref="facturaDao" />
         	<property name="facturaTipoNgc" ref="facturaTipoNgc" />
         	<property name="terceroNgc" ref="terceroNgc" />
+        	<property name="carteraNgc" ref="carteraNgc" />
         </bean>
         
         <bean id="transaccionNgc" class="co.weepa.smile.contabilidad.ngc.impl.TransaccionNGCImpl">
@@ -280,5 +291,9 @@
         	<property name="carteraNgc" ref="carteraNgc" />
         	<property name="monedaNgc" ref="monedaNgc" />        
         	<property name="facturaNgc" ref="facturaNgc" />
+        </bean>
+        
+        <bean id="inventarioCtrl" class="co.weepa.smile.contabilidad.ctrl.InventarioCtrl">
+        	<property name="productoCategoriaNgc" ref="productoCategoriaNgc" />
         </bean>
 </beans>

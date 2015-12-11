@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.ContTipoTercero" table="cont_tipo_tercero">
+    <class name="co.weepa.smile.contabilidad.dto.ContTipoTercero" table="cont_tipo_tercero" catalog="weepa">
         <id name="idtipoTercero" type="java.lang.Integer">
             <column name="IDTIPO_TERCERO" />
             <generator class="increment" />
@@ -13,13 +13,5 @@
                 <comment>Nombre del tipo tercero: ej Persona natural o jur&#237;dica, extranjero</comment>
             </column>
         </property>
-<!--         <set name="contTerceros" table="cont_tercero" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="ID_TIPO_TERCERO" not-null="true"> -->
-<!--                     <comment>Tipo de tercero, ej. 1 para cliente.</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContTercero" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

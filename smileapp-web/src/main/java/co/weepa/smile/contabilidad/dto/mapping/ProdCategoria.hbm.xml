@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.ProdCategoria" table="prod_categoria">
+    <class name="co.weepa.smile.contabilidad.dto.ProdCategoria" table="prod_categoria" catalog="weepa">
         <id name="idcategoria" type="int">
             <column name="IDCATEGORIA" />
             <generator class="increment" />
@@ -23,13 +23,5 @@
                 <comment>Tipo de dato asociado a la categoria o un valor asociado a esta.</comment>
             </column>
         </property>
-<!--         <set name="prodProductoCategorias" table="prod_producto_categoria" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDCATEGORIA"> -->
-<!--                     <comment>ID de la categoria</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ProdProductoCategoria" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

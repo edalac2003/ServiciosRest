@@ -649,9 +649,9 @@ public class FacturaCompraCtrl extends GenericForwardComposer{
 //					if((Integer.parseInt(txtValorReteFuente.getValue())>= 0) || (Integer.parseInt(txtValorReteIva.getValue())>= 0) || 
 //							(Integer.parseInt(txtValorReteICA.getValue())>= 0)){
 						retenciones = new Retenciones();
-						retenciones.setReteFuente((txtValorReteFuente.getText().length() > 0)?Double.parseDouble(txtValorReteFuente.getText()):0);
-						retenciones.setReteIva((txtValorReteIva.getText().length() > 0)?Double.parseDouble(txtValorReteIva.getText()):0);
-						retenciones.setReteICA((txtValorReteICA.getText().length() > 0)?Double.parseDouble(txtValorReteICA.getText()):0);
+//						retenciones.setReteFuente((txtValorReteFuente.getText().length() > 0)?Double.parseDouble(txtValorReteFuente.getText()):0);
+//						retenciones.setReteIva((txtValorReteIva.getText().length() > 0)?Double.parseDouble(txtValorReteIva.getText()):0);
+//						retenciones.setReteICA((txtValorReteICA.getText().length() > 0)?Double.parseDouble(txtValorReteICA.getText()):0);
 //					}
 				}
 				

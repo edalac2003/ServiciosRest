@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.TercTerceroRol" table="terc_tercero_rol">
+    <class name="co.weepa.smile.contabilidad.dto.TercTerceroRol" table="terc_tercero_rol" catalog="weepa">
         <id name="idterceroRol" type="int">
             <column name="IDTERCERO_ROL" />
             <generator class="assigned" />

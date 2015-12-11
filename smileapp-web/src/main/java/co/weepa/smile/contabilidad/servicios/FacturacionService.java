@@ -16,9 +16,13 @@ import co.weepa.smile.contabilidad.dto.CartCartera;
 import co.weepa.smile.contabilidad.dto.CartPago;
 import co.weepa.smile.contabilidad.dto.ContOrganizacionInterna;
 import co.weepa.smile.contabilidad.dto.ContTercero;
+import co.weepa.smile.contabilidad.dto.DefiCiudad;
+import co.weepa.smile.contabilidad.dto.DefiDepartamento;
+import co.weepa.smile.contabilidad.dto.DefiPais;
 import co.weepa.smile.contabilidad.dto.FactDetalleFactura;
 import co.weepa.smile.contabilidad.dto.FactFactura;
 import co.weepa.smile.contabilidad.dto.ProdProducto;
+import co.weepa.smile.contabilidad.dto.TercDireccion;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoCotizacion;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoFactura;
 import co.weepa.smile.contabilidad.dto.capsulas.Retenciones;
@@ -51,6 +55,9 @@ public class FacturacionService {
 		numeroFactura = facturaVentaNgc.convertirObjetoFactura(facturaVenta);
 	}
 	
+	
+	
+	
 	@Transactional
 	@RequestMapping(value="/guardarCotizacion", method=RequestMethod.POST)
 	public void guardarCotizacion(@RequestBody ObjetoFactura cotizacion) throws Exception{
@@ -70,20 +77,25 @@ public class FacturacionService {
 	@RequestMapping(value="/verObjetoFactura")
 	public @ResponseBody ObjetoFactura verObjetoFactura() throws Exception{
 		ObjetoFactura esquemaFactura = new ObjetoFactura();
-		int idOrganizacion = 0;
+		ContOrganizacionInterna organizacionInterna = new ContOrganizacionInterna();;
 		String tipoTransaccion = "";
-		int idMedioPago = 0;
-		String  idTercero = "";
+		ContTercero tercero = new ContTercero();
+		TercDireccion direccionTercero = new TercDireccion();
+		DefiCiudad ciudadTercero = new DefiCiudad();
+		DefiDepartamento departamentoTercero = new DefiDepartamento();
+		DefiPais paisTercero = new DefiPais();
 		String formaPago = "";
-		FactFactura maestroFactura;	
+		FactFactura maestroFactura= new FactFactura();;	
 		List<FactDetalleFactura> listaDetalles;
-		Retenciones retenciones;
-		CartCartera maestroCartera;
-		CartPago pagoCartera;
+		Retenciones retenciones = new Retenciones();
+		CartCartera maestroCartera = new CartCartera();
+		CartPago pagoCartera = new CartPago();;
 		String mensaje = "";
 		
-		maestroFactura = new FactFactura();
-		ContTercero tercero = new ContTercero();
+		direccionTercero.setDefiCiudad(ciudadTercero);
+		direccionTercero.setDefiDepartamento(departamentoTercero);
+		direccionTercero.setDefiPais(paisTercero);
+		maestroFactura.setContOrganizacionInterna(organizacionInterna);
 		maestroFactura.setContTercero(tercero);
 		maestroFactura.setDsvendedor("");
 		listaDetalles = new ArrayList<FactDetalleFactura>();
@@ -98,16 +110,13 @@ public class FacturacionService {
 		
 		retenciones = new Retenciones();
 		maestroCartera = new CartCartera();
-		pagoCartera = new CartPago();
 		
-		esquemaFactura.setIdOrganizacion(idOrganizacion);
 		esquemaFactura.setTipoTransaccion(tipoTransaccion);
-		esquemaFactura.setIdMedioPago(idMedioPago);
-		esquemaFactura.setIdTercero(idTercero);
+		esquemaFactura.setTercero(tercero);
+		esquemaFactura.setDireccionTercero(direccionTercero);
 		esquemaFactura.setFormaPago(formaPago);
 		esquemaFactura.setMaestroFactura(maestroFactura);
 		esquemaFactura.setListaDetalles(listaDetalles);
-		esquemaFactura.setRetenciones(retenciones);
 		esquemaFactura.setMaestroCartera(maestroCartera);
 		esquemaFactura.setPagoCartera(pagoCartera);
 		
@@ -131,7 +140,7 @@ public class FacturacionService {
 	@RequestMapping(value="/listarDetallesDocumento", method=RequestMethod.GET)
 	public @ResponseBody List<FactDetalleFactura> listarDetallesDocumento(@RequestParam(value="id") String idCotizacion) throws Exception{
 		if(!idCotizacion.isEmpty()){
-			return facturaNgc.listarDetalles(idCotizacion);
+			return facturaNgc.listarDetallesxDocumento(idCotizacion);
 		}
 		return null;
 	}

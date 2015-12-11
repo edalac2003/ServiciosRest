@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.FactDetalleFactura" table="fact_detalle_factura">
+    <class name="co.weepa.smile.contabilidad.dto.FactDetalleFactura" table="fact_detalle_factura" catalog="weepa">
         <id name="iddetalleFactura" type="java.lang.Integer">
             <column name="IDDETALLE_FACTURA" />
             <generator class="increment" />

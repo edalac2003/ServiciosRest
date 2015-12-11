@@ -146,49 +146,45 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 
 	@Override
 	public String convertirObjetoFactura(ObjetoFactura objetoFactura) throws ExcepcionesNGC {
-		String consecutivo = "";
-		
+		String consecutivo = "";		
 		Date fechaActual = null;
 		DateFormat formatoFecha = DateFormat.getDateInstance(DateFormat.MEDIUM);		
-		String idTercero = objetoFactura.getIdTercero().toUpperCase();
+		String idTercero = String.valueOf(objetoFactura.getTercero().getIdtercero());
 		String nombreTransaccion = objetoFactura.getTipoTransaccion().toUpperCase();
 		String formaPago = objetoFactura.getFormaPago().toUpperCase();
 		
-		int idOrganizacion = objetoFactura.getIdOrganizacion();
-		int idMedioPago = objetoFactura.getIdMedioPago();
+		int idOrganizacion = objetoFactura.getMaestroFactura().getContOrganizacionInterna().getIdorganizacionInterna();
+//		int idMedioPago = objetoFactura.getIdMedioPago();
 		FactFactura maestroFactura = objetoFactura.getMaestroFactura();		
-		
-//		FactFacturaTipo tipoFactura = facturaTipoNgc.obtenerTipoFacturaxNombre(objetoFactura.getTipoTransaccion());
-		
+//		FactFacturaTipo tipoFactura = facturaTipoNgc.obtenerTipoFacturaxNombre(objetoFactura.getTipoTransaccion());		
 		tipoDetalleFactura = facturaTipoNgc.obtenerTipoDetalleFactura(1);
 		
 		/**
 		 * Se asigna temporalmente la fecha del sistema
 		 */
 		fechaActual = new Date();
-		maestroFactura.setFefactura(fechaActual);
+		maestroFactura.setFefactura(fechaActual);		
 		
 		
-		List<FactDetalleFactura> listaDetalles = objetoFactura.getListaDetalles();
-		
-		Retenciones retenciones = objetoFactura.getRetenciones();
+		List<FactDetalleFactura> listaDetalles = objetoFactura.getListaDetalles();		
+		Retenciones retenciones = new Retenciones();
+		retenciones.setReteFuente(maestroFactura.getNmReteFuente());
+		retenciones.setReteIva(maestroFactura.getNmReteIva());
+		retenciones.setReteICA(maestroFactura.getNmReteIca());
 		
 		CartCartera maestroCartera = null;
 		CartPago pagoCartera = null;
 		if((objetoFactura.getMaestroCartera().getIdcartera() > 0)){
 			maestroCartera = objetoFactura.getMaestroCartera();
 			pagoCartera = objetoFactura.getPagoCartera();
-		}
-		
-		
-		
+		}	
 		
 		if((nombreTransaccion.contains("FACTURA")) && (nombreTransaccion.contains("VENTA"))){
 			tipoTransaccion = transaccionNgc.obtenerTipoTransaccionxNombre(nombreTransaccion);
 			tipoFactura = facturaTipoNgc.obtenerTipoFactura(2);
 			maestroFactura.setFactFacturaTipo(tipoFactura);
-			consecutivo = guardarFactura(idTercero, idOrganizacion, nombreTransaccion, tipoTransaccion, maestroFactura, formaPago,					
-					idMedioPago, listaDetalles, retenciones, maestroCartera, pagoCartera);
+			consecutivo = guardarFactura(idTercero, idOrganizacion, nombreTransaccion, tipoTransaccion, maestroFactura, formaPago, 1, 
+					listaDetalles, retenciones, maestroCartera, pagoCartera);
 		}else if((nombreTransaccion.contains("FACTURA")) && (nombreTransaccion.contains("COMPRA"))){
 			tipoTransaccion = transaccionNgc.obtenerTipoTransaccionxNombre(nombreTransaccion);
 			tipoFactura = facturaTipoNgc.obtenerTipoFactura(1);
@@ -262,8 +258,10 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 				 *  Quiere decir que se aplicaran retenciones, por lo tanto se recalcula el subtotal ya que hay que restarle las retenciones.	
 				 */
 				if(retenciones != null){
-					if((retenciones.getReteFuente()>0) || (retenciones.getReteICA()>0) || (retenciones.getReteIva() > 0)){
-						vrTotal = vrTotal - (retenciones.getReteFuente()+retenciones.getReteICA()+retenciones.getReteIva());
+					if((retenciones.getReteFuente().compareTo(BigDecimal.ZERO) == 1) || (retenciones.getReteIva().compareTo(BigDecimal.ZERO) == 1) || 
+							(retenciones.getReteICA().compareTo(BigDecimal.ZERO) == 1)){
+						BigDecimal acuRetencion = retenciones.getReteFuente().add(retenciones.getReteIva()).add(retenciones.getReteICA());
+						vrTotal = vrTotal - acuRetencion.doubleValue(); 
 					}				
 				}
 				
@@ -320,11 +318,11 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 						}else if (cuenta.startsWith("530535")){			//Cuentas Relacionadas con los Descuentos (+)
 							valorCuenta = subTotalDescuento;
 						}else if (cuenta.startsWith("135517")){			//Cuentas Relacionadas para la Retencion de IVA (+)
-							valorCuenta = ((retenciones != null)?retenciones.getReteIva():0); 
+							valorCuenta = ((retenciones != null)?retenciones.getReteIva().doubleValue():0); 
 						}else if (cuenta.startsWith("135510")){			//Cuentas Relacionadas para la Retencion de ICA (+)
-							valorCuenta = ((retenciones != null)?retenciones.getReteICA():0); 
+							valorCuenta = ((retenciones != null)?retenciones.getReteICA().doubleValue():0); 
 						}else if (cuenta.startsWith("135515")){			//Cuentas Relacionadas para la Retencion en la Fuente (+)
-							valorCuenta = ((retenciones != null)?retenciones.getReteFuente():0); 
+							valorCuenta = ((retenciones != null)?retenciones.getReteFuente().doubleValue():0); 
 						}else if (cuenta.startsWith("135519")){			//En caso que se genere Autocree (Debito)
 							valorCuenta = 0;
 						}else if (cuenta.startsWith("236570")){			//En Caso que se genere Autocree (Credito)
@@ -502,8 +500,9 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 			 *  Quiere decir que se aplicaran retenciones, por lo tanto se recalcula el subtotal ya que hay que restarle las retenciones.	
 			 */
 			if(retenciones != null){
-				if((retenciones.getReteFuente()>0) || (retenciones.getReteICA()>0) || (retenciones.getReteIva() > 0)){
-					vrTotal = vrTotal - (retenciones.getReteFuente()+retenciones.getReteICA()+retenciones.getReteIva());
+				if((retenciones.getReteFuente().compareTo(BigDecimal.ZERO) == 1) || (retenciones.getReteIva().compareTo(BigDecimal.ZERO) == 1) || (retenciones.getReteICA().compareTo(BigDecimal.ZERO) == 1)){
+					BigDecimal acuRetencion = retenciones.getReteFuente().add(retenciones.getReteIva()).add(retenciones.getReteICA());
+					vrTotal = vrTotal - Double.parseDouble(String.valueOf(acuRetencion)); 
 				}				
 			}
 			
@@ -579,11 +578,11 @@ public class FacturaVentaNGCImpl implements FacturaVentaNGC {
 					}else if (cuenta.startsWith("421040")){			//Cuentas Relacionadas con los Descuentos (+)
 						valorCuenta = subTotalDescuento;
 					}else if (cuenta.startsWith("2367")){			//Cuentas Relacionadas para la Retencion de IVA (+)
-						valorCuenta = ((retenciones != null)?retenciones.getReteIva()*-1:0); 
+						valorCuenta = ((retenciones != null)?retenciones.getReteIva().doubleValue()*-1:0); 
 					}else if (cuenta.startsWith("2368")){			//Cuentas Relacionadas para la Retencion de ICA (+)
-						valorCuenta = ((retenciones != null)?retenciones.getReteICA()*-1:0); 
+						valorCuenta = ((retenciones != null)?retenciones.getReteICA().doubleValue()*-1:0); 
 					}else if (cuenta.startsWith("2365")){			//Cuentas Relacionadas para la Retencion en la Fuente (+)
-						valorCuenta = ((retenciones != null)?retenciones.getReteFuente()*-1:0); 
+						valorCuenta = ((retenciones != null)?retenciones.getReteFuente().doubleValue()*-1:0); 
 					}
 //					else if (cuenta.startsWith("135519")){			//En caso que se genere Autocree (Debito)
 //						valorCuenta = 0;

@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.ContClasificacionIva" table="cont_clasificacion_iva">
+    <class name="co.weepa.smile.contabilidad.dto.ContClasificacionIva" table="cont_clasificacion_iva" catalog="weepa">
         <id name="idclaseIva" type="int">
             <column name="IDCLASE_IVA" />
             <generator class="increment" />
@@ -18,13 +18,5 @@
                 <comment>detalles de clase iva</comment>
             </column>
         </property>
-<!--         <set name="contTerceros" table="cont_tercero" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDTIPO_CONTRIBUYENTE"> -->
-<!--                     <comment>identifica si es regimen comun, simplificado, gran contribuyente</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContTercero" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

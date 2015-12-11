@@ -1,50 +1,46 @@
 package co.weepa.smile.contabilidad.dto.capsulas;
 
+import java.math.BigDecimal;
+
 public class Retenciones {
-	double reteIva = 0;
-	double reteFuente = 0;
-	double reteICA = 0;
+	BigDecimal reteIva;
+	BigDecimal reteFuente;
+	BigDecimal reteICA;
 	
 	public Retenciones() {
 		super();
 	}
-	
-	public Retenciones(double reteIva, double reteFuente) {
-		super();
-		this.reteIva = reteIva;
-		this.reteFuente = reteFuente;
-	}
 
-	public Retenciones(double reteIva, double reteFuente, double reteICA) {
+	public Retenciones(BigDecimal reteIva, BigDecimal reteFuente, BigDecimal reteICA) {
 		super();
 		this.reteIva = reteIva;
 		this.reteFuente = reteFuente;
 		this.reteICA = reteICA;
 	}
 
-
-
-	public double getReteIva() {
+	public BigDecimal getReteIva() {
 		return reteIva;
 	}
 
-	public void setReteIva(double reteIva) {
+	public void setReteIva(BigDecimal reteIva) {
 		this.reteIva = reteIva;
 	}
 
-	public double getReteFuente() {
+	public BigDecimal getReteFuente() {
 		return reteFuente;
 	}
 
-	public void setReteFuente(double reteFuente) {
+	public void setReteFuente(BigDecimal reteFuente) {
 		this.reteFuente = reteFuente;
 	}
 
-	public double getReteICA() {
+	public BigDecimal getReteICA() {
 		return reteICA;
 	}
 
-	public void setReteICA(double reteICA) {
+	public void setReteICA(BigDecimal reteICA) {
 		this.reteICA = reteICA;
-	}	
+	}
+	
+	
 }

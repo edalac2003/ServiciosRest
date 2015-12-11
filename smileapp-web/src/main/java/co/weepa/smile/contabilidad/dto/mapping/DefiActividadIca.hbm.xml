@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.DefiActividadIca" table="defi_actividad_ica">
+    <class name="co.weepa.smile.contabilidad.dto.DefiActividadIca" table="defi_actividad_ica" catalog="weepa">
         <id name="idcodigoIca" type="int">
             <column name="IDCODIGO_ICA" />
             <generator class="assigned" />
@@ -13,21 +13,5 @@
                 <comment>concepto de actividad.</comment>
             </column>
         </property>
-<!--         <set name="defiTarifaIcas" table="defi_tarifa_ica" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDCODIGO_ICA"> -->
-<!--                     <comment>codigo ICa</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.DefiTarifaIca" /> -->
-<!--         </set> -->
-<!--         <set name="contTerceros" table="cont_tercero" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDCODIGO_ICA"> -->
-<!--                     <comment>indica a que codigo de ICA usado por definicion tercero</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ContTercero" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

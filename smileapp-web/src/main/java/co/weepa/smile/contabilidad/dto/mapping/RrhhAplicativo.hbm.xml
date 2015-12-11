@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.RrhhAplicativo" table="rrhh_aplicativo">
+    <class name="co.weepa.smile.contabilidad.dto.RrhhAplicativo" table="rrhh_aplicativo" catalog="weepa">
         <id name="idaplicativo" type="int">
             <column name="IDAPLICATIVO" />
             <generator class="assigned" />
@@ -23,13 +23,5 @@
                 <comment>Otros detalles del aplicativo, recurso o programa</comment>
             </column>
         </property>
-<!--         <set name="rrhhRolesAplicativos" table="rrhh_roles_aplicativo" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDAPLICATIVO"> -->
-<!--                     <comment>Clave foranea al id aplicativo</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.RrhhRolesAplicativo" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 5/11/2015 01:01:14 PM by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.ContTercero" table="cont_tercero">
+    <class name="co.weepa.smile.contabilidad.dto.ContTercero" table="cont_tercero" catalog="weepa">
         <id name="idtercero" type="long">
             <column name="IDTERCERO" precision="15" scale="0" />
             <generator class="assigned" />

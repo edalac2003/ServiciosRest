@@ -618,9 +618,9 @@ public class FacturaVentaCtrl extends GenericForwardComposer{
 //					if((Integer.parseInt(txtValorReteFuente.getValue())>= 0) || (Integer.parseInt(txtValorReteIva.getValue())>= 0) || 
 //							(Integer.parseInt(txtValorReteICA.getValue())>= 0)){
 						retenciones = new Retenciones();
-						retenciones.setReteFuente((txtValorReteFuente.getText().length() > 0)?Double.parseDouble(txtValorReteFuente.getText()):0);
-						retenciones.setReteIva((txtValorReteIva.getText().length() > 0)?Double.parseDouble(txtValorReteIva.getText()):0);
-						retenciones.setReteICA((txtValorReteICA.getText().length() > 0)?Double.parseDouble(txtValorReteICA.getText()):0);
+//						retenciones.setReteFuente((txtValorReteFuente.getText().length() > 0)?Double.parseDouble(txtValorReteFuente.getText()):0);
+//						retenciones.setReteIva((txtValorReteIva.getText().length() > 0)?BigDecimal.valueOf(Double.parseDouble(txtValorReteIva.getText())):0);
+//						retenciones.setReteICA((txtValorReteICA.getText().length() > 0)?Double.parseDouble(txtValorReteICA.getText()):0);
 //					}
 				}
 				
@@ -653,6 +653,7 @@ public class FacturaVentaCtrl extends GenericForwardComposer{
 					maestroCartera.setFevencimiento(dtFechaVencimiento.getValue());
 					maestroCartera.setNmcuotas(Integer.parseInt(txtNumeroCuotas.getText()));
 					maestroCartera.setNmsaldo(BigDecimal.valueOf(Double.parseDouble(txtSaldoDeuda.getText())));
+					
 					if((cmbTipoPago.getSelectedIndex() >= 0) && (Double.parseDouble(txtAbono.getText()) > 0)){
 						pagoCartera = new CartPago();
 						pagoCartera.setCartCartera(maestroCartera);
@@ -663,22 +664,17 @@ public class FacturaVentaCtrl extends GenericForwardComposer{
 						pagoCartera.setCartFormaPago(medioPago);
 					}
 				}
-				
-				
-			
 			}
 			ObjetoFactura objetoFactura = new ObjetoFactura();
 //			(cmbIdCliente.getText(), organizacion.getIdorganizacionInterna(), tipoTransaccion.getIdtransaccionTipo(), 
 //					maestroFactura, cmbFormaPago.getText(), cmbMedioPago.getSelectedIndex(), listaDetalleFactura, retenciones, maestroCartera, pagoCartera);
 			
-			objetoFactura.setIdTercero(cmbIdCliente.getText());
-			objetoFactura.setIdOrganizacion(organizacion.getIdorganizacionInterna());
+			objetoFactura.setTercero(tercero);
 			objetoFactura.setTipoTransaccion("FACTURA VENTA");
 			objetoFactura.setMaestroFactura(maestroFactura);
 			objetoFactura.setFormaPago(cmbFormaPago.getText());
-			objetoFactura.setIdMedioPago(cmbMedioPago.getSelectedIndex());
+//			objetoFactura.setIdMedioPago(cmbMedioPago.getSelectedIndex());
 			objetoFactura.setListaDetalles(listaDetalleFactura);
-			objetoFactura.setRetenciones(retenciones);
 			objetoFactura.setMaestroCartera(maestroCartera);
 			objetoFactura.setPagoCartera(pagoCartera);
 						

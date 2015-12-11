@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.RrhhRolTipo" table="rrhh_rol_tipo">
+    <class name="co.weepa.smile.contabilidad.dto.RrhhRolTipo" table="rrhh_rol_tipo" catalog="weepa">
         <id name="idrolTipo" type="int">
             <column name="IDROL_TIPO" />
             <generator class="assigned" />
@@ -18,13 +18,5 @@
                 <comment>Descripccion del rol tipo</comment>
             </column>
         </property>
-<!--         <set name="rrhhUsuarioRoleses" table="rrhh_usuario_roles" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDROL_TIPO"> -->
-<!--                     <comment>Clave foranea a tabla rol_tipo</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.RrhhUsuarioRoles" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.DefiCiudad" table="defi_ciudad">
+    <class name="co.weepa.smile.contabilidad.dto.DefiCiudad" table="defi_ciudad" catalog="weepa">
         <id name="idciudad" type="string">
             <column name="IDCIUDAD" length="10" />
             <generator class="assigned" />

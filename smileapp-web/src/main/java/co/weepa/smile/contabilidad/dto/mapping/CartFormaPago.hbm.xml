@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.CartFormaPago" table="cart_forma_pago">
+    <class name="co.weepa.smile.contabilidad.dto.CartFormaPago" table="cart_forma_pago" catalog="weepa">
         <id name="idformaPago" type="int">
             <column name="IDFORMA_PAGO" />
             <generator class="increment" />

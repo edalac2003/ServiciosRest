@@ -2,7 +2,7 @@
 <?page title="Modulo Inventarios" contentType="text/html;charset=UTF-8"?>
 
 <zk>
-<window title="Modulo Inventarios" border="normal">
+<window title="Modulo Inventarios" border="normal" apply="${inventarioCtrl}">
 	<borderlayout height="800px">
 		<north></north>
 		<center>
@@ -21,15 +21,18 @@
 								</div>
 								
 								<radiogroup id="grupoCategoria" />
-								<div height="40px">
+								<div height="35px">
 									<radio id="opMateriaPrima" label="Materia Prima" radiogroup="grupoCategoria"/>
 								</div>
-								<div height="40px">
+								<div height="35px">
 									<radio id="opProductoProceso" label="Producto en Proceso"  radiogroup="grupoCategoria"/>
 								</div>
-								<div height="40px">
+								<div height="35px">
 									<radio id="opProductoTerminado" label="Producto Terminado"  radiogroup="grupoCategoria"/>
-								</div>								
+								</div>				
+								<div height="35px">
+									<radio id="opProductoNoFabricadas" label="Mcia No Fabricada x la Empresa"  radiogroup="grupoCategoria"/>
+								</div>				
 							</vbox>
 							<vbox width="100px" />
 						</hbox>
@@ -49,8 +52,8 @@
 								<textbox id="txtReferencia" width="200px"/>
 							</div>
 							<div height="40px" align="right">
-								<label value="TIPO DE CATEGORIA" />
-								<combobox id="cmbTipoCategoria" width="200px"/>
+								<label value="TIPO DE PRODUCTO" />
+								<combobox id="cmbTipoProducto" width="200px"/>
 							</div>
 							<div height="40px" align="right">
 								<label value="ID ARTICULO" />

@@ -1,144 +1,69 @@
 package co.weepa.smile.contabilidad.dto.capsulas;
 
 import java.io.Serializable;
+import java.util.List;
+
+import co.weepa.smile.contabilidad.dto.ProdProducto;
+import co.weepa.smile.contabilidad.dto.ProdProductoCategoria;
+import co.weepa.smile.contabilidad.dto.ProdProductoSede;
+import co.weepa.smile.contabilidad.dto.ProdProductoTipo;
 
 public class ObjetoProducto implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String idproducto;
-	private int prodColor;
-	private int prodProductoTipo;
-	private int prodTalla;
-	private String dscodigo;
-	private Long nmcodigoEan13;
-	private String dsnombre;
-	private String dsnombreCorto;
-	private String dsdescripcion;
-	private Integer nmprecioVenta;
-	private Integer nmprecioCompra;
-	private Integer nmsaldo;
-	private String dsimagenProducto;
-	private String dsimagenFichatec;
-	private Integer nmimpuesto;
-	private Integer mncantidadMin;
-	private String mncantidadMax;
-	private String mensaje;
 	
+	ProdProductoSede productoSede;
+	ProdProducto producto;
+	ProdProductoTipo tipoProducto;
+	ProdProductoCategoria categoriaProducto;
+	List<ProdProductoCategoria> listaCategoriaProducto;
 	
 	public ObjetoProducto() {
 		super();
 	}
-	public String getIdproducto() {
-		return idproducto;
+
+	public ProdProductoSede getProductoSede() {
+		return productoSede;
 	}
-	public void setIdproducto(String idproducto) {
-		this.idproducto = idproducto;
+
+	public void setProductoSede(ProdProductoSede productoSede) {
+		this.productoSede = productoSede;
 	}
-	public int getProdColor() {
-		return prodColor;
+
+	public ProdProducto getProducto() {
+		return producto;
 	}
-	public void setProdColor(int prodColor) {
-		this.prodColor = prodColor;
+
+	public void setProducto(ProdProducto producto) {
+		this.producto = producto;
 	}
-	public int getProdProductoTipo() {
-		return prodProductoTipo;
+
+	public ProdProductoTipo getTipoProducto() {
+		return tipoProducto;
 	}
-	public void setProdProductoTipo(int prodProductoTipo) {
-		this.prodProductoTipo = prodProductoTipo;
+
+	public void setTipoProducto(ProdProductoTipo tipoProducto) {
+		this.tipoProducto = tipoProducto;
 	}
-	public int getProdTalla() {
-		return prodTalla;
+
+	public ProdProductoCategoria getCategoriaProducto() {
+		return categoriaProducto;
 	}
-	public void setProdTalla(int prodTalla) {
-		this.prodTalla = prodTalla;
+
+	public void setCategoriaProducto(ProdProductoCategoria categoriaProducto) {
+		this.categoriaProducto = categoriaProducto;
 	}
-	public String getDscodigo() {
-		return dscodigo;
+
+	public List<ProdProductoCategoria> getListaCategoriaProducto() {
+		return listaCategoriaProducto;
 	}
-	public void setDscodigo(String dscodigo) {
-		this.dscodigo = dscodigo;
-	}
-	public Long getNmcodigoEan13() {
-		return nmcodigoEan13;
-	}
-	public void setNmcodigoEan13(Long nmcodigoEan13) {
-		this.nmcodigoEan13 = nmcodigoEan13;
-	}
-	public String getDsnombre() {
-		return dsnombre;
-	}
-	public void setDsnombre(String dsnombre) {
-		this.dsnombre = dsnombre;
-	}
-	public String getDsnombreCorto() {
-		return dsnombreCorto;
-	}
-	public void setDsnombreCorto(String dsnombreCorto) {
-		this.dsnombreCorto = dsnombreCorto;
-	}
-	public String getDsdescripcion() {
-		return dsdescripcion;
-	}
-	public void setDsdescripcion(String dsdescripcion) {
-		this.dsdescripcion = dsdescripcion;
-	}
-	public Integer getNmprecioVenta() {
-		return nmprecioVenta;
-	}
-	public void setNmprecioVenta(Integer nmprecioVenta) {
-		this.nmprecioVenta = nmprecioVenta;
-	}
-	public Integer getNmprecioCompra() {
-		return nmprecioCompra;
-	}
-	public void setNmprecioCompra(Integer nmprecioCompra) {
-		this.nmprecioCompra = nmprecioCompra;
-	}
-	public Integer getNmsaldo() {
-		return nmsaldo;
-	}
-	public void setNmsaldo(Integer nmsaldo) {
-		this.nmsaldo = nmsaldo;
-	}
-	public String getDsimagenProducto() {
-		return dsimagenProducto;
-	}
-	public void setDsimagenProducto(String dsimagenProducto) {
-		this.dsimagenProducto = dsimagenProducto;
-	}
-	public String getDsimagenFichatec() {
-		return dsimagenFichatec;
-	}
-	public void setDsimagenFichatec(String dsimagenFichatec) {
-		this.dsimagenFichatec = dsimagenFichatec;
-	}
-	public Integer getNmimpuesto() {
-		return nmimpuesto;
-	}
-	public void setNmimpuesto(Integer nmimpuesto) {
-		this.nmimpuesto = nmimpuesto;
-	}
-	public Integer getMncantidadMin() {
-		return mncantidadMin;
-	}
-	public void setMncantidadMin(Integer mncantidadMin) {
-		this.mncantidadMin = mncantidadMin;
-	}
-	public String getMncantidadMax() {
-		return mncantidadMax;
-	}
-	public void setMncantidadMax(String mncantidadMax) {
-		this.mncantidadMax = mncantidadMax;
-	}
-	public String getMensaje() {
-		return mensaje;
-	}
-	public void setMensaje(String mensaje) {
-		this.mensaje = mensaje;
+
+	public void setListaCategoriaProducto(List<ProdProductoCategoria> listaCategoriaProducto) {
+		this.listaCategoriaProducto = listaCategoriaProducto;
 	}
 	
 	
-	
+		
 }

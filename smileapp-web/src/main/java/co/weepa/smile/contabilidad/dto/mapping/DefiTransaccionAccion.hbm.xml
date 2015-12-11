@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.DefiTransaccionAccion" table="defi_transaccion_accion">
+    <class name="co.weepa.smile.contabilidad.dto.DefiTransaccionAccion" table="defi_transaccion_accion" catalog="weepa">
         <id name="idtransaccionAccion" type="int">
             <column name="IDTRANSACCION_ACCION" />
             <generator class="increment" />
@@ -28,21 +28,5 @@
                 <comment>Indica a que tipo de transaccion contable pertenece, ej Facturacion, Compras, etc</comment>
             </column>
         </many-to-one>
-<!--         <set name="defiAccionReglas" table="defi_accion_regla" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDTRANSACCION_ACCION"> -->
-<!--                     <comment>ID que indica a que transaccion esta asociada</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.DefiAccionRegla" /> -->
-<!--         </set> -->
-<!--         <set name="tercTerceroCuentas" table="terc_tercero_cuenta" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDTRANSACCION_ACCION"> -->
-<!--                     <comment>codigo de la transaccion asociada eje ID1 = (facturacion credito/COLGAAP/ORG1 CTA=450505)</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.TercTerceroCuenta" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.ProdProductoCategoria" table="prod_producto_categoria">
+    <class name="co.weepa.smile.contabilidad.dto.ProdProductoCategoria" table="prod_producto_categoria" catalog="weepa">
         <id name="idproductoCategoria" type="int">
             <column name="IDPRODUCTO_CATEGORIA" />
             <generator class="increment" />

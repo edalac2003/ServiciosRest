@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.FactFactura" table="fact_factura">
+    <class name="co.weepa.smile.contabilidad.dto.FactFactura" table="fact_factura" catalog="weepa">
         <id name="idconsecutivoFactura" type="java.lang.Integer">
             <column name="IDCONSECUTIVO_FACTURA" />
             <generator class="increment" />
@@ -63,21 +63,17 @@
                 <comment>NOMBRE DEL VENDEDOR (no es necesariamente quien factura en el sistema)</comment>
             </column>
         </property>
-<!--         <set name="cartCarteras" table="cart_cartera" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDCONS_FACTURA"> -->
-<!--                     <comment>Factura asociada (supertype)</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.CartCartera" /> -->
-<!--         </set> -->
-<!--         <set name="factDetalleFacturas" table="fact_detalle_factura" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDFACTURA"> -->
-<!--                     <comment>codigo factura</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.FactDetalleFactura" /> -->
-<!--         </set> -->
+        <property name="nmReteFuente" type="big_decimal">
+            <column name="NMRETEFUENTE" precision="15">
+            </column>
+        </property>
+        <property name="nmReteIva" type="big_decimal">
+            <column name="NMRETEIVA" precision="15">
+            </column>
+        </property>
+        <property name="nmReteIca" type="big_decimal">
+            <column name="NMRETEICA" precision="15">
+            </column>
+        </property>
     </class>
 </hibernate-mapping>

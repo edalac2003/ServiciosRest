@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.ProdProducto" table="prod_producto">
+    <class name="co.weepa.smile.contabilidad.dto.ProdProducto" table="prod_producto" catalog="weepa">
         <id name="idproducto" type="string">
             <column name="IDPRODUCTO" length="50" />
             <generator class="assigned" />
@@ -88,29 +88,5 @@
                 <comment>cantidad maxima inventario, util para generar alertas</comment>
             </column>
         </property>
-<!--         <set name="prodProductoCategorias" table="prod_producto_categoria" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDPRODUCTO" length="50"> -->
-<!--                     <comment>ID del producto</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ProdProductoCategoria" /> -->
-<!--         </set> -->
-<!--         <set name="prodProductoSedes" table="prod_producto_sede" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDPRODUCTO" length="50"> -->
-<!--                     <comment>id del producto</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.ProdProductoSede" /> -->
-<!--         </set> -->
-<!--         <set name="factDetalleFacturas" table="fact_detalle_factura" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDPRODUCTO" length="50"> -->
-<!--                     <comment>codigo producto</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.FactDetalleFactura" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

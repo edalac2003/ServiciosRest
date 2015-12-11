@@ -26,9 +26,10 @@ public class FactFactura implements java.io.Serializable {
 	private Integer idorganizacionCaja;
 	private Integer idorganizacionEmpleado;
 	private String dsvendedor;
-//	private Set cartCarteras = new HashSet(0);
-//	private Set factDetalleFacturas = new HashSet(0);
-
+	private BigDecimal nmReteFuente;
+	private BigDecimal nmReteIva;
+	private BigDecimal nmReteIca;
+	
 	public FactFactura() {
 	}
 
@@ -143,5 +144,29 @@ public class FactFactura implements java.io.Serializable {
 
 	public void setDsvendedor(String dsvendedor) {
 		this.dsvendedor = dsvendedor;
+	}
+
+	public BigDecimal getNmReteFuente() {
+		return nmReteFuente;
+	}
+
+	public void setNmReteFuente(BigDecimal nmReteFuente) {
+		this.nmReteFuente = nmReteFuente;
+	}
+
+	public BigDecimal getNmReteIva() {
+		return nmReteIva;
+	}
+
+	public void setNmReteIva(BigDecimal nmReteIva) {
+		this.nmReteIva = nmReteIva;
+	}
+
+	public BigDecimal getNmReteIca() {
+		return nmReteIca;
+	}
+
+	public void setNmReteIca(BigDecimal nmReteIca) {
+		this.nmReteIca = nmReteIca;
 	}
 }

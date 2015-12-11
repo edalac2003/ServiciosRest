@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.DefiAccion" table="defi_accion">
+    <class name="co.weepa.smile.contabilidad.dto.DefiAccion" table="defi_accion" catalog="weepa">
         <id name="idaccion" type="int">
             <column name="IDACCION" />
             <generator class="assigned" />
@@ -28,21 +28,5 @@
                 <comment>Nombre a mostrar</comment>
             </column>
         </property>
-<!--         <set name="defiParametros" table="defi_parametro" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDACCION"> -->
-<!--                     <comment>ID accion asociada</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.DefiParametro" /> -->
-<!--         </set> -->
-<!--         <set name="defiAccionReglas" table="defi_accion_regla" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDACCION"> -->
-<!--                     <comment>Indica la accion asociada, ej CalcularImpuesto, notificar, etc</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.DefiAccionRegla" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

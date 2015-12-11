@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.RrhhUsuarioRoles" table="rrhh_usuario_roles">
+    <class name="co.weepa.smile.contabilidad.dto.RrhhUsuarioRoles" table="rrhh_usuario_roles" catalog="weepa">
         <id name="idusuarioRol" type="int">
             <column name="IDUSUARIO_ROL" />
             <generator class="assigned" />
@@ -28,21 +28,5 @@
                 <comment>Fecha activacion de acceso al rol</comment>
             </column>
         </property>
-<!--         <set name="rrhhRolesAplicativos" table="rrhh_roles_aplicativo" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDUSUARIO_ROL"> -->
-<!--                     <comment>clave foranea a tabla usuario_rol</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.RrhhRolesAplicativo" /> -->
-<!--         </set> -->
-<!--         <set name="rrhhRolesOrganizacioneses" table="rrhh_roles_organizaciones" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDUSUARIO_ROL"> -->
-<!--                     <comment>Clave foranea hacia USUARIO_ROL</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.RrhhRolesOrganizaciones" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

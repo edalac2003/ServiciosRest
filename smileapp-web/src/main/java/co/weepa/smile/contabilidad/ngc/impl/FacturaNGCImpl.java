@@ -7,6 +7,7 @@ import co.weepa.smile.contabilidad.dao.FacturaDAO;
 import co.weepa.smile.contabilidad.dao.TerceroDAO;
 import co.weepa.smile.contabilidad.dto.CartCartera;
 import co.weepa.smile.contabilidad.dto.CartPago;
+import co.weepa.smile.contabilidad.dto.ContOrganizacionInterna;
 import co.weepa.smile.contabilidad.dto.ContTercero;
 import co.weepa.smile.contabilidad.dto.FactDetalleFactura;
 import co.weepa.smile.contabilidad.dto.FactFactura;
@@ -15,6 +16,7 @@ import co.weepa.smile.contabilidad.dto.TercOrganizacion;
 import co.weepa.smile.contabilidad.dto.TercPersona;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoCotizacion;
 import co.weepa.smile.contabilidad.dto.capsulas.ObjetoFactura;
+import co.weepa.smile.contabilidad.ngc.CarteraNGC;
 import co.weepa.smile.contabilidad.ngc.FacturaNGC;
 import co.weepa.smile.contabilidad.ngc.FacturaTipoNGC;
 import co.weepa.smile.contabilidad.ngc.TerceroNGC;
@@ -28,6 +30,7 @@ public class FacturaNGCImpl implements FacturaNGC {
 	FacturaDAO facturaDao;
 	FacturaTipoNGC facturaTipoNgc;
 	TerceroNGC terceroNgc;
+	CarteraNGC carteraNgc;
 		
 	public void setFacturaDao(FacturaDAO facturaDao) {
 		this.facturaDao = facturaDao;
@@ -40,7 +43,10 @@ public class FacturaNGCImpl implements FacturaNGC {
 	public void setTerceroNgc(TerceroNGC terceroNgc) {
 		this.terceroNgc = terceroNgc;
 	}
-	
+
+	public void setCarteraNgc(CarteraNGC carteraNgc) {
+		this.carteraNgc = carteraNgc;
+	}
 
 	public String consecutivoFactura(String nombreFactura) throws ExcepcionesNGC {
 		int consecutivo = 0;
@@ -87,9 +93,7 @@ public class FacturaNGCImpl implements FacturaNGC {
 			expNgc.setMensajeUsuario(e.getMensajeUsuario());
 			expNgc.setOrigen(e.getOrigen());
 			throw expNgc;
-		}
-		
-		
+		}		
 		consecutivo++;
 		if(consecutivo < 10){			
 			cadena.append(prefijo).append("0000").append(consecutivo);			
@@ -122,6 +126,33 @@ public class FacturaNGCImpl implements FacturaNGC {
 		}
 		
 		return factura;
+	}	
+	
+	@Override
+	public ObjetoFactura obtenerObjetoFactura(String numeroFactura) throws ExcepcionesNGC {
+		ObjetoFactura objetoFactura = null;
+		List<FactDetalleFactura> listaDetalleFactura = null;
+		
+		
+		FactFactura maestroFactura = obtenerFactura(numeroFactura);
+		ContOrganizacionInterna organizacionInterna = maestroFactura.getContOrganizacionInterna();
+		ContTercero tercero = maestroFactura.getContTercero();
+		CartCartera maestroCartera = null;
+		
+		if(maestroFactura != null){
+			objetoFactura = new ObjetoFactura();
+			objetoFactura.setTercero(tercero);
+			objetoFactura.setMaestroFactura(maestroFactura);
+			listaDetalleFactura = listarDetallesxDocumento(numeroFactura);
+			objetoFactura.setListaDetalles(listaDetalleFactura);
+			
+			maestroCartera = carteraNgc.obtenerMaestroCartera(maestroFactura);
+			objetoFactura.setMaestroCartera(maestroCartera);
+			
+			
+		}
+		
+		return objetoFactura;
 	}
 
 	
@@ -194,7 +225,7 @@ public class FacturaNGCImpl implements FacturaNGC {
 				organizacion = terceroNgc.obtenerPersonaJuridica(tercero);
 				personaNatural = terceroNgc.obtenerPersonaNatural(tercero);
 				
-				List<FactDetalleFactura> detalle = listarDetalles(numeroDoc);
+				List<FactDetalleFactura> detalle = listarDetallesxDocumento(numeroDoc);
 				if (organizacion != null)
 					cotizacion.setNombreTercero(organizacion.getDsrazonSocial());
 				else
@@ -263,7 +294,7 @@ public class FacturaNGCImpl implements FacturaNGC {
 	
 
 	@Override
-	public List<FactDetalleFactura> listarDetalles(String idDocumento) throws ExcepcionesNGC {
+	public List<FactDetalleFactura> listarDetallesxDocumento(String idDocumento) throws ExcepcionesNGC {
 		List<FactDetalleFactura> listaDetalles = null;
 		FactFactura maestroCotizacion = null;
 				

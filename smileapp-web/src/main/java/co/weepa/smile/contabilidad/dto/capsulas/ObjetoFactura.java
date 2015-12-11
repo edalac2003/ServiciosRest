@@ -4,34 +4,30 @@ import java.util.List;
 
 import co.weepa.smile.contabilidad.dto.CartCartera;
 import co.weepa.smile.contabilidad.dto.CartPago;
+import co.weepa.smile.contabilidad.dto.ContOrganizacionInterna;
+import co.weepa.smile.contabilidad.dto.ContTercero;
+import co.weepa.smile.contabilidad.dto.DefiCiudad;
+import co.weepa.smile.contabilidad.dto.DefiDepartamento;
+import co.weepa.smile.contabilidad.dto.DefiPais;
 import co.weepa.smile.contabilidad.dto.FactDetalleFactura;
 import co.weepa.smile.contabilidad.dto.FactFactura;
+import co.weepa.smile.contabilidad.dto.TercDireccion;
 
 public class ObjetoFactura {
 
-	int idOrganizacion;
-	int idMedioPago;
-	String TipoTransaccion;	
-	String  idTercero;
+	String TipoTransaccion;		
+	ContTercero tercero;
+	TercDireccion direccionTercero;
 	String nombreTercero;
 	String formaPago;
 	FactFactura maestroFactura;	
 	List<FactDetalleFactura> listaDetalles;
-	Retenciones retenciones;
 	CartCartera maestroCartera;
 	CartPago pagoCartera;
 	String mensaje = "";
 	
 	public ObjetoFactura() {
 		super();
-	}
-
-	public int getIdOrganizacion() {
-		return idOrganizacion;
-	}
-
-	public void setIdOrganizacion(int idOrganizacion) {
-		this.idOrganizacion = idOrganizacion;
 	}
 
 	public String getTipoTransaccion() {
@@ -41,21 +37,22 @@ public class ObjetoFactura {
 	public void setTipoTransaccion(String tipoTransaccion) {
 		TipoTransaccion = tipoTransaccion;
 	}
-
-	public int getIdMedioPago() {
-		return idMedioPago;
+	
+	public ContTercero getTercero() {
+		return tercero;
 	}
 
-	public void setIdMedioPago(int idMedioPago) {
-		this.idMedioPago = idMedioPago;
+
+	public void setTercero(ContTercero tercero) {
+		this.tercero = tercero;
 	}
 
-	public String getIdTercero() {
-		return idTercero;
+	public TercDireccion getDireccionTercero() {
+		return direccionTercero;
 	}
 
-	public void setIdTercero(String idTercero) {
-		this.idTercero = idTercero;
+	public void setDireccionTercero(TercDireccion direccionTercero) {
+		this.direccionTercero = direccionTercero;
 	}
 	
 	public String getNombreTercero() {
@@ -73,7 +70,7 @@ public class ObjetoFactura {
 	public void setFormaPago(String formaPago) {
 		this.formaPago = formaPago;
 	}
-
+	
 	public FactFactura getMaestroFactura() {
 		return maestroFactura;
 	}
@@ -88,14 +85,6 @@ public class ObjetoFactura {
 
 	public void setListaDetalles(List<FactDetalleFactura> listaDetalles) {
 		this.listaDetalles = listaDetalles;
-	}
-
-	public Retenciones getRetenciones() {
-		return retenciones;
-	}
-
-	public void setRetenciones(Retenciones retenciones) {
-		this.retenciones = retenciones;
 	}
 
 	public CartCartera getMaestroCartera() {

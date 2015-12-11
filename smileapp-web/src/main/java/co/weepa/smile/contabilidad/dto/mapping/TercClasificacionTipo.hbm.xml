@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 31-oct-2015 11:05:47 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="co.weepa.smile.contabilidad.dto.TercClasificacionTipo" table="terc_clasificacion_tipo">
+    <class name="co.weepa.smile.contabilidad.dto.TercClasificacionTipo" table="terc_clasificacion_tipo" catalog="weepa">
         <id name="idclasificacionTipo" type="int">
             <column name="IDCLASIFICACION_TIPO" />
             <generator class="assigned" />
@@ -18,13 +18,5 @@
                 <comment>descripcion de la clasificacion</comment>
             </column>
         </property>
-<!--         <set name="tercTerceroClasificacions" table="terc_tercero_clasificacion" inverse="true" lazy="true" fetch="select"> -->
-<!--             <key> -->
-<!--                 <column name="IDCLASIFICACION_TIPO" not-null="true"> -->
-<!--                     <comment>tipo de clasificacion que pertenece un usuario</comment> -->
-<!--                 </column> -->
-<!--             </key> -->
-<!--             <one-to-many class="co.weepa.smile.contabilidad.dto.TercTerceroClasificacion" /> -->
-<!--         </set> -->
     </class>
 </hibernate-mapping>

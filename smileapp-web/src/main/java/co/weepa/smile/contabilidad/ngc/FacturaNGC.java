@@ -17,6 +17,8 @@ public interface FacturaNGC {
 	
 	public FactFactura obtenerFactura(String numeroFactura) throws ExcepcionesNGC;
 	
+	public ObjetoFactura obtenerObjetoFactura(String numeroFactura) throws ExcepcionesNGC;
+	
 	public List<FactFactura> listarTodasFacturas() throws ExcepcionesNGC;
 	
 	public List<FactFactura> listarFacturasxFecha(Date fechaInicio, Date fechaFin) throws ExcepcionesNGC;
@@ -31,5 +33,5 @@ public interface FacturaNGC {
 	
 	public List<ObjetoFactura> listarFacturasVentas() throws ExcepcionesNGC;
 	
-	public List<FactDetalleFactura> listarDetalles(String idDocumento) throws ExcepcionesNGC;
+	public List<FactDetalleFactura> listarDetallesxDocumento(String idDocumento) throws ExcepcionesNGC;
 }
